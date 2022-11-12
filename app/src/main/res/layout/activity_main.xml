@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#343434"
+    android:textColor="#FFFFFF"
+    tools:context=".MainActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center">
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="410dp"
+            android:layout_height="324dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            >
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/chart"
+                android:layout_width="358dp"
+                android:layout_height="266dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="26dp"
+                android:layout_marginBottom="38dp"
+
+                >
+
+            </com.github.mikephil.charting.charts.PieChart>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/BarFrame"
+            android:layout_width="330dp"
+            android:layout_height="176dp"
+            android:background="@drawable/roundedlayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.596"
+            android:layout_marginBottom="20dp"
+            >
+
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barchart"
+                android:layout_width="316dp"
+                android:layout_height="172dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="1dp"
+
+                >
+
+            </com.github.mikephil.charting.charts.BarChart>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/MosedusedApps"
+            android:layout_width="330dp"
+            android:layout_height="176dp"
+            android:background="@drawable/roundedlayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.596"
+            android:layout_marginBottom="20dp"
+            >
+
+            <!--https://www.youtube.com/watch?v=nRPoW0X16QU-->
+
+            <TextView
+                android:id="@+id/txtapp4"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/circletext"
+                android:gravity="center"
+                android:text="10 h"
+                android:textColor="#8A8A8A"
+                android:textSize="14sp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iconimage2"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="84dp"
+                android:layout_marginBottom="101dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iconimage1"
+                android:layout_width="62dp"
+                android:layout_height="64dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="250dp"
+                android:layout_marginBottom="101dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iconimage3"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="250dp"
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iconimage4"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="83dp"
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <TextView
+                android:id="@+id/txtapp1"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="28dp"
+                android:layout_marginBottom="105dp"
+                android:layout_toStartOf="@id/iconimage2"
+                android:background="@drawable/circletext"
+                android:gravity="center"
+                android:text="10 h"
+                android:textColor="#8A8A8A"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtapp2"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="105dp"
+                android:background="@drawable/circletext"
+                android:gravity="center"
+                android:text="10 h"
+                android:textColor="#8A8A8A"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtapp3"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="28dp"
+                android:layout_marginBottom="17dp"
+                android:layout_toStartOf="@+id/iconimage4"
+                android:background="@drawable/circletext"
+                android:gravity="center"
+                android:text="10 h"
+                android:textColor="#8A8A8A"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="163dp"
+                android:layout_marginEnd="163dp"
+                android:background="#424242" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="84dp"
+                android:layout_marginBottom="88dp"
+                android:background="#424242" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/MosedusedSocialApps"
+            android:layout_width="330dp"
+            android:layout_height="176dp"
+            android:background="@drawable/roundedlayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.974">
+
+            <!--https://www.youtube.com/watch?v=nRPoW0X16QU-->
+
+            <TextView
+                android:id="@+id/txtappSocial4"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/circletext"
+                android:gravity="center"
+                android:text="10 h"
+                android:textColor="#8A8A8A"
+                android:textSize="14sp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iconimageSocial2"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="84dp"
+                android:layout_marginBottom="101dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iconimageSocial1"
+                android:layout_width="62dp"
+                android:layout_height="64dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="250dp"
+                android:layout_marginBottom="101dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iconimageSocial3"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="250dp"
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iconimageSocial4"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="83dp"
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/ic_launcher_foreground"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <TextView
+                android:id="@+id/txtappSocial1"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="28dp"
+                android:layout_marginBottom="105dp"
+                android:layout_toStartOf="@id/iconimageSocial2"
+                android:background="@drawable/circletext"
+                android:gravity="center"
+                android:text="10 h"
+                android:textColor="#8A8A8A"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtappSocial2"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="105dp"
+                android:background="@drawable/circletext"
+                android:gravity="center"
+                android:text="10 h"
+                android:textColor="#8A8A8A"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtappSocial3"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="28dp"
+                android:layout_marginBottom="17dp"
+                android:layout_toStartOf="@+id/iconimageSocial4"
+                android:background="@drawable/circletext"
+                android:gravity="center"
+                android:text="10 h"
+                android:textColor="#8A8A8A"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="163dp"
+                android:layout_marginEnd="163dp"
+                android:background="#424242" />
+
+            <View
+                android:id="@+id/viewSocial"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="84dp"
+                android:layout_marginBottom="88dp"
+                android:background="#424242" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+    </ScrollView>
+<!-- Card view for displaying the -->
+        <!-- Pie chart and details of pie chart -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
