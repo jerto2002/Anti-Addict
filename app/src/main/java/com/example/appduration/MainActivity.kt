@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
         entries.add(BarEntry(0F, 1F));
         entries.add(BarEntry(1F, 1.2F));
         entries.add(BarEntry(2F, 1.5F));
-        entries.add(BarEntry(3F, 0.5F));
+        entries.add(BarEntry(3F, 0.5F));//test
         entries.add(BarEntry(4F, 2F));
         entries.add(BarEntry(5F, 1.8F));
         //entries.add(BarEntry(2F, 2F));
