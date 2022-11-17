@@ -14,6 +14,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appduration.databinding.ActivityMainBinding
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -117,7 +118,8 @@ class MainActivity : AppCompatActivity() {
         barchart();
     }
     private fun barchart(){
-        val entries = ArrayList<BarEntry>();
+        var entries = ArrayList<BarEntry>();
+        val xLabels: ArrayList<String> = ArrayList()
         for (i in 0 until 6 step 1) {
             val currentTime = System.currentTimeMillis() - (3600000 * i+ (LocalDateTime.now().second * 1000) + (LocalDateTime.now().minute * 60000));
             val start = System.currentTimeMillis() - (3600000 *(i+1) + (LocalDateTime.now().second * 1000) + (LocalDateTime.now().minute * 60000));//trek 1 h van de tijd af en zet de seconden en minuten op 0
@@ -126,7 +128,8 @@ class MainActivity : AppCompatActivity() {
             var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime);
             var result = getTotalTimeApps(datatime);
             val to = (result.values.sum() / 60000).toFloat()
-            entries.add(BarEntry(i.toFloat(), (result.values.sum() / 60000).toFloat() + 5));
+            entries.add(BarEntry(5- i.toFloat(), (result.values.sum() / 60000).toFloat()));
+            xLabels.add((LocalDateTime.now().hour -6 + i).toString())
         }
         val colors = ArrayList<Int>();
         for(color in ColorTemplate.MATERIAL_COLORS){
@@ -165,13 +168,10 @@ class MainActivity : AppCompatActivity() {
         xl.setPosition(XAxis.XAxisPosition.BOTTOM);
         xl.setDrawAxisLine(false);
         xl.setDrawGridLines(false)
-        val xLabels: ArrayList<String> = ArrayList()
-        xLabels.add("1")
-        xLabels.add("2")
-        xLabels.add("3")
-        xLabels.add("4")
-        xLabels.add("5")
-        xLabels.add("6")
+
+        yr.setValueFormatter(ClaimsYAxisValueFormatter())
+
+
 
         xl.setValueFormatter(IAxisValueFormatter { value, axis -> xLabels.get(value.toInt() % xLabels.size) })
         xl.setTextColor(Color.parseColor("#B6b6b7"))
@@ -180,9 +180,6 @@ class MainActivity : AppCompatActivity() {
         binding.barchart.axisRight.axisMinimum = 0f
         //zie doc https://github.com/PhilJay/MPAndroidChart/blob/master/MPChartExample/src/main/java/com/xxmassdeveloper/mpchartexample/HorizontalBarChartActivity.java
     }
-
-
-
 
         private fun findAppsDurationTimes(){
         var foregroundAppPackageName : String? = null
@@ -291,4 +288,11 @@ class MainActivity : AppCompatActivity() {
         }
         return mode == AppOpsManager.MODE_ALLOWED
     }
+}
+
+class ClaimsYAxisValueFormatter : IAxisValueFormatter { // https://medium.com/@makkenasrinivasarao1/line-chart-implementation-with-mpandroidchart-af3dd11804a7
+    override fun getFormattedValue(value: Float, axis: AxisBase?): String {
+        return value.toUInt().toString() + " m";
+    }
+
 }
