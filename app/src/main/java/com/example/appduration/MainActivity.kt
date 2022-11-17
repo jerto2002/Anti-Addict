@@ -22,6 +22,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
@@ -117,13 +118,16 @@ class MainActivity : AppCompatActivity() {
     }
     private fun barchart(){
         val entries = ArrayList<BarEntry>();
-        entries.add(BarEntry(0F, 1F));
-        entries.add(BarEntry(1F, 1.2F));
-        entries.add(BarEntry(2F, 1.5F));
-        entries.add(BarEntry(3F, 0.5F));//test
-        entries.add(BarEntry(4F, 2F));
-        entries.add(BarEntry(5F, 1.8F));
-        //entries.add(BarEntry(2F, 2F));
+        for (i in 0 until 6 step 1) {
+            val currentTime = System.currentTimeMillis() - (3600000 * i+ (LocalDateTime.now().second * 1000) + (LocalDateTime.now().minute * 60000));
+            val start = System.currentTimeMillis() - (3600000 *(i+1) + (LocalDateTime.now().second * 1000) + (LocalDateTime.now().minute * 60000));//trek 1 h van de tijd af en zet de seconden en minuten op 0
+            //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
+            //bepaal tijd per app
+            var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime);
+            var result = getTotalTimeApps(datatime);
+            val to = (result.values.sum() / 60000).toFloat()
+            entries.add(BarEntry(i.toFloat(), (result.values.sum() / 60000).toFloat() + 5));
+        }
         val colors = ArrayList<Int>();
         for(color in ColorTemplate.MATERIAL_COLORS){
             colors.add(color)
@@ -222,7 +226,7 @@ class MainActivity : AppCompatActivity() {
         }
         textboxes = listOf(binding.txtappSocial1, binding.txtappSocial2, binding.txtappSocial3, binding.txtappSocial4);
         icons = listOf(binding.iconimageSocial1, binding.iconimageSocial2, binding.iconimageSocial3, binding.iconimageSocial4);
-        if(resultMediaApps.size > 0){
+        if(resultMediaApps.size > 0){ // fix error wanneer je maar één of minder social media hebt
             resultMediaApps = resultMediaApps.toList().sortedBy { (_, value) -> value}.reversed().toMap() as HashMap<String, Double>
         }
         for (i in 0 until resultMediaApps.size step 1) {
