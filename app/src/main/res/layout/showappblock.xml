@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="90dp"
     android:layout_margin="10dp"
-    android:paddingBottom="25dp">
+    android:paddingBottom="0dp">
 
-
-
-    <androidx.cardview.widget.CardView
+    <View
+        android:id="@+id/view2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="40dp"
-        android:layout_margin="5dp"
-        android:elevation="0dp">
+        android:layout_height="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="84dp"
+        android:background="#424242"
+        android:foregroundGravity="bottom"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="180dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/roundedlayoutbutton"
+        android:text="Block"
+        android:textAllCaps="false"
+        android:textColor="#D5FF0000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:backgroundTint="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/userimage"
-            android:layout_width="388dp"
-            android:layout_height="190dp"
-            android:elevation="0dp"
-            android:background="@color/white"
-            android:scaleType="centerCrop">
-
-
-        </ImageView>
-
-        <TextView
-            android:id="@+id/txtName"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="#A1000000"
-            android:textSize="18dp"
-            android:paddingStart="25dp"
-            android:textColor="#FFFFFF"
-            android:layout_below="@+id/userimage"
-            android:layout_gravity="bottom"
-            android:text="Image Text" />
-    </androidx.cardview.widget.CardView>
-
-
-
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="111dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 </androidx.constraintlayout.widget.ConstraintLayout>
