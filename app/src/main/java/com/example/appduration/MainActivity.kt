@@ -205,7 +205,6 @@ class MainActivity : AppCompatActivity() {
         var foregroundAppPackageName : String? = null
         val currentTime = System.currentTimeMillis()
         val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
-
         //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
         //bepaal tijd per app
         var data = getAllAppsAndTimeStamps(start = start, currentTime = currentTime);
