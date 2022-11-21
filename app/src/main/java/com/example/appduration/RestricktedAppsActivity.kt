@@ -11,7 +11,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appduration.databinding.ActivityRestricktedBinding
@@ -51,11 +50,18 @@ class RestricktedAppsActivity : AppCompatActivity() {
         for (i in 0 until resolveInfoList.size) {
             var inflater = LayoutInflater.from(this).inflate(R.layout.showappblock, null)
             binding.userLinearview.addView(inflater, binding.userLinearview.childCount)
-            Applist.add(App(resolveInfoList.get(i).activityInfo.packageName , true))
+            val input = System.nanoTime()
+            if(input.toInt() % 2 == 0) {
+                Applist.add(App(resolveInfoList.get(i).activityInfo.packageName , true))
+            } else {
+                Applist.add(App(resolveInfoList.get(i).activityInfo.packageName , false))
+            }
+
         }
         writeToFile();
         resolveInfoList.sortBy { TestcommonFuntins.getAppname(it.activityInfo.packageName, packageManager ) }
-        Applist.sortBy { TestcommonFuntins.getAppname(it.packageName, packageManager ) }
+        Applist.sortWith(compareBy({it.Blocked.toString().length}, { TestcommonFuntins.getAppname(it.packageName, packageManager ) }))
+        //it.Blocked.toString()
         var v: View?
         for (i in 0 until resolveInfoList.size) {
             v = binding.userLinearview.getChildAt(i)
@@ -73,12 +79,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
                 if(Button.text == "Block"){
                     Button.text = "unBlock"
                     Button.setTextColor(Color.parseColor("#fc031c"))
-                    var position = 0
-                    var tag = v as View
-                    if (v.tag is Int) {
-                        position = v.tag as Int
-                    }
-                    for (i in 0 until  binding.userLinearview.childCount){
+                    /*for (i in 0 until  binding.userLinearview.childCount){
                         var view = binding.userLinearview.getChildAt(i);
                         var textname: TextView = view.findViewById(R.id.txtappnameRestrickted)
                         if(textname.text == name.text){
@@ -87,7 +88,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
                             binding.userLinearview.removeViewAt(i);
                             binding.userLinearview.addView(view as View, 0);
                         }
-                    }
+                    }*/
                 }else{
                     Button.text = "Block"
                     Button.setTextColor(Color.WHITE)
@@ -108,7 +109,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
             val writer = FileOutputStream(File(path, "list.txt"))
             writer.write(textNeeded.toByteArray());
             writer.close()
-            Toast.makeText(getApplicationContext(), "wrote to file: " + path + "list.txt", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "wrote to file: " + path + "list.txt", Toast.LENGTH_SHORT).show();
         } catch (e: Exception) {
             e.printStackTrace()
         }
