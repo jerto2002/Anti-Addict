@@ -1,11 +1,14 @@
 package com.example.appduration
 
+import TestcommonFuntins
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appduration.databinding.ActivityRestricktedBinding
@@ -36,50 +39,43 @@ class RestricktedAppsActivity : AppCompatActivity() {
         var packageManager = packageManager
         val intent = Intent(Intent.ACTION_MAIN, null)
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
-        val resolveInfoList = packageManager.queryIntentActivities(intent, 0) //https://stackoverflow.com/questions/10696121/get-icons-of-all-installed-apps-in-android
+        var resolveInfoList = packageManager.queryIntentActivities(intent, 0) //https://stackoverflow.com/questions/10696121/get-icons-of-all-installed-apps-in-android
         for (i in 0 until resolveInfoList.size) {
             var inflater = LayoutInflater.from(this).inflate(R.layout.showappblock, null)
             binding.userLinearview.addView(inflater, binding.userLinearview.childCount)
         }
-
+        resolveInfoList.sortBy { TestcommonFuntins.getAppname(it.activityInfo.packageName, packageManager ) }
         val count = binding.userLinearview.childCount
         var v: View?
-
         for (i in 0 until resolveInfoList.size) {
             v = binding.userLinearview.getChildAt(i)
+            v.setTag(i);
             //var d = packageManager.getApplicationIcon(resolveInfoList.get(i).resolvePackageName)
             val icon: ImageView = v.findViewById(R.id.iconapp)
+            val name: TextView = v.findViewById(R.id.txtappnameRestrickted)
+            val Button: Button = v.findViewById(R.id.btnrestricktedApp)
             icon.setImageDrawable(resolveInfoList.get(i).activityInfo.loadIcon(packageManager))
+            name.text = TestcommonFuntins.getAppname(resolveInfoList.get(i).activityInfo.packageName, packageManager );
+            Button.setOnClickListener {
+                if(Button.text == "Block"){
+                    Button.text = "unBlock"
+                    val tv = resolveInfoList.get(i).activityInfo.packageName;
+                    var position = 0
+                    var tag = v as View
+                    if (v.tag is Int) {
+                        position = v.tag as Int
+                    }
+                    var view = binding.userLinearview.getChildAt(i);
+                        binding.userLinearview.removeViewAt(i);
+                    binding.userLinearview.addView(view as View, 0);
+                    val test = "";
+                }else{
+                    Button.text = "Block"
+                }
+            }
            // val name = d.toString();
         }
 
         binding.progressBar.visibility = View.INVISIBLE;
     }
 }
-
-/*public fun AddUsersToScreen() {
-    /*for(user in articles){
-        var inflater = LayoutInflater.from(this).inflate(R.layout.activity_restrickted, null)
-        binding.userLinearview.addView(inflater, binding.userLinearview.childCount)
-    }
-    val packages: MutableList<PackageInfo> = packageManager.getInstalledPackages(0)
-    for(i in 0 until packages.size){
-
-            var inflater = LayoutInflater.from(this).inflate(R.layout.showappblock, null)
-            binding.userLinearview.addView(inflater, binding.userLinearview.childCount)
-
-    }
-
-    val count = binding.userLinearview.childCount
-    var v: View?
-    for (i in 0 until count) {
-        v = binding.userLinearview.getChildAt(i)
-        var d = packageManager.getApplicationIcon(packages.get(i).packageName)
-        val icon: ImageView = v.findViewById(R.id.iconapp)
-        icon.setImageDrawable(d)
-
-        val name = d.toString();
-
-    }
-
-}*/

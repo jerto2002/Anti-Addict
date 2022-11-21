@@ -1,10 +1,10 @@
 package com.example.appduration
 
+import TestcommonFuntins
 import android.app.AppOpsManager
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Canvas
 import android.graphics.Color
@@ -13,7 +13,6 @@ import android.graphics.RectF
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appduration.databinding.ActivityMainBinding
@@ -66,23 +65,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent);
     }
 
-    private fun getAppname(packagenaam: String): String{ // https://stackoverflow.com/questions/11229219/android-how-to-get-application-name-not-package-name
-        var applicationInfo: ApplicationInfo? = null
-        try {
-            applicationInfo = this.packageManager.getApplicationInfo(
-                packagenaam, 0
-            )
-        } catch (e: PackageManager.NameNotFoundException) {
-            Log.d("TAG", "The package with the given name cannot be found on the system.")
-        }
-        if (applicationInfo != null) {
-            return packageManager.getApplicationLabel(applicationInfo).toString()
-        }
-        return "";
-    }
     private fun showPartOfstringWithDots(maxlenght: Int, name: String): String {
         if(name.length > maxlenght){
-            return name.substring(0, maxlenght) + "...";
+            return name.substring(0, maxlenght) + "..";
         }
         return name;
     }
@@ -90,8 +75,8 @@ class MainActivity : AppCompatActivity() {
         val entries = ArrayList<PieEntry>();
         var other = 100F;
         for(i in 0..3){
-            var name = getAppname(result.keys.toList().get(i) );
-            name = showPartOfstringWithDots(6,name);
+            var name = TestcommonFuntins.getAppname(result.keys.toList().get(i), packageManager );
+            name = showPartOfstringWithDots(5,name);
             entries.add(PieEntry(((result.values.toList().get(i) / result.values.sum()) *100).toFloat(), name));
             other -= ((result.values.toList().get(i) / result.values.sum()) *100).toFloat()
         }
@@ -111,8 +96,8 @@ class MainActivity : AppCompatActivity() {
         val data = PieData(dataSet);
         data.setDrawValues(true);
         data.setValueFormatter(PercentFormatter());
-        dataSet.setValueLinePart1OffsetPercentage(0F);
-        dataSet.setValueLinePart1Length(0.2f);
+        dataSet.setValueLinePart1OffsetPercentage(1F);
+        dataSet.setValueLinePart1Length(0.1f);
         dataSet.setValueLinePart2Length(0f);
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.valueLineColor = Color.TRANSPARENT
@@ -121,10 +106,10 @@ class MainActivity : AppCompatActivity() {
         binding.chart.setData(data);
         binding.chart.invalidate();
         binding.chart.setHoleColor(Color.TRANSPARENT);
-        binding.chart.setHoleRadius(80F);
+        binding.chart.setHoleRadius(85F);
         binding.chart.getData().setDrawValues(false);
         binding.chart.getDescription().setEnabled(false);
-        binding.chart.setEntryLabelTextSize(18F)
+        binding.chart.setEntryLabelTextSize(16F)
         binding.chart.getLegend().setEnabled(false)
         val textcenter = ((result.values.sum() /60000 /60).toInt()).toString()+ "h " +   (60 * ("0." + (result.values.sum() /60000 /60).toString().split(".").get(1)).toDouble()).toInt() +"m";
         binding.chart.setCenterText(textcenter);
@@ -132,6 +117,9 @@ class MainActivity : AppCompatActivity() {
         binding.chart.setEntryLabelColor(Color.parseColor("#B6b6b7"));
         binding.chart.setCenterTextColor(Color.parseColor("#B6b6b7"));
         binding.chart.extraBottomOffset = 10f
+        binding.chart.extraTopOffset = 10f
+        binding.chart.extraLeftOffset = 30f
+        binding.chart.extraRightOffset =30f
         barchart();
     }
     private fun barchart(){
