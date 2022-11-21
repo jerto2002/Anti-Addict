@@ -13,6 +13,7 @@ import android.graphics.RectF
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appduration.databinding.ActivityMainBinding
@@ -232,6 +233,20 @@ class MainActivity : AppCompatActivity() {
         icons = listOf(binding.iconimageSocial1, binding.iconimageSocial2, binding.iconimageSocial3, binding.iconimageSocial4);
         if(resultMediaApps.size > 0){ // fix error wanneer je maar één of minder social media hebt
             resultMediaApps = resultMediaApps.toList().sortedBy { (_, value) -> value}.reversed().toMap() as HashMap<String, Double>
+        }
+        else{
+            binding.MosedusedSocialApps.visibility = View.INVISIBLE;
+        }
+        if(resultMediaApps.size < 4){ // fix error wanneer je maar één of minder social media hebt
+            for(i in 2 until icons.size){
+                icons.get(i).visibility = View.INVISIBLE;
+                textboxes.get(i).visibility = View.INVISIBLE;
+            }
+
+            binding.middlesocials.visibility = View.INVISIBLE;
+            binding.socailsVertical.layoutParams.height = binding.MosedusedSocialApps.layoutParams.height / 2;
+            binding.MosedusedSocialApps.layoutParams.height = binding.MosedusedSocialApps.layoutParams.height / 2;
+
         }
         for (i in 0 until resultMediaApps.size step 1) {
             try {

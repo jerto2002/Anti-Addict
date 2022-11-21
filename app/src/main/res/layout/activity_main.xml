@@ -98,6 +98,7 @@
             android:layout_marginBottom="10dp"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
+
         <RelativeLayout
             android:id="@+id/MosedusedApps"
             android:layout_width="330dp"
@@ -108,8 +109,7 @@
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.596"
-            >
+            app:layout_constraintVertical_bias="0.596">
 
             <!--https://www.youtube.com/watch?v=nRPoW0X16QU-->
 
@@ -146,6 +146,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="11dp"
                 android:layout_marginEnd="250dp"
                 android:layout_marginBottom="101dp"
                 android:src="@drawable/ic_launcher_foreground"
@@ -249,6 +250,7 @@
             android:layout_marginBottom="10dp"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
+
         <RelativeLayout
             android:id="@+id/MosedusedSocialApps"
             android:layout_width="330dp"
@@ -281,10 +283,10 @@
                 android:id="@+id/iconimageSocial2"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="84dp"
-                android:layout_marginBottom="101dp"
                 android:src="@drawable/ic_launcher_foreground"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
@@ -295,9 +297,9 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="250dp"
-                android:layout_marginBottom="101dp"
+                android:layout_marginStart="26dp"
+                android:layout_marginEnd="244dp"
+                android:layout_marginBottom="9dp"
                 android:src="@drawable/ic_launcher_foreground"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
@@ -306,11 +308,11 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="250dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="244dp"
                 android:src="@drawable/ic_launcher_foreground"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
@@ -329,9 +331,9 @@
                 android:id="@+id/txtappSocial1"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="28dp"
-                android:layout_marginBottom="105dp"
                 android:layout_toStartOf="@id/iconimageSocial2"
                 android:background="@drawable/circletext"
                 android:gravity="center"
@@ -343,10 +345,10 @@
                 android:id="@+id/txtappSocial2"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="12dp"
-                android:layout_marginBottom="105dp"
                 android:background="@drawable/circletext"
                 android:gravity="center"
                 android:text="10 h"
@@ -368,6 +370,7 @@
                 android:textSize="14sp" />
 
             <View
+                android:id="@+id/socailsVertical"
                 android:layout_width="4dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
@@ -378,7 +381,7 @@
                 android:background="#424242" />
 
             <View
-                android:id="@+id/viewSocial"
+                android:id="@+id/middlesocials"
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:layout_alignParentTop="true"
