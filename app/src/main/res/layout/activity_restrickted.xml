@@ -37,7 +37,7 @@
             android:gravity="center"
             android:text="Time remaining: 1U"
             android:textAllCaps="false"
-            android:textColor="#FE0000"
+            android:textColor="#0048FF"
             android:textSize="34sp"
             android:textStyle="bold" />
     </RelativeLayout>

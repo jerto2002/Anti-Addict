@@ -3,6 +3,7 @@ package com.example.appduration
 import TestcommonFuntins
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appduration.databinding.ActivityRestricktedBinding
@@ -17,9 +19,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.async
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 
 class RestricktedAppsActivity : AppCompatActivity() {
+    var Applist: ArrayList<App> = ArrayList()
     private lateinit var binding: ActivityRestricktedBinding
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,22 +51,28 @@ class RestricktedAppsActivity : AppCompatActivity() {
         for (i in 0 until resolveInfoList.size) {
             var inflater = LayoutInflater.from(this).inflate(R.layout.showappblock, null)
             binding.userLinearview.addView(inflater, binding.userLinearview.childCount)
+            Applist.add(App(resolveInfoList.get(i).activityInfo.packageName , true))
         }
+        writeToFile();
         resolveInfoList.sortBy { TestcommonFuntins.getAppname(it.activityInfo.packageName, packageManager ) }
-        val count = binding.userLinearview.childCount
+        Applist.sortBy { TestcommonFuntins.getAppname(it.packageName, packageManager ) }
         var v: View?
         for (i in 0 until resolveInfoList.size) {
             v = binding.userLinearview.getChildAt(i)
-            //var d = packageManager.getApplicationIcon(resolveInfoList.get(i).resolvePackageName)
+            var d = packageManager.getApplicationIcon(Applist.get(i).packageName)
             val icon: ImageView = v.findViewById(R.id.iconapp)
             val name: TextView = v.findViewById(R.id.txtappnameRestrickted)
             val Button: Button = v.findViewById(R.id.btnrestricktedApp)
-            icon.setImageDrawable(resolveInfoList.get(i).activityInfo.loadIcon(packageManager))
-            name.text = TestcommonFuntins.getAppname(resolveInfoList.get(i).activityInfo.packageName, packageManager );
+            icon.setImageDrawable(d)
+            name.text = TestcommonFuntins.getAppname(Applist.get(i).packageName, packageManager );
+            if(Applist.get(i).Blocked == true){
+                Button.text = "unBlock"
+                Button.setTextColor(Color.parseColor("#fc031c"))
+            }
             Button.setOnClickListener {
                 if(Button.text == "Block"){
                     Button.text = "unBlock"
-                    val tv = resolveInfoList.get(i).activityInfo.packageName;
+                    Button.setTextColor(Color.parseColor("#fc031c"))
                     var position = 0
                     var tag = v as View
                     if (v.tag is Int) {
@@ -76,12 +88,9 @@ class RestricktedAppsActivity : AppCompatActivity() {
                             binding.userLinearview.addView(view as View, 0);
                         }
                     }
-                    /*var view = binding.userLinearview.getChildAt(i);
-                        binding.userLinearview.removeViewAt(i);
-                    binding.userLinearview.addView(view as View, 0);
-                    val test = "";*/
                 }else{
                     Button.text = "Block"
+                    Button.setTextColor(Color.WHITE)
                 }
             }
            // val name = d.toString();
@@ -89,4 +98,44 @@ class RestricktedAppsActivity : AppCompatActivity() {
 
         binding.progressBar.visibility = View.INVISIBLE;
     }
+    private fun writeToFile(){
+        var textNeeded = "";
+        for(app in Applist){
+            textNeeded += app.packageName + ", " + app.Blocked + " | " ;
+        }
+        val path = applicationContext.filesDir
+        try {
+            val writer = FileOutputStream(File(path, "list.txt"))
+            writer.write(textNeeded.toByteArray());
+            writer.close()
+            Toast.makeText(getApplicationContext(), "wrote to file: " + path + "list.txt", Toast.LENGTH_SHORT).show();
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        loadContent()
+    }
+    fun loadContent() {
+        Applist = ArrayList();
+        val path = applicationContext.filesDir
+        val readFrom = File(path, "list.txt")
+        val content = ByteArray(readFrom.length().toInt())
+        var stream: FileInputStream? = null
+        try {
+            stream = FileInputStream(readFrom)
+            stream.read(content)
+            var s = String(content)
+            val split = s.split(" | ").toTypedArray()
+            split.forEach {
+                if(it != ""){
+                    Applist.add(App(it.split(", ").get(0),it.split(", ").get(1).toBoolean()));
+                }
+            }
+val test = Applist;
+            val re ="";
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+    }
 }
+
+class App(val packageName : String, val Blocked : Boolean = false)

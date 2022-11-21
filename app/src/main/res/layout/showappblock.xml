@@ -27,7 +27,7 @@
         android:background="@drawable/roundedlayoutbutton"
         android:text="Block"
         android:textAllCaps="false"
-        android:textColor="#D5FF0000"
+        android:textColor="#D5FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
         app:backgroundTint="#000000"
