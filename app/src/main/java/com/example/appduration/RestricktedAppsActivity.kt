@@ -47,11 +47,16 @@ class RestricktedAppsActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_MAIN, null)
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
         var resolveInfoList = packageManager.queryIntentActivities(intent, 0) //https://stackoverflow.com/questions/10696121/get-icons-of-all-installed-apps-in-android
+        loadContent();
+        val Appnames = Applist.map { it.packageName }
         for (i in 0 until resolveInfoList.size) {
             var inflater = LayoutInflater.from(this).inflate(R.layout.showappblock, null)
             binding.userLinearview.addView(inflater, binding.userLinearview.childCount)
             val input = System.nanoTime()
-            Applist.add(App(resolveInfoList.get(i).activityInfo.packageName , false))
+
+            if(!Appnames.contains(resolveInfoList.get(i).activityInfo.packageName)){
+                Applist.add(App(resolveInfoList.get(i).activityInfo.packageName , false))
+            }
         }
         writeToFile();
         //resolveInfoList.sortBy { TestcommonFuntins.getAppname(it.activityInfo.packageName, packageManager ) }
@@ -72,7 +77,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
             val Button: Button = v.findViewById(R.id.btnrestricktedApp)
             icon.setImageDrawable(d)
             name.text = TestcommonFuntins.getAppname(Applist.get(i).packageName, packageManager );
-            if(Applist.get(i).Blocked == true){
+            if(Applist.get(i).Blocked){
                 Button.text = "unBlock"
                 Button.setTextColor(Color.parseColor("#fc031c"))
             }else{
@@ -84,21 +89,13 @@ class RestricktedAppsActivity : AppCompatActivity() {
                     Button.text = "unBlock"
                     Button.setTextColor(Color.parseColor("#fc031c"))
                     Applist.get(i).Blocked = true;
+                    writeToFile();
                     setAppsonscreen();
-                    /*for (i in 0 until  binding.userLinearview.childCount){
-                        var view = binding.userLinearview.getChildAt(i);
-                        var textname: TextView = view.findViewById(R.id.txtappnameRestrickted)
-                        if(textname.text == name.text){
-                            val test = textname.text;
-                            val tt =textname.text;
-                            binding.userLinearview.removeViewAt(i);
-                            binding.userLinearview.addView(view as View, 0);
-                        }
-                    }*/
                 }else{
                     Button.text = "Block"
                     Button.setTextColor(Color.WHITE)
                     Applist.get(i).Blocked = false;
+                    writeToFile();
                     setAppsonscreen();
 
                 }
