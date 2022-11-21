@@ -51,19 +51,20 @@ class RestricktedAppsActivity : AppCompatActivity() {
             var inflater = LayoutInflater.from(this).inflate(R.layout.showappblock, null)
             binding.userLinearview.addView(inflater, binding.userLinearview.childCount)
             val input = System.nanoTime()
-            if(input.toInt() % 2 == 0) {
-                Applist.add(App(resolveInfoList.get(i).activityInfo.packageName , true))
-            } else {
-                Applist.add(App(resolveInfoList.get(i).activityInfo.packageName , false))
-            }
-
+            Applist.add(App(resolveInfoList.get(i).activityInfo.packageName , false))
         }
         writeToFile();
-        resolveInfoList.sortBy { TestcommonFuntins.getAppname(it.activityInfo.packageName, packageManager ) }
+        //resolveInfoList.sortBy { TestcommonFuntins.getAppname(it.activityInfo.packageName, packageManager ) }
+        setAppsonscreen();
+        binding.progressBar.visibility = View.INVISIBLE;
+    }
+
+    private fun setAppsonscreen(){
+
         Applist.sortWith(compareBy({it.Blocked.toString().length}, { TestcommonFuntins.getAppname(it.packageName, packageManager ) }))
         //it.Blocked.toString()
         var v: View?
-        for (i in 0 until resolveInfoList.size) {
+        for (i in 0 until Applist.size) {
             v = binding.userLinearview.getChildAt(i)
             var d = packageManager.getApplicationIcon(Applist.get(i).packageName)
             val icon: ImageView = v.findViewById(R.id.iconapp)
@@ -74,11 +75,16 @@ class RestricktedAppsActivity : AppCompatActivity() {
             if(Applist.get(i).Blocked == true){
                 Button.text = "unBlock"
                 Button.setTextColor(Color.parseColor("#fc031c"))
+            }else{
+                Button.text = "Block"
+                Button.setTextColor(Color.WHITE)
             }
             Button.setOnClickListener {
                 if(Button.text == "Block"){
                     Button.text = "unBlock"
                     Button.setTextColor(Color.parseColor("#fc031c"))
+                    Applist.get(i).Blocked = true;
+                    setAppsonscreen();
                     /*for (i in 0 until  binding.userLinearview.childCount){
                         var view = binding.userLinearview.getChildAt(i);
                         var textname: TextView = view.findViewById(R.id.txtappnameRestrickted)
@@ -92,12 +98,13 @@ class RestricktedAppsActivity : AppCompatActivity() {
                 }else{
                     Button.text = "Block"
                     Button.setTextColor(Color.WHITE)
+                    Applist.get(i).Blocked = false;
+                    setAppsonscreen();
+
                 }
             }
-           // val name = d.toString();
+            // val name = d.toString();
         }
-
-        binding.progressBar.visibility = View.INVISIBLE;
     }
     private fun writeToFile(){
         var textNeeded = "";
@@ -139,4 +146,4 @@ val test = Applist;
     }
 }
 
-class App(val packageName : String, val Blocked : Boolean = false)
+class App(val packageName : String, var Blocked : Boolean = false)
