@@ -1,6 +1,7 @@
 package com.example.appduration
 
 import TestcommonFuntins
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -35,6 +36,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
         println("$msg - Work done")
         return@async 42
     }
+    @SuppressLint("SuspiciousIndentation")
     private fun addViews(){
         var packageManager = packageManager
         val intent = Intent(Intent.ACTION_MAIN, null)
@@ -49,7 +51,6 @@ class RestricktedAppsActivity : AppCompatActivity() {
         var v: View?
         for (i in 0 until resolveInfoList.size) {
             v = binding.userLinearview.getChildAt(i)
-            v.setTag(i);
             //var d = packageManager.getApplicationIcon(resolveInfoList.get(i).resolvePackageName)
             val icon: ImageView = v.findViewById(R.id.iconapp)
             val name: TextView = v.findViewById(R.id.txtappnameRestrickted)
@@ -65,10 +66,20 @@ class RestricktedAppsActivity : AppCompatActivity() {
                     if (v.tag is Int) {
                         position = v.tag as Int
                     }
-                    var view = binding.userLinearview.getChildAt(i);
+                    for (i in 0 until  binding.userLinearview.childCount){
+                        var view = binding.userLinearview.getChildAt(i);
+                        var textname: TextView = view.findViewById(R.id.txtappnameRestrickted)
+                        if(textname.text == name.text){
+                            val test = textname.text;
+                            val tt =textname.text;
+                            binding.userLinearview.removeViewAt(i);
+                            binding.userLinearview.addView(view as View, 0);
+                        }
+                    }
+                    /*var view = binding.userLinearview.getChildAt(i);
                         binding.userLinearview.removeViewAt(i);
                     binding.userLinearview.addView(view as View, 0);
-                    val test = "";
+                    val test = "";*/
                 }else{
                     Button.text = "Block"
                 }

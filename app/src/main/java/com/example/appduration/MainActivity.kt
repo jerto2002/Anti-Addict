@@ -216,7 +216,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val socialMediaapps =listOf("youtube", "facebook", "twitch", "twitter", "reddit", "facebook", "instagram", "wattsapp", "titok", "9gag", "discord");
+        val socialMediaapps =listOf("youtube", "facebook", "twitch", "twitter", "reddit", "facebook", "instagram", "wattsapp", "titok", "9gag", "discord", "pinterest", "bereal", "vimeo");
         var resultMediaApps = HashMap<String, Double>();
         var y = 0;
         while(resultMediaApps.size < 4 && y < result.size){
