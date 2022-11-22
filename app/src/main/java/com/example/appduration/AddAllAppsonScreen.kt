@@ -1,4 +1,6 @@
 
+import SaveAndloadApplistFile.Companion.writeToFile
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.view.View
@@ -12,12 +14,11 @@ import com.example.appduration.databinding.ActivityRestricktedBinding
 
 class AddAllAppsonScreen : AppCompatActivity() {
     companion object {//https://stackoverflow.com/questions/53802632/reuse-methods-in-kotlin-android
-
         public fun setAppsonscreen(
             Applist: ArrayList<App>,
             packageManager: PackageManager,
             binding: ActivityRestricktedBinding,
-
+            applicationContext: Context
             ){
             Applist.sortWith(compareBy({it.Blocked.toString().length}, { TestcommonFunctions.getAppname(it.packageName, packageManager ) }))
             //it.Blocked.toString()
@@ -49,7 +50,7 @@ class AddAllAppsonScreen : AppCompatActivity() {
                         Button.setTextColor(Color.WHITE)
                         Applist.get(i).Blocked = false;
                     }
-                    //writeToFile(); later
+                    writeToFile(applicationContext, Applist);
                     //setAppsonscreen();
                 }
             }
