@@ -1,8 +1,9 @@
 package com.example.appduration
 
-import TestcommonFuntins
+import TestcommonFunctions
+import TestcommonFunctions.Companion.getAllAppsAndTimeStamps
+import TestcommonFunctions.Companion.getTotalTimeApps
 import android.app.AppOpsManager
-import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -35,11 +36,11 @@ import com.github.mikephil.charting.utils.ViewPortHandler
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -61,6 +62,111 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    private fun findAppsDurationTimes(){
+        var foregroundAppPackageName : String? = null
+        val currentTime = System.currentTimeMillis()
+        val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
+        //bepaal tijd per app
+        var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
+        var data = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
+        var result = getTotalTimeApps(data);
+        result = result.toList().sortedBy { (_, value) -> value}.reversed().toMap() as HashMap<String, Double>
+        putinfoonscreen(result);
+        fillInChart(result)
+    }
+
+    private fun putinfoonscreen(result: HashMap<String, Double>){
+        var textboxes = listOf(binding.txtapp1, binding.txtapp2, binding.txtapp3, binding.txtapp4);
+        var icons = listOf(binding.iconimage1, binding.iconimage2, binding.iconimage3, binding.iconimage4)
+        for (i in 0 until 4 step 1) {
+            try {
+                var d = packageManager.getApplicationIcon(result.keys.toList().get(i))
+                icons.get(i).setImageDrawable(d)
+                textboxes.get(i).text = ((result.values.toList().get(i) /60000 /60).toInt()).toString()+ "h " +   (60 * ("0." + (result.values.toList().get(i) /60000 /60).toString().split(".").get(1)).toDouble()).toInt() +"m";
+            } catch (e: PackageManager.NameNotFoundException) {
+                e.printStackTrace()
+            }
+        }
+
+        val socialMediaapps =listOf("youtube", "facebook", "twitch", "twitter", "reddit", "facebook", "instagram", "wattsapp", "titok", "9gag", "discord", "pinterest", "bereal", "vimeo");
+        var resultMediaApps = HashMap<String, Double>();
+        var y = 0;
+        while(resultMediaApps.size < 4 && y < result.size){
+            for (i in 0 until socialMediaapps.size step 1) {
+                val value =result.keys.toList().get(y);
+                val x = socialMediaapps.get(i);
+                if(result.keys.toList().get(y).contains(socialMediaapps.get(i))){
+                    resultMediaApps.put(result.keys.toList().get(y), result.values.toList().get(y));
+                }
+            }
+            y++
+        }
+        textboxes = listOf(binding.txtappSocial1, binding.txtappSocial2, binding.txtappSocial3, binding.txtappSocial4);
+        icons = listOf(binding.iconimageSocial1, binding.iconimageSocial2, binding.iconimageSocial3, binding.iconimageSocial4);
+        if(resultMediaApps.size > 1){ // fix error wanneer je maar één of minder social media hebt
+            resultMediaApps = resultMediaApps.toList().sortedBy { (_, value) -> value}.reversed().toMap() as HashMap<String, Double>
+        }
+        else{
+            binding.MosedusedSocialApps.visibility = View.INVISIBLE;
+        }
+        if(resultMediaApps.size < 4){ // fix error wanneer je maar één of minder social media hebt
+            for(i in 2 until icons.size){
+                icons.get(i).visibility = View.INVISIBLE;
+                textboxes.get(i).visibility = View.INVISIBLE;
+            }
+
+            binding.middlesocials.visibility = View.INVISIBLE;
+            binding.socailsVertical.layoutParams.height = binding.MosedusedSocialApps.layoutParams.height / 2;
+            binding.MosedusedSocialApps.layoutParams.height = binding.MosedusedSocialApps.layoutParams.height / 2;
+
+        }
+        for (i in 0 until resultMediaApps.size step 1) {
+            try {
+                var d = packageManager.getApplicationIcon(resultMediaApps.keys.toList().get(i))
+                icons.get(i).setImageDrawable(d)
+                textboxes.get(i).text = ((resultMediaApps.values.toList().get(i) /60000 /60).toInt()).toString()+ "h " +   (60 * ("0." + (resultMediaApps.values.toList().get(i) /60000 /60).toString().split(".").get(1)).toDouble()).toInt() +"m";
+            } catch (e: PackageManager.NameNotFoundException) {
+                e.printStackTrace()
+            }
+        }
+        var te = "";
+    }
+   /* private fun getAllAppsAndTimeStamps(start: Long, currentTime: Long) : HashMap<String, ArrayList<UsageEvents.Event>> {
+        //test niet als app in klein schermje zit (youtube of maps als voorbeeld) andere apps hebben dit ook
+        val usageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
+        val stats = usageStatsManager.queryEvents(start, currentTime)
+        var data : HashMap<String, ArrayList<UsageEvents.Event>>
+                = HashMap<String,  ArrayList<UsageEvents.Event>> ();
+        //get start en stop tijden
+        while (stats.hasNextEvent()) {
+            val event = UsageEvents.Event()
+            stats.getNextEvent(event)
+            if(event.eventType == UsageEvents.Event.ACTIVITY_RESUMED||
+                event.eventType == UsageEvents.Event.ACTIVITY_PAUSED){
+                if(data.get(event.packageName) == null){
+                    data.put(event.packageName, ArrayList<UsageEvents.Event>(Arrays.asList(event)));
+                }else{
+                    data.get(event.packageName)?.add(event);
+                }
+            }
+        }
+        return data;
+    }
+    private fun getTotalTimeApps(data:  HashMap<String, ArrayList<UsageEvents.Event>>) : HashMap<String, Double> {
+        var result = HashMap<String, Double>();
+        for((k, v) in data){
+            var time = 0.0;
+            for (i in 0 until v.size -1 step 1) {
+                if(v.get(i).eventType == 1 && v.get(i + 1).eventType == 2){
+                    time += (v.get(i + 1).timeStamp - v.get(i).timeStamp);
+                }
+            }
+            result.put(k,   time);
+        }
+        return result;
+    }*/
+
     public fun OpenRestrickedActivity() {
         val intent = Intent(this, RestricktedAppsActivity::class.java);
         startActivity(intent);
@@ -76,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         val entries = ArrayList<PieEntry>();
         var other = 100F;
         for(i in 0..3){
-            var name = TestcommonFuntins.getAppname(result.keys.toList().get(i), packageManager );
+            var name = TestcommonFunctions.getAppname(result.keys.toList().get(i), packageManager );
             name = showPartOfstringWithDots(5,name);
             entries.add(PieEntry(((result.values.toList().get(i) / result.values.sum()) *100).toFloat(), name));
             other -= ((result.values.toList().get(i) / result.values.sum()) *100).toFloat()
@@ -131,7 +237,8 @@ class MainActivity : AppCompatActivity() {
             val start = System.currentTimeMillis() - (3600000 *(i+1) + (LocalDateTime.now().second * 1000) + (LocalDateTime.now().minute * 60000));//trek 1 h van de tijd af en zet de seconden en minuten op 0
             //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
             //bepaal tijd per app
-            var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime);
+            var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
+            var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
             var result = getTotalTimeApps(datatime);
             val to = (result.values.sum() / 60000).toFloat()
             entries.add(BarEntry(5- i.toFloat(), (result.values.sum() / 60000).toFloat()));
@@ -190,109 +297,7 @@ class MainActivity : AppCompatActivity() {
         //zie doc https://github.com/PhilJay/MPAndroidChart/blob/master/MPChartExample/src/main/java/com/xxmassdeveloper/mpchartexample/HorizontalBarChartActivity.java
     }
 
-        private fun findAppsDurationTimes(){
-        var foregroundAppPackageName : String? = null
-        val currentTime = System.currentTimeMillis()
-        val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
-        //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
-        //bepaal tijd per app
-        var data = getAllAppsAndTimeStamps(start = start, currentTime = currentTime);
-        var result = getTotalTimeApps(data);
-        result = result.toList().sortedBy { (_, value) -> value}.reversed().toMap() as HashMap<String, Double>
-        putinfoonscreen(result);
-        fillInChart(result)
-    }
 
-    private fun putinfoonscreen(result: HashMap<String, Double>){
-        var textboxes = listOf(binding.txtapp1, binding.txtapp2, binding.txtapp3, binding.txtapp4);
-        var icons = listOf(binding.iconimage1, binding.iconimage2, binding.iconimage3, binding.iconimage4)
-        for (i in 0 until 4 step 1) {
-            try {
-                var d = packageManager.getApplicationIcon(result.keys.toList().get(i))
-                icons.get(i).setImageDrawable(d)
-                textboxes.get(i).text = ((result.values.toList().get(i) /60000 /60).toInt()).toString()+ "h " +   (60 * ("0." + (result.values.toList().get(i) /60000 /60).toString().split(".").get(1)).toDouble()).toInt() +"m";
-            } catch (e: PackageManager.NameNotFoundException) {
-                e.printStackTrace()
-            }
-        }
-
-        val socialMediaapps =listOf("youtube", "facebook", "twitch", "twitter", "reddit", "facebook", "instagram", "wattsapp", "titok", "9gag", "discord", "pinterest", "bereal", "vimeo");
-        var resultMediaApps = HashMap<String, Double>();
-        var y = 0;
-        while(resultMediaApps.size < 4 && y < result.size){
-            for (i in 0 until socialMediaapps.size step 1) {
-                val value =result.keys.toList().get(y);
-                val x = socialMediaapps.get(i);
-                if(result.keys.toList().get(y).contains(socialMediaapps.get(i))){
-                    resultMediaApps.put(result.keys.toList().get(y), result.values.toList().get(y));
-                }
-            }
-            y++
-        }
-        textboxes = listOf(binding.txtappSocial1, binding.txtappSocial2, binding.txtappSocial3, binding.txtappSocial4);
-        icons = listOf(binding.iconimageSocial1, binding.iconimageSocial2, binding.iconimageSocial3, binding.iconimageSocial4);
-        if(resultMediaApps.size > 0){ // fix error wanneer je maar één of minder social media hebt
-            resultMediaApps = resultMediaApps.toList().sortedBy { (_, value) -> value}.reversed().toMap() as HashMap<String, Double>
-        }
-        else{
-            binding.MosedusedSocialApps.visibility = View.INVISIBLE;
-        }
-        if(resultMediaApps.size < 4){ // fix error wanneer je maar één of minder social media hebt
-            for(i in 2 until icons.size){
-                icons.get(i).visibility = View.INVISIBLE;
-                textboxes.get(i).visibility = View.INVISIBLE;
-            }
-
-            binding.middlesocials.visibility = View.INVISIBLE;
-            binding.socailsVertical.layoutParams.height = binding.MosedusedSocialApps.layoutParams.height / 2;
-            binding.MosedusedSocialApps.layoutParams.height = binding.MosedusedSocialApps.layoutParams.height / 2;
-
-        }
-        for (i in 0 until resultMediaApps.size step 1) {
-            try {
-                var d = packageManager.getApplicationIcon(resultMediaApps.keys.toList().get(i))
-                icons.get(i).setImageDrawable(d)
-                textboxes.get(i).text = ((resultMediaApps.values.toList().get(i) /60000 /60).toInt()).toString()+ "h " +   (60 * ("0." + (resultMediaApps.values.toList().get(i) /60000 /60).toString().split(".").get(1)).toDouble()).toInt() +"m";
-            } catch (e: PackageManager.NameNotFoundException) {
-                e.printStackTrace()
-            }
-        }
-        var te = "";
-    }
-    private fun getTotalTimeApps(data:  HashMap<String, ArrayList<UsageEvents.Event>>) : HashMap<String, Double> {
-        var result = HashMap<String, Double>();
-        for((k, v) in data){
-            var time = 0.0;
-            for (i in 0 until v.size -1 step 1) {
-                if(v.get(i).eventType == 1 && v.get(i + 1).eventType == 2){
-                    time += (v.get(i + 1).timeStamp - v.get(i).timeStamp);
-                }
-            }
-            result.put(k,   time);
-        }
-        return result;
-    }
-    private fun getAllAppsAndTimeStamps(start: Long, currentTime: Long) : HashMap<String, ArrayList<UsageEvents.Event>> {
-        //test niet als app in klein schermje zit (youtube of maps als voorbeeld) andere apps hebben dit ook
-        val usageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
-        val stats = usageStatsManager.queryEvents(start, currentTime)
-        var data : HashMap<String, ArrayList<UsageEvents.Event>>
-                = HashMap<String,  ArrayList<UsageEvents.Event>> ();
-        //get start en stop tijden
-        while (stats.hasNextEvent()) {
-            val event = UsageEvents.Event()
-            stats.getNextEvent(event)
-            if(event.eventType == UsageEvents.Event.ACTIVITY_RESUMED||
-                event.eventType == UsageEvents.Event.ACTIVITY_PAUSED){
-                if(data.get(event.packageName) == null){
-                    data.put(event.packageName, ArrayList<UsageEvents.Event>(Arrays.asList(event)));
-                }else{
-                    data.get(event.packageName)?.add(event);
-                }
-            }
-        }
-        return data;
-    }
     private fun checkUsageStatsPermission() : Boolean {
         val appOpsManager = getSystemService(AppCompatActivity.APP_OPS_SERVICE) as AppOpsManager
         // `AppOpsManager.checkOpNoThrow` is deprecated from Android Q
