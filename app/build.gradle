@@ -49,4 +49,9 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     // For Card view
     implementation 'androidx.cardview:cardview:1.0.0'
+    // for adding recyclerview
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
+
+    // for adding cardview
+    implementation 'androidx.cardview:cardview:1.0.0'
 }
