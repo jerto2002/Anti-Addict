@@ -30,7 +30,7 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adap
 
         // sets the text to the textview from our itemHolder class
         holder.textView.text = ItemsViewModel.text
-       // holder.imageView.setImageDrawable(ItemsViewModel.d)
+        holder.imageView.setImageDrawable(ItemsViewModel.d)
     }
 
     // return the number of the items in the list

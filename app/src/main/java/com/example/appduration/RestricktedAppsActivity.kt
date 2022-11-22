@@ -137,12 +137,15 @@ class RestricktedAppsActivity : AppCompatActivity() {
         val data = ArrayList<ItemsViewModel>()
         // This loop will create 20 Views containing
         // the image with the count of view
-        for (i in 0 until Applist.size) {
-            //var d = packageManager.getApplicationIcon(Applist.get(i).packageName)
+        for (i in 0 until  Applist.size) {
+            var d = packageManager.getApplicationIcon(Applist.get(i).packageName)
+            /*var s = d.toString()
+            val name = "your_drawable"
+            val id = resources.getIdentifier(name, "drawable", packageName)
+            val drawable = resources.getDrawable(id)*/
             //data.add(ItemsViewModel( "t"))
             //TestcommonFunctions.getAppname(Applist.get(i).packageName, packageManager )
-
-            data.add(ItemsViewModel(ApplicationNames.get(i), null))
+            data.add(ItemsViewModel(ApplicationNames.get(i), d))
         }
 
         // This will pass the ArrayList to our Adapter
@@ -179,4 +182,4 @@ class RestricktedAppsActivity : AppCompatActivity() {
 
 class App(val packageName : String, var Blocked : Boolean = false)
 
-data class ItemsViewModel(val text: String, val d: Drawable?)
+data class ItemsViewModel(val text: String, val d: Drawable)
