@@ -46,12 +46,15 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
                 Applist.remove(app);
 
             }
+            if(app.AppName == ""){
+                getAllAppNames(ApplicationNames, Applist, packageManager, applicationContext)
+            }
         }
-        getAllAppNames(ApplicationNames, Applist, packageManager, applicationContext)
+
         /*if(ApplicationNames.size != resolveInfoList.size){
 
         }*/
-        var mp = Applist;
+        //var mp = Applist;
         InsertContentToViews(packageManager, applicationContext, recyclerview);
     }
         suspend fun InsertContentToViews(
@@ -59,6 +62,7 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
             applicationContext: Context,
             recyclerview: RecyclerView
         ) {
+
             // getting the recyclerview by its id
 
             // this creates a vertical layout Manager
@@ -71,7 +75,7 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
                 //var d = null;
                 //var d = packageManager.getApplicationIcon("com.google.android.youtube")
                 var t = Applist;
-                data.add(ItemsViewModel(Applist.get(i).AppName, null, Applist, packageManager, applicationContext, i))//names
+                data.add(ItemsViewModel(Applist.get(i).AppName, null, Applist, packageManager, applicationContext, i, recyclerview))//names
             }
             for (i in 0 until  5) {
                 var t = System.currentTimeMillis();

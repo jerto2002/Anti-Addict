@@ -148,5 +148,6 @@ data class ItemsViewModel(
     val Applist: ArrayList<App>,
     val packageManager: PackageManager,
     val applicationContext: Context,
-    val i: Int
+    val i: Int,
+    val recyclerview: RecyclerView
 )

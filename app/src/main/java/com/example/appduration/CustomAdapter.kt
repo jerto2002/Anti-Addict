@@ -1,5 +1,6 @@
 
 import AddAllAppsonScreenPoging2.Companion.Applist
+import AddAllAppsonScreenPoging2.Companion.InsertContentToViews
 import SaveAndloadApplistFile.Companion.writeToFile
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -11,8 +12,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appduration.ItemsViewModel
 import com.example.appduration.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.async
 
-class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {//https://www.geeksforgeeks.org/android-recyclerview-in-kotlin/
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -52,9 +57,14 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adap
                 ItemsViewModel.Applist.get(ItemsViewModel.i).Blocked = false;
                 writeToFile(ItemsViewModel.applicationContext, Applist, ItemsViewModel.packageManager);
             }
+            test(MainScope(), ItemsViewModel)//https://stackoverflow.com/questions/57770131/create-async-function-in-kotlin
         }
         holder.textView.text = ItemsViewModel.text
         holder.imageView.setImageDrawable(ItemsViewModel.d)
+    }
+    fun test(scope: CoroutineScope, ItemsViewModel: ItemsViewModel): Deferred<Unit> = scope.async {
+        InsertContentToViews(ItemsViewModel.packageManager, ItemsViewModel.applicationContext, ItemsViewModel.recyclerview);
+        return@async
     }
 
     // return the number of the items in the list
