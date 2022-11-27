@@ -1,34 +1,29 @@
 package com.example.appduration
 
-import CustomAdapter
-import SaveAndloadApplistFile.Companion.getContentOutOfFile
-import SaveAndloadApplistFile.Companion.writeToFile
-import TestcommonFunctions
+import AddAllAppsonScreenPoging2.Companion.Applist
+import AddAllAppsonScreenPoging2.Companion.addViews
 import TestcommonFunctions.Companion.getAllAppsAndTimeStamps
 import TestcommonFunctions.Companion.getTotalTimeApps
-import android.annotation.SuppressLint
 import android.app.usage.UsageStatsManager
-import android.content.Intent
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appduration.databinding.ActivityRestricktedBinding
-import kotlinx.coroutines.*
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.async
 import java.time.LocalDate
 import java.time.ZoneId
 
 
 class RestricktedAppsActivity : AppCompatActivity() {
-    var Applist: ArrayList<App> = ArrayList()
-    var ApplicationNames: ArrayList<String> = ArrayList()
     private lateinit var binding: ActivityRestricktedBinding
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,11 +35,13 @@ class RestricktedAppsActivity : AppCompatActivity() {
         doWorkAsync(MainScope())//https://stackoverflow.com/questions/57770131/create-async-function-in-kotlin
     }
     fun doWorkAsync(scope: CoroutineScope): Deferred<Unit> = scope.async {
-        addViews()
+        val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
+        addViews(packageManager, applicationContext, recyclerview)
+        binding.progressBar.visibility = View.INVISIBLE;
         return@async
     }
 
-   @SuppressLint("SuspiciousIndentation")
+  /* @SuppressLint("SuspiciousIndentation")
     private suspend fun addViews(){
         var packageManager = packageManager
         val intent = Intent(Intent.ACTION_MAIN, null)
@@ -68,67 +65,14 @@ class RestricktedAppsActivity : AppCompatActivity() {
 
            }
        }
-       //Applist.sortWith(compareBy({it.packageName}))
-       //Applist.sortWith(compareBy({it.Blocked.toString().length}, { TestcommonFunctions.getAppname(it.packageName, packageManager ) })) // zorgt voor laden
-       ApplicationNames = LoadAllNames();
+       ApplicationNames = LoadAllNames(applicationContext);
        if(ApplicationNames.size != resolveInfoList.size){
-           getAllAppNames()
-           ApplicationNames = LoadAllNames();
+           ApplicationNames = getAllAppNames(ApplicationNames, Applist, packageManager, applicationContext)
+           ApplicationNames = LoadAllNames(applicationContext);
        }
-       testRescyler();
-
-        /*for (i in 0 until resolveInfoList.size) {
-            var inflater = LayoutInflater.from(this).inflate(R.layout.showappblock, null)
-            binding.userLinearview.addView(inflater, binding.userLinearview.childCount)
-            if(!Appnames.contains(resolveInfoList.get(i).activityInfo.packageName)){
-                Applist.add(App(resolveInfoList.get(i).activityInfo.packageName , false))
-            }
-        }*/
-       /* writeToFile(applicationContext, Applist);
-        //resolveInfoList.sortBy { TestcommonFuntins.getAppname(it.activityInfo.packageName, packageManager ) }
-
-       AddAllAppsonScreen.setAppsonscreen(Applist, packageManager, binding, applicationContext);
-        val test = "";*/
+       InsertContentToViews();
     }
-    fun LoadAllNames(): ArrayList<String> {
-        var Applist: ArrayList<String> = ArrayList()
-        val path = applicationContext.filesDir
-        val readFrom = File(path, "names.txt")
-        val content = ByteArray(readFrom.length().toInt())
-        var stream: FileInputStream? = null
-        try {
-            stream = FileInputStream(readFrom)
-            stream.read(content)
-            var s = String(content)
-            s = s.substring(1, s.length - 1)
-            val split = s.split(", ").toTypedArray()
-            split.forEach {
-                if(it != ""){
-                    Applist.add(it);
-                }
-            }
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-        }
-        return Applist
-    }
-    fun getAllAppNames(){
-        ApplicationNames = ArrayList();
-        for(App in Applist){
-            ApplicationNames.add(TestcommonFunctions.getAppname(App.packageName, packageManager));
-        }
-        ApplicationNames.sort();
-
-        val path = applicationContext.filesDir
-        try {
-            val writer = FileOutputStream(File(path, "names.txt"))
-            writer.write(ApplicationNames.toString().toByteArray());
-            writer.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-    suspend fun testRescyler() {
+    suspend fun InsertContentToViews() {
         // getting the recyclerview by its id
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
         // this creates a vertical layout Manager
@@ -161,7 +105,6 @@ class RestricktedAppsActivity : AppCompatActivity() {
     }
 
     suspend fun doWorkAsync2(data: ArrayList<ItemsViewModel>, recyclerview: RecyclerView, number: Int) = coroutineScope{
-
         launch {
             for (i in number -20 until  number) {
                 data.get(i).d = packageManager.getApplicationIcon(Applist.get(i).packageName)
@@ -170,7 +113,8 @@ class RestricktedAppsActivity : AppCompatActivity() {
             // Setting the Adapter with the recyclerview
             recyclerview.adapter = adapter
         }
-    }
+    }*/
+
     fun calculateUsedTime(){
         val currentTime = System.currentTimeMillis()
         val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
@@ -196,6 +140,13 @@ class RestricktedAppsActivity : AppCompatActivity() {
     }
 }
 
-class App(val packageName : String, var Blocked : Boolean = false)
+class App(val packageName : String, var Blocked : Boolean = false, var AppName : String = "")
 
-data class ItemsViewModel(var text: String, var d: Drawable?)
+data class ItemsViewModel(
+    var text: String,
+    var d: Drawable?,
+    val Applist: ArrayList<App>,
+    val packageManager: PackageManager,
+    val applicationContext: Context,
+    val i: Int
+)

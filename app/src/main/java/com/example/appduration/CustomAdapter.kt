@@ -1,7 +1,11 @@
 
+import AddAllAppsonScreenPoging2.Companion.Applist
+import SaveAndloadApplistFile.Companion.writeToFile
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +33,26 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adap
         //holder.imageView.setImageResource(ItemsViewModel.image)
 
         // sets the text to the textview from our itemHolder class
+        if(Applist.get(ItemsViewModel.i).Blocked){
+            holder.Button.text = "unBlock"
+            holder.Button.setTextColor(Color.parseColor("#fc031c"))
+        }else{
+            holder.Button.text = "Block"
+            holder.Button.setTextColor(Color.WHITE)
+        }
+        holder.Button.setOnClickListener {
+            if(holder.Button.text == "Block"){
+                holder.Button.text = "unBlock"
+                holder.Button.setTextColor(Color.parseColor("#fc031c"))
+                ItemsViewModel.Applist.get(ItemsViewModel.i).Blocked = true;
+                writeToFile(ItemsViewModel.applicationContext, Applist, ItemsViewModel.packageManager);
+            }else{
+                holder.Button.text = "Block"
+                holder.Button.setTextColor(Color.WHITE)
+                ItemsViewModel.Applist.get(ItemsViewModel.i).Blocked = false;
+                writeToFile(ItemsViewModel.applicationContext, Applist, ItemsViewModel.packageManager);
+            }
+        }
         holder.textView.text = ItemsViewModel.text
         holder.imageView.setImageDrawable(ItemsViewModel.d)
     }
@@ -42,5 +66,6 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adap
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val imageView: ImageView = itemView.findViewById(R.id.iconapp)
         val textView: TextView = itemView.findViewById(R.id.txtappnameRestrickted)
+        val Button: Button = itemView.findViewById(R.id.btnrestricktedApp)
     }
 }

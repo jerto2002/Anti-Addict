@@ -17,7 +17,7 @@ class SaveAndloadApplistFile : AppCompatActivity() {
         Applist.sortWith(compareBy({it.Blocked.toString().length}, { TestcommonFunctions.getAppname(it.packageName, packageManager ) })) // zorgt voor laden
             var textNeeded = "";
             for(app in Applist){
-                textNeeded += app.packageName + ", " + app.Blocked + " | " ;
+                textNeeded += app.packageName + ", " + app.Blocked +  ", " + app.AppName +" | " ;
             }
             val path = applicationContext.filesDir
             try {
@@ -43,7 +43,7 @@ class SaveAndloadApplistFile : AppCompatActivity() {
                 val split = s.split(" | ").toTypedArray()
                 split.forEach {
                     if(it != ""){
-                        Applist.add(App(it.split(", ").get(0),it.split(", ").get(1).toBoolean()));
+                        Applist.add(App(it.split(", ").get(0),it.split(", ").get(1).toBoolean(), it.split(", ").get(2)));
                     }
                 }
             } catch (e: java.lang.Exception) {
