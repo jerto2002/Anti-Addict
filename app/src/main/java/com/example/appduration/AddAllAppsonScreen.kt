@@ -50,7 +50,7 @@ class AddAllAppsonScreen : AppCompatActivity() {
                         Button.setTextColor(Color.WHITE)
                         Applist.get(i).Blocked = false;
                     }
-                    writeToFile(applicationContext, Applist);
+                    writeToFile(applicationContext, Applist, packageManager);
                     //setAppsonscreen();
                 }
             }

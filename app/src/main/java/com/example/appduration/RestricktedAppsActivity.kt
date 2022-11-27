@@ -51,20 +51,24 @@ class RestricktedAppsActivity : AppCompatActivity() {
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
         var resolveInfoList = packageManager.queryIntentActivities(intent, 0) //https://stackoverflow.com/questions/10696121/get-icons-of-all-installed-apps-in-android
         Applist = getContentOutOfFile(applicationContext);
-
+        var t = Applist.size;
        var AppPackagenames = Applist.map { it.packageName }
        for (i in 0 until resolveInfoList.size) {
            if(!AppPackagenames.contains(resolveInfoList.get(i).activityInfo.packageName)){
-               Applist.add(App(resolveInfoList.get(i).activityInfo.packageName , false))
+               Applist.add(App(resolveInfoList.get(i).activityInfo.packageName , false));
            }
+       }
+       if(t != Applist.size){
+           writeToFile(applicationContext, Applist, packageManager);
        }
 
        for (app in Applist){
            if(!resolveInfoList.map { it.activityInfo.packageName }.contains(app.packageName)){
                Applist.remove(app);
-               writeToFile(applicationContext, Applist);
+
            }
        }
+       //Applist.sortWith(compareBy({it.packageName}))
        //Applist.sortWith(compareBy({it.Blocked.toString().length}, { TestcommonFunctions.getAppname(it.packageName, packageManager ) })) // zorgt voor laden
        ApplicationNames = LoadAllNames();
        if(ApplicationNames.size != resolveInfoList.size){
@@ -137,14 +141,6 @@ class RestricktedAppsActivity : AppCompatActivity() {
             //var d = null;
             //var d = packageManager.getApplicationIcon("com.google.android.youtube")
             var t = System.currentTimeMillis();
-
-            //var d = packageManager.getApplicationIcon(Applist.get(i).packageName)
-            /*var s = d.toString()
-            val name = "your_drawable"
-            val id = resources.getIdentifier(name, "drawable", packageName)
-            val drawable = resources.getDrawable(id)*/
-            //data.add(ItemsViewModel( "t"))
-            //TestcommonFunctions.getAppname(Applist.get(i).packageName, packageManager )
             data.add(ItemsViewModel(ApplicationNames.get(i), null))
         }
         for (i in 0 until  5) {

@@ -1,5 +1,6 @@
 
 import android.content.Context
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appduration.App
 import java.io.File
@@ -8,7 +9,12 @@ import java.io.FileOutputStream
 
 class SaveAndloadApplistFile : AppCompatActivity() {
     companion object {//https://stackoverflow.com/questions/53802632/reuse-methods-in-kotlin-android
-        fun writeToFile(applicationContext : Context, Applist : ArrayList<App>){
+        fun writeToFile(
+        applicationContext: Context,
+        Applist: ArrayList<App>,
+        packageManager: PackageManager
+    ){
+        Applist.sortWith(compareBy({it.Blocked.toString().length}, { TestcommonFunctions.getAppname(it.packageName, packageManager ) })) // zorgt voor laden
             var textNeeded = "";
             for(app in Applist){
                 textNeeded += app.packageName + ", " + app.Blocked + " | " ;
