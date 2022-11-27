@@ -18,10 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appduration.databinding.ActivityRestricktedBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -39,7 +36,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val view = binding.root
         setContentView(view)
-        binding.progressBar.visibility = View.INVISIBLE;
+        binding.progressBar.visibility = View.VISIBLE;
         doWorkAsync(MainScope())//https://stackoverflow.com/questions/57770131/create-async-function-in-kotlin
     }
     fun doWorkAsync(scope: CoroutineScope): Deferred<Unit> = scope.async {
@@ -48,7 +45,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
     }
 
    @SuppressLint("SuspiciousIndentation")
-    private fun addViews(){
+    private suspend fun addViews(){
         var packageManager = packageManager
         val intent = Intent(Intent.ACTION_MAIN, null)
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
@@ -89,7 +86,6 @@ class RestricktedAppsActivity : AppCompatActivity() {
        AddAllAppsonScreen.setAppsonscreen(Applist, packageManager, binding, applicationContext);
         val test = "";*/
     }
-
     fun LoadAllNames(): ArrayList<String> {
         var Applist: ArrayList<String> = ArrayList()
         val path = applicationContext.filesDir
@@ -113,7 +109,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
         return Applist
     }
     fun getAllAppNames(){
-
+        ApplicationNames = ArrayList();
         for(App in Applist){
             ApplicationNames.add(TestcommonFunctions.getAppname(App.packageName, packageManager));
         }
@@ -128,7 +124,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
             e.printStackTrace()
         }
     }
-    fun testRescyler() {
+    suspend fun testRescyler() {
         // getting the recyclerview by its id
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
         // this creates a vertical layout Manager
@@ -138,23 +134,47 @@ class RestricktedAppsActivity : AppCompatActivity() {
         // This loop will create 20 Views containing
         // the image with the count of view
         for (i in 0 until  Applist.size) {
-            var d = packageManager.getApplicationIcon(Applist.get(i).packageName)
+            //var d = null;
+            //var d = packageManager.getApplicationIcon("com.google.android.youtube")
+            var t = System.currentTimeMillis();
+
+            //var d = packageManager.getApplicationIcon(Applist.get(i).packageName)
             /*var s = d.toString()
             val name = "your_drawable"
             val id = resources.getIdentifier(name, "drawable", packageName)
             val drawable = resources.getDrawable(id)*/
             //data.add(ItemsViewModel( "t"))
             //TestcommonFunctions.getAppname(Applist.get(i).packageName, packageManager )
-            data.add(ItemsViewModel(ApplicationNames.get(i), d))
+            data.add(ItemsViewModel(ApplicationNames.get(i), null))
         }
-
+        for (i in 0 until  5) {
+            var t = System.currentTimeMillis();
+            data.get(i).d = packageManager.getApplicationIcon(Applist.get(i).packageName)
+        }
         // This will pass the ArrayList to our Adapter
         val adapter = CustomAdapter(data)
         // Setting the Adapter with the recyclerview
-        recyclerview.adapter = adapter
+        recyclerview.adapter = adapter;
+        var number = 25;
+        while(number < Applist.size){
+            doWorkAsync2(data , recyclerview, number)
+            number += 20;
+        }
+        doWorkAsync2(data , recyclerview, Applist.size)
+        binding.progressBar.visibility = View.INVISIBLE;
     }
 
+    suspend fun doWorkAsync2(data: ArrayList<ItemsViewModel>, recyclerview: RecyclerView, number: Int) = coroutineScope{
 
+        launch {
+            for (i in number -20 until  number) {
+                data.get(i).d = packageManager.getApplicationIcon(Applist.get(i).packageName)
+            }
+            val adapter = CustomAdapter(data)
+            // Setting the Adapter with the recyclerview
+            recyclerview.adapter = adapter
+        }
+    }
     fun calculateUsedTime(){
         val currentTime = System.currentTimeMillis()
         val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
@@ -182,4 +202,4 @@ class RestricktedAppsActivity : AppCompatActivity() {
 
 class App(val packageName : String, var Blocked : Boolean = false)
 
-data class ItemsViewModel(val text: String, val d: Drawable)
+data class ItemsViewModel(var text: String, var d: Drawable?)
