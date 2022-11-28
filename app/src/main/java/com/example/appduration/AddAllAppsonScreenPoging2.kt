@@ -2,7 +2,10 @@
 import SaveAndloadAppNames.Companion.getAllAppNames
 import SaveAndloadApplistFile.Companion.getContentOutOfFile
 import SaveAndloadApplistFile.Companion.writeToFile
+import TestcommonFunctions.Companion.getAllAppsAndTimeStamps
+import TestcommonFunctions.Companion.getTotalTimeApps
 import android.annotation.SuppressLint
+import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,8 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appduration.App
 import com.example.appduration.ItemsViewModel
+import com.example.appduration.databinding.ActivityRestricktedBinding
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.ZoneId
 
 class AddAllAppsonScreenPoging2 : AppCompatActivity() {
 
@@ -26,7 +32,9 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
         packageManager: PackageManager,
         applicationContext: Context,
         recyclerview: RecyclerView,
-        progressBar: ProgressBar
+        progressBar: ProgressBar,
+        UsageStatsManager: UsageStatsManager,
+        binding: ActivityRestricktedBinding
     ) {
         var packageManager = packageManager
         val intent = Intent(Intent.ACTION_MAIN, null)
@@ -58,13 +66,15 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
 
         }*/
         //var mp = Applist;
-        InsertContentToViews(packageManager, applicationContext, recyclerview, progressBar);
+        InsertContentToViews(packageManager, applicationContext, recyclerview, progressBar, UsageStatsManager, binding);
     }
         suspend fun InsertContentToViews(
             packageManager: PackageManager,
             applicationContext: Context,
             recyclerview: RecyclerView,
-            progressBar: ProgressBar
+            progressBar: ProgressBar,
+            UsageStatsManager: UsageStatsManager,
+            binding: ActivityRestricktedBinding
         ) {
             progressBar.visibility = View.VISIBLE;
             // getting the recyclerview by its id
@@ -79,7 +89,7 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
                 //var d = null;
                 //var d = packageManager.getApplicationIcon("com.google.android.youtube")
                 var t = Applist;
-                data.add(ItemsViewModel(Applist.get(i).AppName, null, Applist, packageManager, applicationContext, i, recyclerview, progressBar))//names
+                data.add(ItemsViewModel(Applist.get(i).AppName, null, Applist, packageManager, applicationContext, i, recyclerview, progressBar, UsageStatsManager, binding))//names
             }
             for (i in 0 until  5) {
                 var t = System.currentTimeMillis();
@@ -96,9 +106,31 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
             }
             doWorkAsync2(data , recyclerview, Applist.size, packageManager)
             progressBar.visibility = View.INVISIBLE;
+            calculateUsedTime(UsageStatsManager, binding);
             //binding.progressBar.visibility = View.INVISIBLE;
         }
-
+        fun calculateUsedTime(UsageStatsManager: UsageStatsManager, binding: ActivityRestricktedBinding){
+            val currentTime = System.currentTimeMillis()
+            val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+            var Appnames = ArrayList<String>();
+            for(app in Applist){
+                if(app.Blocked){
+                    Appnames.add(app.packageName)
+                }
+            }
+            var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
+            var results = getTotalTimeApps(datatime);
+            var time = 0.0;
+            for(result in results) {
+                if (Appnames.contains(result.key)){
+                    var er = result.key;
+                    time = result.value;
+                    var l ="";
+                }
+            }
+            time = time /60000
+            binding.txtTimeRemaining.text = "Time remaining: " + (60 - time).toInt().toString() +"min";
+        }
         suspend fun doWorkAsync2(data: ArrayList<ItemsViewModel>, recyclerview: RecyclerView, number: Int, packageManager: PackageManager) = coroutineScope{
             launch {
                 for (i in number -20 until  number) {

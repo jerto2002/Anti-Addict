@@ -67,7 +67,9 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adap
             ItemsViewModel.packageManager,
             ItemsViewModel.applicationContext,
             ItemsViewModel.recyclerview,
-            ItemsViewModel.progressBar
+            ItemsViewModel.progressBar,
+            ItemsViewModel.UsageStatsManager,
+            ItemsViewModel.binding
         );
         return@async
     }
