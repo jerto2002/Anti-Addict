@@ -3,8 +3,10 @@ package com.example.appduration
 import TestcommonFunctions
 import TestcommonFunctions.Companion.getAllAppsAndTimeStamps
 import TestcommonFunctions.Companion.getTotalTimeApps
+import android.app.ActivityManager
 import android.app.AppOpsManager
 import android.app.usage.UsageStatsManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Canvas
@@ -38,7 +40,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() { //order code straks
     private lateinit var binding: ActivityMainBinding
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -47,6 +49,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val view = binding.root
         setContentView(view)
+        if(!foregroundSerciceRunning()){
+            var serviceIntent = Intent(this, ForegroundTestService::class.java);
+            startForegroundService(serviceIntent);
+        }
 
         binding.btnRestricked.setOnClickListener {
             OpenRestrickedActivity();
@@ -61,6 +67,16 @@ class MainActivity : AppCompatActivity() {
                 startActivity( this )
             }
         }
+    }
+    private fun foregroundSerciceRunning(): Boolean{
+        var activitymanager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager;
+        for(servise in activitymanager.getRunningServices(Integer.MAX_VALUE)){
+            if(ForegroundTestService::class.java.name.equals(servise.service.className)){
+                return true;
+            }
+        }
+        return false;
+
     }
     private fun findAppsDurationTimes(){
         var foregroundAppPackageName : String? = null
