@@ -6,6 +6,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +25,8 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
     public suspend fun addViews(
         packageManager: PackageManager,
         applicationContext: Context,
-        recyclerview: RecyclerView
+        recyclerview: RecyclerView,
+        progressBar: ProgressBar
     ) {
         var packageManager = packageManager
         val intent = Intent(Intent.ACTION_MAIN, null)
@@ -55,14 +58,15 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
 
         }*/
         //var mp = Applist;
-        InsertContentToViews(packageManager, applicationContext, recyclerview);
+        InsertContentToViews(packageManager, applicationContext, recyclerview, progressBar);
     }
         suspend fun InsertContentToViews(
             packageManager: PackageManager,
             applicationContext: Context,
-            recyclerview: RecyclerView
+            recyclerview: RecyclerView,
+            progressBar: ProgressBar
         ) {
-
+            progressBar.visibility = View.VISIBLE;
             // getting the recyclerview by its id
 
             // this creates a vertical layout Manager
@@ -75,7 +79,7 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
                 //var d = null;
                 //var d = packageManager.getApplicationIcon("com.google.android.youtube")
                 var t = Applist;
-                data.add(ItemsViewModel(Applist.get(i).AppName, null, Applist, packageManager, applicationContext, i, recyclerview))//names
+                data.add(ItemsViewModel(Applist.get(i).AppName, null, Applist, packageManager, applicationContext, i, recyclerview, progressBar))//names
             }
             for (i in 0 until  5) {
                 var t = System.currentTimeMillis();
@@ -91,6 +95,7 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
                 number += 20;
             }
             doWorkAsync2(data , recyclerview, Applist.size, packageManager)
+            progressBar.visibility = View.INVISIBLE;
             //binding.progressBar.visibility = View.INVISIBLE;
         }
 

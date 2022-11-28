@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +37,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
     }
     fun doWorkAsync(scope: CoroutineScope): Deferred<Unit> = scope.async {
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
-        addViews(packageManager, applicationContext, recyclerview)
+        addViews(packageManager, applicationContext, recyclerview, binding.progressBar)
         binding.progressBar.visibility = View.INVISIBLE;
         return@async
     }
@@ -149,5 +150,6 @@ data class ItemsViewModel(
     val packageManager: PackageManager,
     val applicationContext: Context,
     val i: Int,
-    val recyclerview: RecyclerView
+    val recyclerview: RecyclerView,
+    val progressBar: ProgressBar
 )

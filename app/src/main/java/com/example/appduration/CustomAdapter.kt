@@ -63,7 +63,12 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adap
         holder.imageView.setImageDrawable(ItemsViewModel.d)
     }
     fun test(scope: CoroutineScope, ItemsViewModel: ItemsViewModel): Deferred<Unit> = scope.async {
-        InsertContentToViews(ItemsViewModel.packageManager, ItemsViewModel.applicationContext, ItemsViewModel.recyclerview);
+        InsertContentToViews(
+            ItemsViewModel.packageManager,
+            ItemsViewModel.applicationContext,
+            ItemsViewModel.recyclerview,
+            ItemsViewModel.progressBar
+        );
         return@async
     }
 
