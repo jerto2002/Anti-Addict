@@ -1,6 +1,9 @@
 package com.example.appduration
 
-import AddAllAppsonScreenPoging2.Companion.calculateUsedTime
+import AddAllAppsonScreenPoging2.Companion.Applist
+import SaveAndloadApplistFile.Companion.getContentOutOfFile
+import TestcommonFunctions.Companion.getAllAppsAndTimeStamps
+import TestcommonFunctions.Companion.getTotalTimeApps
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -14,6 +17,8 @@ import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.ZoneId
 
 
 class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1Ubjlzw
@@ -66,13 +71,13 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
      * Starts the timer for the tracking.
      */
     val mainHandler = Handler(Looper.getMainLooper())
-    private fun startTimer() {
+    private fun startTimer(builder: NotificationCompat.Builder) {
 
         CoroutineScope(Dispatchers.Main).launch {
             var i = 0
             mainHandler.post(object : Runnable {
                 override fun run() {
-                    Log.d("TAG", ("test $i"));
+                    /*Log.d("TAG", ("test $i"));
                     //Log.d("TAG", (60 - calculateUsedTime()).toString());
                     val text = "Some text that will update the notification"
                     val CHANNEL_ID = "foreground Service ID"
@@ -85,23 +90,24 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
                         channel
                     );
                     var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
-                    calculateUsedTime(UsageStatsManager, applicationContext);
                     val notif = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
                         .setContentTitle("Sample Title")
 
-                        .setContentText((60 - 3 ).toString() + " min left")
+                        .setContentText((60 - calculateUsedTime() ).toString() + " min left")
                         //.setContentText((i).toString() + " min left")
                         .setSmallIcon(R.drawable.ic_launcher_background);
 
                     startForeground(10001, notif.build());
-                    i++;
-                    mainHandler.postDelayed(this, 60000)
+                    i++;*/
+
+                    builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
+                    startForeground(10001, builder.build());
+                    mainHandler.postDelayed(this, 10000)
                 }
             })
         }
     }
     private fun startForegroundService() {
-        startTimer();
         val CHANNEL_ID = "foreground Service ID"
         var channel = NotificationChannel(
             CHANNEL_ID,
@@ -113,10 +119,11 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         val notif = NotificationCompat.Builder(this,CHANNEL_ID)
             .setContentTitle("Sample Title")
             .setContentText((1).toString() + " min left")
+            .setOnlyAlertOnce(true)
             .setSmallIcon(R.drawable.ic_launcher_background);
             //.setContentText((60 - calculateUsedTime()).toString() + " min left")
         startForeground(10001 , notif.build());
-
+        startTimer(notif);
     }
     override fun onTaskRemoved(rootIntent: Intent?) {
         val intent = Intent("com.example.appduration")
@@ -124,7 +131,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         super.onTaskRemoved(rootIntent)
     }
 
-    /*fun calculateUsedTime(): Int{
+    fun calculateUsedTime(): Int{
         var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
         val currentTime = System.currentTimeMillis()
         val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
@@ -146,8 +153,8 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
             }
         }
         time = time /60000;
-        return time.toInt();
-    }*/
+        return time.toInt(); // fix tijd wanneer app nog aan het runnen is.
+    }
 
     override fun onBind(p0: Intent?): IBinder? {
         TODO("Not yet implemented")

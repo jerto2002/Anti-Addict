@@ -131,7 +131,7 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
             time = time /60000
             binding.txtTimeRemaining.text = "Time remaining: " + (60 - time).toInt().toString() +"min";
         }
-        fun calculateUsedTime(UsageStatsManager: UsageStatsManager, applicationContext: Context){
+       /* fun calculateUsedTime(UsageStatsManager: UsageStatsManager, applicationContext: Context){
             val currentTime = System.currentTimeMillis()
             val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
             Applist = getContentOutOfFile(applicationContext);
@@ -153,7 +153,7 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
             }
             time = time /60000
             var t = "";
-        }
+        }*/
         suspend fun LoadmoreApps(data: ArrayList<ItemsViewModel>, recyclerview: RecyclerView, number: Int, packageManager: PackageManager) = coroutineScope{
             launch {
                 for (i in number -20 until  number) {
