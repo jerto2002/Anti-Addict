@@ -1,13 +1,16 @@
 package com.example.testtekenoverandereapps
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.util.Log
 import android.view.*
+import com.example.appduration.MainActivity
 import com.example.appduration.R
 
-class Window(  // declaring required variables
+
+class Window (  // declaring required variables
     private val context: Context
 ) {
     private val mView: View
@@ -33,13 +36,17 @@ class Window(  // declaring required variables
         mView = layoutInflater.inflate(R.layout.popup_window, null)
         // set onClickListener on the remove button, which removes
         // the view from the window
-        mView.findViewById<View>(R.id.window_close).setOnClickListener { close() }
+        mView.findViewById<View>(R.id.window_close).setOnClickListener {
+            val myIntent = Intent(context, MainActivity::class.java)
+            myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(myIntent)
+            //close()
+        }
         // Define the position of the
         // window within the screen
         mParams!!.gravity = Gravity.CENTER
         mWindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     }
-
     fun open() {
         try {
             // check if the view is already

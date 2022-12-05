@@ -160,7 +160,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         val processRun = activityManager.getRunningAppProcesses();
         val runningApps = processRun.map { it.processName };
         time = time /60000;
-        if(time > 3){
+        if(time > 19){
             startServiceDrawing();
             //ReturnToApp();
         }
