@@ -101,10 +101,10 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
             recyclerview.adapter = adapter;
             var number = 25;
             while(number < Applist.size){
-                doWorkAsync2(data , recyclerview, number, packageManager)
+                LoadmoreApps(data , recyclerview, number, packageManager)
                 number += 20;
             }
-            doWorkAsync2(data , recyclerview, Applist.size, packageManager)
+            LoadmoreApps(data , recyclerview, Applist.size, packageManager)
             progressBar.visibility = View.INVISIBLE;
             calculateUsedTime(UsageStatsManager, binding);
             //binding.progressBar.visibility = View.INVISIBLE;
@@ -131,7 +131,30 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
             time = time /60000
             binding.txtTimeRemaining.text = "Time remaining: " + (60 - time).toInt().toString() +"min";
         }
-        suspend fun doWorkAsync2(data: ArrayList<ItemsViewModel>, recyclerview: RecyclerView, number: Int, packageManager: PackageManager) = coroutineScope{
+        fun calculateUsedTime(UsageStatsManager: UsageStatsManager, applicationContext: Context){
+            val currentTime = System.currentTimeMillis()
+            val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+            Applist = getContentOutOfFile(applicationContext);
+            var Appnames = ArrayList<String>();
+            for(app in Applist){
+                if(app.Blocked){
+                    Appnames.add(app.packageName)
+                }
+            }
+            var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
+            var results = getTotalTimeApps(datatime);
+            var time = 0.0;
+            for(result in results) {
+                if (Appnames.contains(result.key)){
+                    var er = result.key;
+                    time = result.value;
+                    var l ="";
+                }
+            }
+            time = time /60000
+            var t = "";
+        }
+        suspend fun LoadmoreApps(data: ArrayList<ItemsViewModel>, recyclerview: RecyclerView, number: Int, packageManager: PackageManager) = coroutineScope{
             launch {
                 for (i in number -20 until  number) {
                     data.get(i).d = packageManager.getApplicationIcon(Applist.get(i).packageName)

@@ -15,6 +15,7 @@ import android.graphics.Path
 import android.graphics.RectF
 import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
 import android.provider.Settings
 import android.view.View
 import androidx.annotation.RequiresApi
@@ -50,8 +51,25 @@ class MainActivity : AppCompatActivity() { //order code straks
         val view = binding.root
         setContentView(view)
         if(!foregroundSerciceRunning()){
+            //https://stackoverflow.com/questions/44862176/request-ignore-battery-optimizations-how-to-do-it-right
+            /*startActivity(
+                Intent(
+                        Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS_SETTINGS, Uri.parse(
+                    "package:$packageName"
+                )
+            )
+            )*/
             var serviceIntent = Intent(this, ForegroundTestService::class.java);
+
             startForegroundService(serviceIntent);
+            //https://stackoverflow.com/questions/33114063/how-do-i-properly-fire-action-request-ignore-battery-optimizations-intent
+            //https://stackoverflow.com/questions/39256501/check-if-battery-optimization-is-enabled-or-not-for-an-app
+            val pm = getSystemService(POWER_SERVICE) as PowerManager
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+            val myIntent = Intent()
+            myIntent.action = Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS
+            startActivity(myIntent)
+            }
         }
 
         binding.btnRestricked.setOnClickListener {
@@ -67,6 +85,19 @@ class MainActivity : AppCompatActivity() { //order code straks
                 startActivity( this )
             }
         }
+    }
+
+    override fun onDestroy() {
+
+        var broadcastintent = Intent();
+        broadcastintent.setAction("restartservice")
+        super.onDestroy()
+    }
+
+    override fun onPause() {
+        var broadcastintent = Intent();
+        broadcastintent.setAction("restartservice")
+        super.onPause()
     }
     private fun foregroundSerciceRunning(): Boolean{
         var activitymanager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager;
