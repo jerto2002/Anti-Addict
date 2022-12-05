@@ -4,14 +4,18 @@ import AddAllAppsonScreenPoging2.Companion.Applist
 import SaveAndloadApplistFile.Companion.getContentOutOfFile
 import TestcommonFunctions.Companion.getAllAppsAndTimeStamps
 import TestcommonFunctions.Companion.getTotalTimeApps
+import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.app.usage.UsageStatsManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.CoroutineScope
@@ -102,7 +106,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
 
                     builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
                     startForeground(10001, builder.build());
-                    mainHandler.postDelayed(this, 10000)
+                    mainHandler.postDelayed(this, 60000)
                 }
             })
         }
@@ -151,11 +155,44 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
                 time = result.value;
                 var l ="";
             }
-        }
+        }//com.reddit.frontpage
+        val activityManager = applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val processRun = activityManager.getRunningAppProcesses();
+        val runningApps = processRun.map { it.processName };
         time = time /60000;
+        if(time > 3){
+            startServiceDrawing();
+            //ReturnToApp();
+        }
         return time.toInt(); // fix tijd wanneer app nog aan het runnen is.
     }
 
+
+    // method for starting the service for drawing over other apps
+    fun startServiceDrawing() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // check if the user has already granted
+            // the Draw over other apps permission
+            if (Settings.canDrawOverlays(this)) {
+                // start the service based on the android version
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(Intent(this, ForegroundService::class.java))
+                } else {
+                    startService(Intent(this, ForegroundService::class.java))
+                }
+            }
+        } else {
+            startService(Intent(this, ForegroundService::class.java))
+        }
+    }
+
+    fun ReturnToApp(){
+        /*val intent = Intent(Intent.ACTION_VIEW)
+        //intent.data = Uri.parse("https://www.youtube.com/@ThatOneVideoGamer")
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setPackage("com.example.appduration")
+        startActivity(intent)*/
+    }
     override fun onBind(p0: Intent?): IBinder? {
         TODO("Not yet implemented")
     }

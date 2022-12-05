@@ -52,6 +52,9 @@ class TestcommonFunctions : AppCompatActivity() {
                         time += (v.get(i + 1).timeStamp - v.get(i).timeStamp);
                     }
                 }
+                if(v.get(v.size -1).eventType == 1){
+                    time += System.currentTimeMillis() - v.get(v.size -1).timeStamp;
+                }
                 result.put(k,   time);
             }
             return result;

@@ -70,7 +70,10 @@ class MainActivity : AppCompatActivity() { //order code straks
             myIntent.action = Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS
             startActivity(myIntent)
             }
-        }
+        } // service for check time
+
+        checkOverlayPermission();
+
 
         binding.btnRestricked.setOnClickListener {
             OpenRestrickedActivity();
@@ -85,8 +88,20 @@ class MainActivity : AppCompatActivity() { //order code straks
                 startActivity( this )
             }
         }
+
     }
 
+
+    // method to ask user to grant the Overlay permission
+    fun checkOverlayPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+                // send user to the device settings
+                val myIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+                startActivity(myIntent)
+            }
+        }
+    }
     override fun onDestroy() {
 
         var broadcastintent = Intent();
