@@ -4,6 +4,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.app.usage.UsageStatsManager
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
@@ -33,6 +34,7 @@ class ForegroundService : Service() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
         val window = Window(this)
         window.open()
         return super.onStartCommand(intent, flags, startId);

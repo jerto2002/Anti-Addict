@@ -8,10 +8,12 @@ import android.util.Log
 import android.view.*
 import com.example.appduration.MainActivity
 import com.example.appduration.R
+import java.io.File
+import java.io.FileOutputStream
 
 
-class Window (  // declaring required variables
-    private val context: Context
+class Window(  // declaring required variables
+    private val context: Context,
 ) {
     private val mView: View
     private var mParams: WindowManager.LayoutParams? = null
@@ -70,11 +72,27 @@ class Window (  // declaring required variables
             mView.invalidate()
             // remove all views
             (mView.parent as ViewGroup).removeAllViews()
-
             // the above steps are necessary when you are adding and removing
             // the view simultaneously, it might give some exceptions
         } catch (e: Exception) {
             Log.d("Error2", e.toString())
         }
     }
+
+    fun SaveTime(
+        applicationContext: Context,
+        Time: Double,
+    ){
+        val path = applicationContext.filesDir
+        try {
+            val writer = FileOutputStream(File(path, "time.txt"))
+            writer.write(Time.toString().toByteArray());
+            writer.close();
+            //Toast.makeText(applicationContext, "saved", Toast.LENGTH_SHORT).show();
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        //getContentOutOfFile(applicationContext, Applist)
+    }
+
 }

@@ -4,6 +4,7 @@ import AddAllAppsonScreenPoging2.Companion.Applist
 import SaveAndloadApplistFile.Companion.getContentOutOfFile
 import TestcommonFunctions.Companion.getAllAppsAndTimeStamps
 import TestcommonFunctions.Companion.getTotalTimeApps
+import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -16,7 +17,6 @@ import android.os.IBinder
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -88,7 +88,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
 
                     builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
                     startForeground(10001, builder.build());
-                    mainHandler.postDelayed(this, 20000)
+                    mainHandler.postDelayed(this, 3000)
                 }
             })
         }
@@ -141,19 +141,21 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         time = time /60000;
         if(time > 2){
             var timeSaved = getSavedTime(applicationContext);
-
+            if(check(applicationContext)){
+                timeSaved = time;
+            }
             if(timeSaved < time){
-                Toast.makeText(applicationContext, time.toString(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(applicationContext, check(applicationContext).toString(), Toast.LENGTH_SHORT).show();
                 startServiceDrawing();
             }
-
-
             SaveTime(applicationContext, time);
         //startServiceDrawing();
             //ReturnToApp();
         }
         return time.toInt(); // fix tijd wanneer app nog aan het runnen is.
     }
+
+
 
     fun SaveTime(
         applicationContext: Context,
@@ -186,7 +188,20 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         return 0.0
     }
 
-
+    public fun check(applicationContext : Context): Boolean {
+        var activityManager =  applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager;
+        var appProcesses = activityManager.getRunningAppProcesses();
+        if (appProcesses == null) {
+            return false;
+        }
+        var packageName = applicationContext.getPackageName();
+        for (appProcess in appProcesses) {
+            if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND && appProcess.processName.equals(packageName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     // method for starting the service for drawing over other apps
