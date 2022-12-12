@@ -6,6 +6,7 @@ import android.graphics.PixelFormat
 import android.os.Build
 import android.util.Log
 import android.view.*
+import com.example.appduration.ForegroundService
 import com.example.appduration.MainActivity
 import com.example.appduration.R
 import java.io.File
@@ -43,7 +44,8 @@ class Window(  // declaring required variables
             myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(myIntent);
 
-            close()
+            close();
+
         }
         // Define the position of the
         // window within the screen

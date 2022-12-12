@@ -84,11 +84,9 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
             var i = 0
             mainHandler.post(object : Runnable {
                 override fun run() {
-
-
                     builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
                     startForeground(10001, builder.build());
-                    mainHandler.postDelayed(this, 3000)
+                    mainHandler.postDelayed(this, 3000) // zet hoger bij lagere battery
                 }
             })
         }
@@ -144,9 +142,10 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
             if(check(applicationContext)){
                 timeSaved = time;
             }
-            if(timeSaved < time){
-               // Toast.makeText(applicationContext, check(applicationContext).toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(applicationContext,  windowSerciceRunning().toString(), Toast.LENGTH_SHORT).show();
+            if(timeSaved < time && !windowSerciceRunning()){//
                 startServiceDrawing();
+
             }
             SaveTime(applicationContext, time);
         //startServiceDrawing();
@@ -155,7 +154,16 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         return time.toInt(); // fix tijd wanneer app nog aan het runnen is.
     }
 
+    private fun windowSerciceRunning(): Boolean{
+        var activitymanager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager;
+        for(servise in activitymanager.getRunningServices(Integer.MAX_VALUE)){
+            if(ForegroundService::class.java.name.equals(servise.service.className)){
+                return true;
+            }
+        }
+        return false;
 
+    }
 
     fun SaveTime(
         applicationContext: Context,
@@ -213,7 +221,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
                 // start thstartForegroundServicee service based on the android version
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     var serviceIntent = Intent(this,ForegroundService::class.java);
-                    startForegroundService(serviceIntent);
+                    startService(serviceIntent);
                     //startForegroundService(Intent(this, ForegroundService::class.java)
                 } else {
                     startService(Intent(this, ForegroundService::class.java))
