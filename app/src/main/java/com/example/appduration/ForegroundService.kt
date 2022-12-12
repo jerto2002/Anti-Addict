@@ -21,19 +21,22 @@ class ForegroundService : Service() {
         super.onCreate()
         // create the custom or default notification
         // based on the android version
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startMyOwnForeground() else startForeground(
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) startMyOwnForeground() else startForeground(
             1,
             Notification()
-        )
+        )*/
 
         // create an instance of Window class
         // and display the content on screen
-        val window = Window(this)
-        window.open()
+        /*val window = Window(this)
+        window.open()*/
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        return super.onStartCommand(intent, flags, startId)
+        val window = Window(this)
+        window.open()
+        return super.onStartCommand(intent, flags, startId);
+
     }
 
     // for android version >=O we need to create

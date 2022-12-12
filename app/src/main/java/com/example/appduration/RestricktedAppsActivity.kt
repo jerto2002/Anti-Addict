@@ -40,8 +40,6 @@ class RestricktedAppsActivity : AppCompatActivity() {
         calculateUsedTime(UsageStatsManager, binding);
         return@async
     }
-
-
 }
 
 class App(val packageName : String, var Blocked : Boolean = false, var AppName : String = "")

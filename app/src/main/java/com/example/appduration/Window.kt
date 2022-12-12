@@ -39,8 +39,9 @@ class Window (  // declaring required variables
         mView.findViewById<View>(R.id.window_close).setOnClickListener {
             val myIntent = Intent(context, MainActivity::class.java)
             myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(myIntent)
-            //close()
+            context.startActivity(myIntent);
+
+            close()
         }
         // Define the position of the
         // window within the screen

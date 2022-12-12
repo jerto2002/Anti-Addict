@@ -4,7 +4,6 @@ import AddAllAppsonScreenPoging2.Companion.Applist
 import SaveAndloadApplistFile.Companion.getContentOutOfFile
 import TestcommonFunctions.Companion.getAllAppsAndTimeStamps
 import TestcommonFunctions.Companion.getTotalTimeApps
-import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -17,10 +16,14 @@ import android.os.IBinder
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -53,7 +56,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
 
         startForeground(10001 , notif.build())*/
 
-        startForegroundService();
+        startTestForegroundService();
 
         return super.onStartCommand(intent, flags, startId)
     }
@@ -81,37 +84,16 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
             var i = 0
             mainHandler.post(object : Runnable {
                 override fun run() {
-                    /*Log.d("TAG", ("test $i"));
-                    //Log.d("TAG", (60 - calculateUsedTime()).toString());
-                    val text = "Some text that will update the notification"
-                    val CHANNEL_ID = "foreground Service ID"
-                    var channel = NotificationChannel(
-                        CHANNEL_ID,
-                        CHANNEL_ID,
-                        NotificationManager.IMPORTANCE_HIGH
-                    );
-                    getSystemService(NotificationManager::class.java).createNotificationChannel(
-                        channel
-                    );
-                    var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
-                    val notif = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-                        .setContentTitle("Sample Title")
 
-                        .setContentText((60 - calculateUsedTime() ).toString() + " min left")
-                        //.setContentText((i).toString() + " min left")
-                        .setSmallIcon(R.drawable.ic_launcher_background);
-
-                    startForeground(10001, notif.build());
-                    i++;*/
 
                     builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
                     startForeground(10001, builder.build());
-                    mainHandler.postDelayed(this, 60000)
+                    mainHandler.postDelayed(this, 20000)
                 }
             })
         }
     }
-    private fun startForegroundService() {
+    private fun startTestForegroundService() {
         val CHANNEL_ID = "foreground Service ID"
         var channel = NotificationChannel(
             CHANNEL_ID,
@@ -156,16 +138,55 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
                 var l ="";
             }
         }//com.reddit.frontpage
-        val activityManager = applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val processRun = activityManager.getRunningAppProcesses();
-        val runningApps = processRun.map { it.processName };
         time = time /60000;
-        if(time > 19){
-            startServiceDrawing();
+        if(time > 2){
+            var timeSaved = getSavedTime(applicationContext);
+
+            if(timeSaved < time){
+                Toast.makeText(applicationContext, time.toString(), Toast.LENGTH_SHORT).show();
+                startServiceDrawing();
+            }
+
+
+            SaveTime(applicationContext, time);
+        //startServiceDrawing();
             //ReturnToApp();
         }
         return time.toInt(); // fix tijd wanneer app nog aan het runnen is.
     }
+
+    fun SaveTime(
+        applicationContext: Context,
+        Time: Double,
+    ){
+        val path = applicationContext.filesDir
+        try {
+            val writer = FileOutputStream(File(path, "time.txt"))
+            writer.write(Time.toString().toByteArray());
+            writer.close();
+            //Toast.makeText(applicationContext, "saved", Toast.LENGTH_SHORT).show();
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        //getContentOutOfFile(applicationContext, Applist)
+    }
+    fun getSavedTime(applicationContext : Context): Double {
+        val path = applicationContext.filesDir
+        val readFrom = File(path, "time.txt")
+        val content = ByteArray(readFrom.length().toInt())
+        var stream: FileInputStream? = null
+        try {
+            stream = FileInputStream(readFrom)
+            stream.read(content)
+            var s = String(content)
+            return s.toDouble();
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return 0.0
+    }
+
+
 
 
     // method for starting the service for drawing over other apps
@@ -174,9 +195,11 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
             // check if the user has already granted
             // the Draw over other apps permission
             if (Settings.canDrawOverlays(this)) {
-                // start the service based on the android version
+                // start thstartForegroundServicee service based on the android version
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startForegroundService(Intent(this, ForegroundService::class.java))
+                    var serviceIntent = Intent(this,ForegroundService::class.java);
+                    startForegroundService(serviceIntent);
+                    //startForegroundService(Intent(this, ForegroundService::class.java)
                 } else {
                     startService(Intent(this, ForegroundService::class.java))
                 }
@@ -197,3 +220,28 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         TODO("Not yet implemented")
     }
 }
+
+
+
+/*Log.d("TAG", ("test $i"));
+                    //Log.d("TAG", (60 - calculateUsedTime()).toString());
+                    val text = "Some text that will update the notification"
+                    val CHANNEL_ID = "foreground Service ID"
+                    var channel = NotificationChannel(
+                        CHANNEL_ID,
+                        CHANNEL_ID,
+                        NotificationManager.IMPORTANCE_HIGH
+                    );
+                    getSystemService(NotificationManager::class.java).createNotificationChannel(
+                        channel
+                    );
+                    var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
+                    val notif = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+                        .setContentTitle("Sample Title")
+
+                        .setContentText((60 - calculateUsedTime() ).toString() + " min left")
+                        //.setContentText((i).toString() + " min left")
+                        .setSmallIcon(R.drawable.ic_launcher_background);
+
+                    startForeground(10001, notif.build());
+                    i++;*/

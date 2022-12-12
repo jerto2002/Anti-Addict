@@ -91,6 +91,13 @@ class MainActivity : AppCompatActivity() { //order code straks
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        /*var serviceIntent = Intent(this, ForegroundTestService::class.java);
+
+        startForegroundService(serviceIntent);*/
+    }
+
 
     // method to ask user to grant the Overlay permission
     fun checkOverlayPermission() {
@@ -102,6 +109,8 @@ class MainActivity : AppCompatActivity() { //order code straks
             }
         }
     }
+
+
     override fun onDestroy() {
 
         var broadcastintent = Intent();
