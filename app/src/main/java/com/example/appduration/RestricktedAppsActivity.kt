@@ -40,6 +40,16 @@ class RestricktedAppsActivity : AppCompatActivity() {
         calculateUsedTime(UsageStatsManager, binding);
         return@async
     }
+
+    override fun onStart() {
+        super.onStart()
+        ForegroundTestService.isAppInForeground = true;
+    }
+
+    override fun onStop() {
+        super.onStop()
+        ForegroundTestService.isAppInForeground = false;
+    }
 }
 
 class App(val packageName : String, var Blocked : Boolean = false, var AppName : String = "")

@@ -84,13 +84,24 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
             var i = 0
             mainHandler.post(object : Runnable {
                 override fun run() {
-                    builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
-                    startForeground(10001, builder.build());
+                    if(!isAppInForeground){
+                        builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
+                        startForeground(10001, builder.build());
+                    }
                     mainHandler.postDelayed(this, 3000) // zet hoger bij lagere battery
+                    Log.d("MainActivity",  isAppInForeground.toString());
+                    i++;
                 }
             })
+            //Log.d("MainActivity","lalala");
         }
     }
+
+    companion object { //https://stackoverflow.com/questions/57326315/how-to-check-in-foreground-service-if-the-app-is-running
+        // this can be used to check if the app is running or not
+        @JvmField  var isAppInForeground: Boolean = false
+    }
+
     private fun startTestForegroundService() {
         val CHANNEL_ID = "foreground Service ID"
         var channel = NotificationChannel(
@@ -139,7 +150,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         time = time /60000;
         if(time > 2){
             var timeSaved = getSavedTime(applicationContext);
-            if(check(applicationContext)){
+            if(checkIfAppRunning(applicationContext)){
                 timeSaved = time;
             }
             //Toast.makeText(applicationContext,  windowSerciceRunning().toString(), Toast.LENGTH_SHORT).show();
@@ -196,7 +207,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         return 0.0
     }
 
-    public fun check(applicationContext : Context): Boolean {
+    public fun checkIfAppRunning(applicationContext : Context): Boolean {
         var activityManager =  applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager;
         var appProcesses = activityManager.getRunningAppProcesses();
         if (appProcesses == null) {

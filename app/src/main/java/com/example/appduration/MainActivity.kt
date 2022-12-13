@@ -122,16 +122,16 @@ class MainActivity : AppCompatActivity() { //order code straks
         broadcastintent.setAction("restartservice")
         super.onPause()
     }
-    private fun foregroundSerciceRunning(): Boolean{
+    private fun foregroundSerciceRunning(): Boolean { //https://www.youtube.com/watch?v=bA7v1Ubjlzw
         var activitymanager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager;
-        for(servise in activitymanager.getRunningServices(Integer.MAX_VALUE)){
-            if(ForegroundTestService::class.java.name.equals(servise.service.className)){
+        for (servise in activitymanager.getRunningServices(Integer.MAX_VALUE)) {
+            if (ForegroundTestService::class.java.name.equals(servise.service.className)) {
                 return true;
             }
         }
         return false;
-
     }
+
     private fun findAppsDurationTimes(){
         var foregroundAppPackageName : String? = null
         val currentTime = System.currentTimeMillis()

@@ -1,4 +1,5 @@
 
+import android.annotation.SuppressLint
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 import android.content.pm.ApplicationInfo
@@ -9,7 +10,8 @@ import java.util.*
 
 class TestcommonFunctions : AppCompatActivity() {
     companion object {//https://stackoverflow.com/questions/53802632/reuse-methods-in-kotlin-android
-        fun getAppname(packagenaam: String, packageManager : PackageManager): String{ // https://stackoverflow.com/questions/11229219/android-how-to-get-application-name-not-package-name
+    @SuppressLint("SuspiciousIndentation")
+    fun getAppname(packagenaam: String, packageManager : PackageManager): String{ // https://stackoverflow.com/questions/11229219/android-how-to-get-application-name-not-package-name
         var applicationInfo: ApplicationInfo? = null
             try {
                 applicationInfo = packageManager.getApplicationInfo(
