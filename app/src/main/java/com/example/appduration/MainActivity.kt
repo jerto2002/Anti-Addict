@@ -50,16 +50,8 @@ class MainActivity : AppCompatActivity() { //order code straks
         super.onCreate(savedInstanceState)
         val view = binding.root
         setContentView(view)
-        if(!foregroundSerciceRunning()){
-            //https://stackoverflow.com/questions/44862176/request-ignore-battery-optimizations-how-to-do-it-right
-            /*startActivity(
-                Intent(
-                        Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS_SETTINGS, Uri.parse(
-                    "package:$packageName"
-                )
-            )
-            )*/
-            var serviceIntent = Intent(this, CheckUseBlockedAppsService::class.java);
+        if(!foregroundSerciceRunning()){ // start de CheckUseBlockedAppsService als deze nog niet is gestart (zet later in andere activity).
+            var serviceIntent = Intent(this, CheckUseBlockedAppsService::class.java);// service for check time
 
             startForegroundService(serviceIntent);
             //https://stackoverflow.com/questions/33114063/how-do-i-properly-fire-action-request-ignore-battery-optimizations-intent
@@ -70,16 +62,13 @@ class MainActivity : AppCompatActivity() { //order code straks
             myIntent.action = Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS
             startActivity(myIntent)
             }
-        } // service for check time
-
-        checkOverlayPermission();
-
-
+        }
+        checkOverlayPermission(); // vraagt de gebruiker toegang zodat we over andere apps kunnen tekenen
         binding.btnRestricked.setOnClickListener {
             OpenRestrickedActivity();
         }
         //binding.txtFace
-        if ( checkUsageStatsPermission() ) {
+        if ( checkUsageStatsPermission() ) { // als we de toestemming hebben voor usage stats vind gebruik tijd voor alle apps
             findAppsDurationTimes()
         }
         else {
@@ -100,7 +89,7 @@ class MainActivity : AppCompatActivity() { //order code straks
 
 
     // method to ask user to grant the Overlay permission
-    fun checkOverlayPermission() {
+    fun checkOverlayPermission() { // kijk voor toegang  zodat we over andere apps kunnen tekenen
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(this)) {
                 // send user to the device settings
@@ -110,9 +99,7 @@ class MainActivity : AppCompatActivity() { //order code straks
         }
     }
 
-
     override fun onDestroy() {
-
         var broadcastintent = Intent();
         broadcastintent.setAction("restartservice")
         super.onDestroy()
@@ -123,7 +110,9 @@ class MainActivity : AppCompatActivity() { //order code straks
         broadcastintent.setAction("restartservice")
         super.onPause()
     }
-    private fun foregroundSerciceRunning(): Boolean { //https://www.youtube.com/watch?v=bA7v1Ubjlzw
+
+    private fun foregroundSerciceRunning(): Boolean { // kijk of CheckUseBlockedAppsService is gestart.
+        //https://www.youtube.com/watch?v=bA7v1Ubjlzw
         var activitymanager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager;
         for (servise in activitymanager.getRunningServices(Integer.MAX_VALUE)) {
             if (CheckUseBlockedAppsService::class.java.name.equals(servise.service.className)) {
@@ -133,24 +122,25 @@ class MainActivity : AppCompatActivity() { //order code straks
         return false;
     }
 
-    private fun findAppsDurationTimes(){
+    private fun findAppsDurationTimes(){ // zoek gebruik tijden voor alle apps.
         var foregroundAppPackageName : String? = null
         val currentTime = System.currentTimeMillis()
         val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
         //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
         //bepaal tijd per app
         var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
-        var data = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
-        var result = getTotalTimeApps(data);
+        var data = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager); // kijk common functions
+        var result = getTotalTimeApps(data); // kijk common functions
         result = result.toList().sortedBy { (_, value) -> value}.reversed().toMap() as HashMap<String, Double>
         putinfoonscreen(result);
-        fillInChart(result)
+        fillInChart(result);
+        barchart();
     }
 
     private fun putinfoonscreen(result: HashMap<String, Double>){
         var textboxes = listOf(binding.txtapp1, binding.txtapp2, binding.txtapp3, binding.txtapp4);
         var icons = listOf(binding.iconimage1, binding.iconimage2, binding.iconimage3, binding.iconimage4)
-        for (i in 0 until 4 step 1) {
+        for (i in 0 until 4 step 1) { //plaats tijd meest gebruikte apps in correcte textboxes
             try {
                 var d = packageManager.getApplicationIcon(result.keys.toList().get(i))
                 icons.get(i).setImageDrawable(d)
@@ -163,7 +153,7 @@ class MainActivity : AppCompatActivity() { //order code straks
         val socialMediaapps =listOf("youtube", "facebook", "twitch", "twitter", "reddit", "facebook", "instagram", "wattsapp", "titok", "9gag", "discord", "pinterest", "bereal", "vimeo");
         var resultMediaApps = HashMap<String, Double>();
         var y = 0;
-        while(resultMediaApps.size < 4 && y < result.size){
+        while(resultMediaApps.size < 4 && y < result.size){ //plaats tijd meest gebruikte social media apps in correcte textboxes
             for (i in 0 until socialMediaapps.size step 1) {
                 val value =result.keys.toList().get(y);
                 val x = socialMediaapps.get(i);
@@ -175,22 +165,20 @@ class MainActivity : AppCompatActivity() { //order code straks
         }
         textboxes = listOf(binding.txtappSocial1, binding.txtappSocial2, binding.txtappSocial3, binding.txtappSocial4);
         icons = listOf(binding.iconimageSocial1, binding.iconimageSocial2, binding.iconimageSocial3, binding.iconimageSocial4);
-        if(resultMediaApps.size > 1){ // fix error wanneer je maar één of minder social media hebt
+        if(resultMediaApps.size > 1){ // pas ui op basis van aaantal social media
             resultMediaApps = resultMediaApps.toList().sortedBy { (_, value) -> value}.reversed().toMap() as HashMap<String, Double>
         }
         else{
             binding.MosedusedSocialApps.visibility = View.INVISIBLE;
         }
-        if(resultMediaApps.size < 4){ // fix error wanneer je maar één of minder social media hebt
+        if(resultMediaApps.size < 4){ // pas ui op basis van aaantal social media
             for(i in 2 until icons.size){
                 icons.get(i).visibility = View.INVISIBLE;
                 textboxes.get(i).visibility = View.INVISIBLE;
             }
-
             binding.middlesocials.visibility = View.INVISIBLE;
             binding.socailsVertical.layoutParams.height = binding.MosedusedSocialApps.layoutParams.height / 2;
             binding.MosedusedSocialApps.layoutParams.height = binding.MosedusedSocialApps.layoutParams.height / 2;
-
         }
         for (i in 0 until resultMediaApps.size step 1) {
             try {
@@ -203,53 +191,13 @@ class MainActivity : AppCompatActivity() { //order code straks
         }
         var te = "";
     }
-   /* private fun getAllAppsAndTimeStamps(start: Long, currentTime: Long) : HashMap<String, ArrayList<UsageEvents.Event>> {
-        //test niet als app in klein schermje zit (youtube of maps als voorbeeld) andere apps hebben dit ook
-        val usageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
-        val stats = usageStatsManager.queryEvents(start, currentTime)
-        var data : HashMap<String, ArrayList<UsageEvents.Event>>
-                = HashMap<String,  ArrayList<UsageEvents.Event>> ();
-        //get start en stop tijden
-        while (stats.hasNextEvent()) {
-            val event = UsageEvents.Event()
-            stats.getNextEvent(event)
-            if(event.eventType == UsageEvents.Event.ACTIVITY_RESUMED||
-                event.eventType == UsageEvents.Event.ACTIVITY_PAUSED){
-                if(data.get(event.packageName) == null){
-                    data.put(event.packageName, ArrayList<UsageEvents.Event>(Arrays.asList(event)));
-                }else{
-                    data.get(event.packageName)?.add(event);
-                }
-            }
-        }
-        return data;
-    }
-    private fun getTotalTimeApps(data:  HashMap<String, ArrayList<UsageEvents.Event>>) : HashMap<String, Double> {
-        var result = HashMap<String, Double>();
-        for((k, v) in data){
-            var time = 0.0;
-            for (i in 0 until v.size -1 step 1) {
-                if(v.get(i).eventType == 1 && v.get(i + 1).eventType == 2){
-                    time += (v.get(i + 1).timeStamp - v.get(i).timeStamp);
-                }
-            }
-            result.put(k,   time);
-        }
-        return result;
-    }*/
 
-    public fun OpenRestrickedActivity() {
+    public fun OpenRestrickedActivity() { // open andere pagina
         val intent = Intent(this, RestricktedAppsActivity::class.java);
         startActivity(intent);
     }
 
-    private fun showPartOfstringWithDots(maxlenght: Int, name: String): String {
-        if(name.length > maxlenght){
-            return name.substring(0, maxlenght) + "..";
-        }
-        return name;
-    }
-    private fun fillInChart(result: HashMap<String, Double>){ //https://www.youtube.com/watch?v=S3zqxVoIUig
+    private fun fillInChart(result: HashMap<String, Double>){ // vul de chart in //https://www.youtube.com/watch?v=S3zqxVoIUig
         val entries = ArrayList<PieEntry>();
         var other = 100F;
         for(i in 0..3){
@@ -280,7 +228,6 @@ class MainActivity : AppCompatActivity() { //order code straks
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.valueLineColor = Color.TRANSPARENT
 
-
         binding.chart.setData(data);
         binding.chart.invalidate();
         binding.chart.setHoleColor(Color.TRANSPARENT);
@@ -298,12 +245,19 @@ class MainActivity : AppCompatActivity() { //order code straks
         binding.chart.extraTopOffset = 10f
         binding.chart.extraLeftOffset = 30f
         binding.chart.extraRightOffset =30f
-        barchart();
     }
-    private fun barchart(){
+
+    private fun showPartOfstringWithDots(maxlenght: Int, name: String): String { // toon puntjes achter string na bepaalde lengte
+        if(name.length > maxlenght){
+            return name.substring(0, maxlenght) + "..";
+        }
+        return name;
+    }
+
+    private fun barchart(){ // vul barchart in
         var entries = ArrayList<BarEntry>();
         val xLabels: ArrayList<String> = ArrayList()
-        for (i in 0 until 6 step 1) {
+        for (i in 0 until 6 step 1) { // kijk tijd per uur
             val currentTime = System.currentTimeMillis() - (3600000 * i+ (LocalDateTime.now().second * 1000) + (LocalDateTime.now().minute * 60000));
             val start = System.currentTimeMillis() - (3600000 *(i+1) + (LocalDateTime.now().second * 1000) + (LocalDateTime.now().minute * 60000));//trek 1 h van de tijd af en zet de seconden en minuten op 0
             //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
@@ -358,8 +312,6 @@ class MainActivity : AppCompatActivity() { //order code straks
 
         yr.setValueFormatter(ClaimsYAxisValueFormatter())
 
-
-
         xl.setValueFormatter(IAxisValueFormatter { value, axis -> xLabels.get(value.toInt() % xLabels.size) })
         xl.setTextColor(Color.parseColor("#B6b6b7"))
         val l: Legend = binding.barchart.getLegend()
@@ -369,7 +321,7 @@ class MainActivity : AppCompatActivity() { //order code straks
     }
 
 
-    private fun checkUsageStatsPermission() : Boolean {
+    private fun checkUsageStatsPermission() : Boolean { //bekijk UsageStatsPermission
         val appOpsManager = getSystemService(AppCompatActivity.APP_OPS_SERVICE) as AppOpsManager
         // `AppOpsManager.checkOpNoThrow` is deprecated from Android Q
         val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -388,11 +340,10 @@ class MainActivity : AppCompatActivity() { //order code straks
     }
 }
 
-class ClaimsYAxisValueFormatter : IAxisValueFormatter { // https://medium.com/@makkenasrinivasarao1/line-chart-implementation-with-mpandroidchart-af3dd11804a7
+class ClaimsYAxisValueFormatter : IAxisValueFormatter { // ronde hoeken grafiek // https://medium.com/@makkenasrinivasarao1/line-chart-implementation-with-mpandroidchart-af3dd11804a7
     override fun getFormattedValue(value: Float, axis: AxisBase?): String {
         return value.toUInt().toString() + " m";
     }
-
 }
 
 

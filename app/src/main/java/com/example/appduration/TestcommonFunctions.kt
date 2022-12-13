@@ -25,6 +25,8 @@ class TestcommonFunctions : AppCompatActivity() {
             }
             return "";
         }
+
+        //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
         fun getAllAppsAndTimeStamps(start: Long, currentTime: Long, usageStatsManager: UsageStatsManager) : HashMap<String, ArrayList<UsageEvents.Event>> {
             //test niet als app in klein schermje zit (youtube of maps als voorbeeld) andere apps hebben dit ook
             val stats = usageStatsManager.queryEvents(start, currentTime)
