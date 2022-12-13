@@ -93,7 +93,6 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
                     i++;
                 }
             })
-            //Log.d("MainActivity","lalala");
         }
     }
 
