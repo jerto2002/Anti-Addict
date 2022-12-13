@@ -43,12 +43,12 @@ class RestricktedAppsActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        ForegroundTestService.isAppInForeground = true;
+        CheckUseBlockedAppsService.isAppInForeground = true;
     }
 
     override fun onStop() {
         super.onStop()
-        ForegroundTestService.isAppInForeground = false;
+        CheckUseBlockedAppsService.isAppInForeground = false;
     }
 }
 

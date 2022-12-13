@@ -28,7 +28,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 
-class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1Ubjlzw
+class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=bA7v1Ubjlzw
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startTestForegroundService(); // start de fourground service meer uitleg op https://developer.android.com/guide/components/foreground-services
         return super.onStartCommand(intent, flags, startId)
@@ -114,7 +114,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         if(time > 2){
             var timeSaved = getSavedTime(applicationContext);
             Log.d("test", isAppInForeground.toString())
-            if(checkIfAppRunning(applicationContext)){
+            if(checkIfAppRunning(applicationContext)){ // vervang later
                 timeSaved = time;
             }
             if(testheropstart){
@@ -135,7 +135,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
     private fun windowSerciceRunning(): Boolean{ // kijk of de window service (en window) al bestaat
         var activitymanager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager;
         for(servise in activitymanager.getRunningServices(Integer.MAX_VALUE)){
-            if(ForegroundService::class.java.name.equals(servise.service.className)){
+            if(WindowService::class.java.name.equals(servise.service.className)){
                 return true;
             }
         }
@@ -196,15 +196,15 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
             if (Settings.canDrawOverlays(this)) {
                 // start thstartForegroundServicee service based on the android version
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    var serviceIntent = Intent(this,ForegroundService::class.java);
+                    var serviceIntent = Intent(this,WindowService::class.java);
                     startService(serviceIntent);
                     //startForegroundService(Intent(this, ForegroundService::class.java)
                 } else {
-                    startService(Intent(this, ForegroundService::class.java))
+                    startService(Intent(this, WindowService::class.java))
                 }
             }
         } else {
-            startService(Intent(this, ForegroundService::class.java))
+            startService(Intent(this, WindowService::class.java))
         }
     }
 

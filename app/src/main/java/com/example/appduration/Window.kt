@@ -6,7 +6,6 @@ import android.graphics.PixelFormat
 import android.os.Build
 import android.util.Log
 import android.view.*
-import com.example.appduration.ForegroundService
 import com.example.appduration.MainActivity
 import com.example.appduration.R
 import java.io.File

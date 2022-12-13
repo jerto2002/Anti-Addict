@@ -54,10 +54,10 @@
                 android:value="" />
         </activity>
         <service
-            android:name=".ForegroundService"
+            android:name=".WindowService"
             android:enabled="true"
             android:exported="true"></service>
-        <service android:name=".ForegroundTestService" android:stopWithTask="false"></service>
+        <service android:name=".CheckUseBlockedAppsService" android:stopWithTask="false"></service>
         <service android:name=".TestService" android:stopWithTask="false"></service>
     </application>
 

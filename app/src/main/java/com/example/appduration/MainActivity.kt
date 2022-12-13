@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() { //order code straks
                 )
             )
             )*/
-            var serviceIntent = Intent(this, ForegroundTestService::class.java);
+            var serviceIntent = Intent(this, CheckUseBlockedAppsService::class.java);
 
             startForegroundService(serviceIntent);
             //https://stackoverflow.com/questions/33114063/how-do-i-properly-fire-action-request-ignore-battery-optimizations-intent
@@ -93,8 +93,8 @@ class MainActivity : AppCompatActivity() { //order code straks
 
     override fun onStart() {
         super.onStart();
-        ForegroundTestService.testheropstart = true;
-        var serviceIntent = Intent(this, ForegroundService::class.java);
+        CheckUseBlockedAppsService.testheropstart = true;
+        var serviceIntent = Intent(this, WindowService::class.java);
         stopService(serviceIntent);
     }
 
@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity() { //order code straks
     private fun foregroundSerciceRunning(): Boolean { //https://www.youtube.com/watch?v=bA7v1Ubjlzw
         var activitymanager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager;
         for (servise in activitymanager.getRunningServices(Integer.MAX_VALUE)) {
-            if (ForegroundTestService::class.java.name.equals(servise.service.className)) {
+            if (CheckUseBlockedAppsService::class.java.name.equals(servise.service.className)) {
                 return true;
             }
         }
