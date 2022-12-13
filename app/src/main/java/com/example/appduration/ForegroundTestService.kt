@@ -30,78 +30,11 @@ import java.time.ZoneId
 
 class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1Ubjlzw
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        /*Thread(
-            object : Runnable {
-                override fun run() {
-                    Log.d("TAG", "testmessage")
-                try{
-                    Thread.sleep(2000);
-                } catch (e: InterruptedException) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-        val CHANNEL_ID = "foreground Service ID"
-        var channel = NotificationChannel(
-            CHANNEL_ID,
-            CHANNEL_ID,
-            NotificationManager.IMPORTANCE_HIGH
-        );
-
-        getSystemService(NotificationManager::class.java).createNotificationChannel(channel);
-        val notif = NotificationCompat.Builder(this,CHANNEL_ID)
-            .setContentTitle("Sample Title")
-            .setContentText((60 - calculateUsedTime()).toString() + " min left")
-            .setSmallIcon(R.drawable.ic_launcher_background);
-
-        startForeground(10001 , notif.build())*/
-
-        startTestForegroundService();
-
+        startTestForegroundService(); // start de fourground service meer uitleg op https://developer.android.com/guide/components/foreground-services
         return super.onStartCommand(intent, flags, startId)
     }
-    fun testvoortijd() {//https://medium.com/huawei-developers/foreground-services-with-notification-channel-in-android-7a272f07ad1
-        CoroutineScope(Dispatchers.Main).launch {
-            for (i in 0 until 10 step 1) {
-                Log.d("TAG", ("test $i"));
-                //Log.d("TAG", (60 - calculateUsedTime()).toString());
-                try{
-                    Thread.sleep(6000);
-                } catch (e: InterruptedException) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
-    /**
-     * Starts the timer for the tracking.
-     */
-    val mainHandler = Handler(Looper.getMainLooper())
-    private fun startTimer(builder: NotificationCompat.Builder) {
-
-        CoroutineScope(Dispatchers.Main).launch {
-            var i = 0
-            mainHandler.post(object : Runnable {
-                override fun run() {
-                    if(!isAppInForeground){
-                        builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
-                        startForeground(10001, builder.build());
-                    }
-                    mainHandler.postDelayed(this, 3000) // zet hoger bij lagere battery
-                    Log.d("MainActivity",  isAppInForeground.toString());
-                    i++;
-                }
-            })
-        }
-    }
-
-    companion object { //https://stackoverflow.com/questions/57326315/how-to-check-in-foreground-service-if-the-app-is-running
-        // this can be used to check if the app is running or not
-        @JvmField  var isAppInForeground: Boolean = false
-    }
-
-    private fun startTestForegroundService() {
+    private fun startTestForegroundService() {  // methode voor het starten van de voorgrond service hier stellen we id in en de text van de notificatie
         val CHANNEL_ID = "foreground Service ID"
         var channel = NotificationChannel(
             CHANNEL_ID,
@@ -115,17 +48,48 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
             .setContentText((1).toString() + " min left")
             .setOnlyAlertOnce(true)
             .setSmallIcon(R.drawable.ic_launcher_background);
-            //.setContentText((60 - calculateUsedTime()).toString() + " min left")
+        //.setContentText((60 - calculateUsedTime()).toString() + " min left")
         startForeground(10001 , notif.build());
         startTimer(notif);
     }
+
+    /**
+     * Starts the timer for the tracking.
+     */
+
+    val mainHandler = Handler(Looper.getMainLooper())
+    private fun startTimer(builder: NotificationCompat.Builder) {
+
+        CoroutineScope(Dispatchers.Main).launch {
+            var i = 0
+            mainHandler.post(object : Runnable {
+                override fun run() {
+                    if(!isAppInForeground){
+                        builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
+                        startForeground(10001, builder.build()); // update text notification
+                    }
+                    mainHandler.postDelayed(this, 10000) // zet hoger bij lagere battery en fix main activity
+                    Log.d("MainActivity",  i.toString());
+                    i++;
+                }
+            })
+        }
+    }
+
+    companion object { //https://stackoverflow.com/questions/57326315/how-to-check-in-foreground-service-if-the-app-is-running
+        // this can be used to check if the app is running or not
+        @JvmField  var isAppInForeground: Boolean = false // see if resticked app activity is running , moet wss veranderen als ik dit in aparte activity zet.
+        @JvmField  var testheropstart: Boolean = false
+    }
+
+
     override fun onTaskRemoved(rootIntent: Intent?) {
-        val intent = Intent("com.example.appduration")
+        val intent = Intent("com.example.appduration") // laat deze service runnen ookal word de app gesloten.
         sendBroadcast(intent)
         super.onTaskRemoved(rootIntent)
     }
 
-    fun calculateUsedTime(): Int{
+    fun calculateUsedTime(): Int{ // fix dubbel func in add apps on screen 2
         var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
         val currentTime = System.currentTimeMillis()
         val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
@@ -145,26 +109,30 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
                 time = result.value;
                 var l ="";
             }
-        }//com.reddit.frontpage
+        }
         time = time /60000;
         if(time > 2){
             var timeSaved = getSavedTime(applicationContext);
+            Log.d("test", isAppInForeground.toString())
             if(checkIfAppRunning(applicationContext)){
                 timeSaved = time;
             }
+            if(testheropstart){
+                timeSaved = time;
+                testheropstart =false;
+            }
             //Toast.makeText(applicationContext,  windowSerciceRunning().toString(), Toast.LENGTH_SHORT).show();
-            if(timeSaved < time && !windowSerciceRunning()){//
+            if(timeSaved < time && !windowSerciceRunning()){ // maak scherm als het nog niet bestaat en de tijd veranderd is.
                 startServiceDrawing();
-
             }
             SaveTime(applicationContext, time);
-        //startServiceDrawing();
-            //ReturnToApp();
         }
-        return time.toInt(); // fix tijd wanneer app nog aan het runnen is.
+        return time.toInt();
     }
 
-    private fun windowSerciceRunning(): Boolean{
+
+    @Suppress("DEPRECATION") // getRunningServices werkt enkel nog voor eigen services
+    private fun windowSerciceRunning(): Boolean{ // kijk of de window service (en window) al bestaat
         var activitymanager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager;
         for(servise in activitymanager.getRunningServices(Integer.MAX_VALUE)){
             if(ForegroundService::class.java.name.equals(servise.service.className)){
@@ -175,10 +143,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
 
     }
 
-    fun SaveTime(
-        applicationContext: Context,
-        Time: Double,
-    ){
+    fun SaveTime(applicationContext: Context, Time: Double, ){ // sla de overgebleven tijd op zodat we kunnen controleren wanneer een geblokeerde app gebruikt word.
         val path = applicationContext.filesDir
         try {
             val writer = FileOutputStream(File(path, "time.txt"))
@@ -190,7 +155,8 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         }
         //getContentOutOfFile(applicationContext, Applist)
     }
-    fun getSavedTime(applicationContext : Context): Double {
+
+    fun getSavedTime(applicationContext : Context): Double { // haal de tijd opgeslagen in het bestand
         val path = applicationContext.filesDir
         val readFrom = File(path, "time.txt")
         val content = ByteArray(readFrom.length().toInt())
@@ -206,7 +172,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         return 0.0
     }
 
-    public fun checkIfAppRunning(applicationContext : Context): Boolean {
+    public fun checkIfAppRunning(applicationContext : Context): Boolean { // kijkt naar volledige app
         var activityManager =  applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager;
         var appProcesses = activityManager.getRunningAppProcesses();
         if (appProcesses == null) {
@@ -242,39 +208,7 @@ class ForegroundTestService: Service() {//https://www.youtube.com/watch?v=bA7v1U
         }
     }
 
-    fun ReturnToApp(){
-        /*val intent = Intent(Intent.ACTION_VIEW)
-        //intent.data = Uri.parse("https://www.youtube.com/@ThatOneVideoGamer")
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setPackage("com.example.appduration")
-        startActivity(intent)*/
-    }
     override fun onBind(p0: Intent?): IBinder? {
         TODO("Not yet implemented")
     }
 }
-
-
-
-/*Log.d("TAG", ("test $i"));
-                    //Log.d("TAG", (60 - calculateUsedTime()).toString());
-                    val text = "Some text that will update the notification"
-                    val CHANNEL_ID = "foreground Service ID"
-                    var channel = NotificationChannel(
-                        CHANNEL_ID,
-                        CHANNEL_ID,
-                        NotificationManager.IMPORTANCE_HIGH
-                    );
-                    getSystemService(NotificationManager::class.java).createNotificationChannel(
-                        channel
-                    );
-                    var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
-                    val notif = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-                        .setContentTitle("Sample Title")
-
-                        .setContentText((60 - calculateUsedTime() ).toString() + " min left")
-                        //.setContentText((i).toString() + " min left")
-                        .setSmallIcon(R.drawable.ic_launcher_background);
-
-                    startForeground(10001, notif.build());
-                    i++;*/

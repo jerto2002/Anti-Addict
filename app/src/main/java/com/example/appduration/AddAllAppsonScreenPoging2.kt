@@ -109,7 +109,7 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
             calculateUsedTime(UsageStatsManager, binding);
             //binding.progressBar.visibility = View.INVISIBLE;
         }
-        fun calculateUsedTime(UsageStatsManager: UsageStatsManager, binding: ActivityRestricktedBinding){
+        fun calculateUsedTime(UsageStatsManager: UsageStatsManager, binding: ActivityRestricktedBinding){ // fix dubbel func in ForegroundTestService
             val currentTime = System.currentTimeMillis()
             val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
             var Appnames = ArrayList<String>();

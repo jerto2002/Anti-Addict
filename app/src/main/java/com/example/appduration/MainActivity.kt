@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() { //order code straks
 
     override fun onStart() {
         super.onStart();
+        ForegroundTestService.testheropstart = true;
         var serviceIntent = Intent(this, ForegroundService::class.java);
         stopService(serviceIntent);
     }
