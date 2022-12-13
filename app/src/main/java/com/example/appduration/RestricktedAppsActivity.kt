@@ -31,7 +31,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE;
         doWorkAsync(MainScope())//https://stackoverflow.com/questions/57770131/create-async-function-in-kotlin
     }
-    fun doWorkAsync(scope: CoroutineScope): Deferred<Unit> = scope.async {
+    fun doWorkAsync(scope: CoroutineScope): Deferred<Unit> = scope.async { // voeg alle apps toe en stop het laden + bepaal totale tijd.
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
         var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
         addViews(packageManager, applicationContext, recyclerview, binding.progressBar, UsageStatsManager, binding)

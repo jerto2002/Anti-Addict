@@ -30,7 +30,7 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adap
     }
 
     // binds the list items to a view
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) { // acties voor knop bij app (het gedrag)
 
         val ItemsViewModel = mList[position]
 
