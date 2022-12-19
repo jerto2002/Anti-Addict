@@ -11,10 +11,8 @@ import android.app.Service
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.os.Handler
-import android.os.IBinder
-import android.os.Looper
+import android.content.IntentFilter
+import android.os.*
 import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -68,7 +66,8 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
                         builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
                         startForeground(10001, builder.build()); // update text notification
                     }
-                    mainHandler.postDelayed(this, 1000) // zet hoger bij lagere battery en fix main activity
+                    var refreshTime = getbatteryper();
+                    mainHandler.postDelayed(this, refreshTime.toLong()) // zet hoger bij lagere battery en fix main activity
                     Log.d("MainActivity",  i.toString());
                     i++;
                 }
@@ -76,6 +75,27 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
         }
     }
 
+    fun getbatteryper(): Int {
+        var refreshTime =100;
+        val batteryStatus: Intent? = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
+            applicationContext.registerReceiver(null, ifilter)
+        }
+        val status: Int = batteryStatus?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
+        val isCharging: Boolean = status == BatteryManager.BATTERY_STATUS_CHARGING
+                || status == BatteryManager.BATTERY_STATUS_FULL
+        val batteryPct: Float? = batteryStatus?.let { intent ->
+            val level: Int = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+            val scale: Int = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+            level * 100 / scale.toFloat()
+        }
+        //Log.d("battery",  isCharging.toString());
+        if (batteryPct != null) {
+            if(!isCharging && batteryPct < 50.0){
+                refreshTime = 10000;
+            }
+        }
+        return refreshTime;
+    }
     companion object { //https://stackoverflow.com/questions/57326315/how-to-check-in-foreground-service-if-the-app-is-running
         // this can be used to check if the app is running or not
         @JvmField  var isAppInForeground: Boolean = false // see if resticked app activity is running , moet wss veranderen als ik dit in aparte activity zet.

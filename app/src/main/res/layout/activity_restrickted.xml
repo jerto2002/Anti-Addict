@@ -8,76 +8,98 @@
     android:textColor="#FFFFFF"
     tools:context=".MainActivity">
 
-
-    <RelativeLayout
-        android:id="@+id/MosedusedApps"
-        android:layout_width="330dp"
-        android:layout_height="176dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/roundedlayout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.029">
-
-        <TextView
-            android:id="@+id/txtTimeRemaining"
-            android:layout_width="261dp"
-            android:layout_height="86dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="35dp"
-            android:layout_marginTop="45dp"
-            android:layout_marginEnd="34dp"
-            android:layout_marginBottom="45dp"
-            android:gravity="center"
-            android:text="Time remaining: 1U"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="34sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
-
     <ScrollView
-        android:id="@+id/articleScrolview"
-        android:layout_width="330dp"
-        android:layout_height="488dp"
-        android:background="@drawable/roundedlayout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MosedusedApps"
-        app:layout_constraintVertical_bias="0.686">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/userLinearview"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:itemCount="5"
-                tools:listitem="@layout/showappblock" />
+            <RelativeLayout
+                android:id="@+id/MosedusedApps"
+                android:layout_width="330dp"
+                android:layout_height="176dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/roundedlayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.029">
+
+                <TextView
+                    android:id="@+id/txtTimeRemaining"
+                    android:layout_width="261dp"
+                    android:layout_height="86dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginEnd="34dp"
+                    android:layout_marginBottom="45dp"
+                    android:gravity="center"
+                    android:text="Time remaining: 1U"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="34sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <ScrollView
+                android:id="@+id/articleScrolview"
+                android:layout_width="330dp"
+                android:layout_height="488dp"
+                android:background="@drawable/roundedlayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/MosedusedApps"
+                app:layout_constraintVertical_bias="0.686">
+
+                <RelativeLayout
+                    android:id="@+id/userLinearview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/showappblock" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="false"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="225dp"
+                        android:layout_marginEnd="-2dp"
+                        android:layout_marginBottom="0dp" />
+                </RelativeLayout>
+            </ScrollView>
+
+
 
         </LinearLayout>
     </ScrollView>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="425dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,17 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
-    android:background="@android:color/transparent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="560dp"
+            android:layout_height="758dp"
             android:layout_centerHorizontal="true"
             android:background="#333333"
             android:gravity="center"
@@ -31,6 +31,12 @@
                 android:textColor="#6E6E6E"
                 android:textSize="30sp"
                 android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="345dp"
+                android:layout_height="309dp"
+                android:src="@drawable/forbidden" />
 
             <Button
                 android:id="@+id/window_close"
