@@ -68,7 +68,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
                         builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
                         startForeground(10001, builder.build()); // update text notification
                     }
-                    mainHandler.postDelayed(this, 10000) // zet hoger bij lagere battery en fix main activity
+                    mainHandler.postDelayed(this, 1000) // zet hoger bij lagere battery en fix main activity
                     Log.d("MainActivity",  i.toString());
                     i++;
                 }
@@ -111,7 +111,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
             }
         }
         time = time /60000;
-        if(time > 2){
+        if(time > 1){
             var timeSaved = getSavedTime(applicationContext);
             Log.d("test", isAppInForeground.toString())
             if(checkIfAppRunning(applicationContext)){ // vervang later

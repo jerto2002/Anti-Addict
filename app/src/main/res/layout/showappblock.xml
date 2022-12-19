@@ -53,6 +53,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center_vertical"
         android:text="TextView"
+        android:textColor="#8DFFFFFF"
         app:layout_constraintStart_toEndOf="@+id/iconapp"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
