@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() { //order code straks
         binding.bottomNavigationView.setOnItemSelectedListener {
            when(it.itemId){
                R.id.blocked -> OpenRestrickedActivity();
+               R.id.settings -> OpenSettingsActivity();
                else -> {}
            }
             true;
@@ -201,6 +202,13 @@ class MainActivity : AppCompatActivity() { //order code straks
 
     public fun OpenRestrickedActivity() { // open andere pagina
         val intent = Intent(this, RestricktedAppsActivity::class.java);
+        startActivity(intent);
+
+        overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,
+            com.google.android.material.R.anim.abc_fade_out);
+    }
+    public fun OpenSettingsActivity() { // open andere pagina
+        val intent = Intent(this, SettingsActivity::class.java);
         startActivity(intent);
 
         overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,

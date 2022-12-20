@@ -53,10 +53,10 @@ class RestricktedAppsActivity : AppCompatActivity() {
         CheckUseBlockedAppsService.isAppInForeground = false;
     }
     fun nav(){
-        binding.bottomNavigationView.selectedItemId = R.id.blocked
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.home -> OpenHome();
+                R.id.blocked -> OpenHome();
+                R.id.settings -> OpenSettingsActivity();
                 else -> {}
             }
             true;
@@ -65,6 +65,13 @@ class RestricktedAppsActivity : AppCompatActivity() {
     public fun OpenHome() { // open andere pagina
         val intent = Intent(this, MainActivity::class.java);
         startActivity(intent);
+        overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,
+            com.google.android.material.R.anim.abc_fade_out);
+    }
+    public fun OpenSettingsActivity() { // open andere pagina
+        val intent = Intent(this, SettingsActivity::class.java);
+        startActivity(intent);
+
         overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,
             com.google.android.material.R.anim.abc_fade_out);
     }
