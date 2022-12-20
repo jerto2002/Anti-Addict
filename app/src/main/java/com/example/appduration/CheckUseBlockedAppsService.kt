@@ -45,6 +45,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
             .setContentTitle("Sample Title")
             .setContentText((1).toString() + " min left")
             .setOnlyAlertOnce(true)
+            .setSilent(true)
             .setSmallIcon(R.drawable.ic_launcher_background);
         //.setContentText((60 - calculateUsedTime()).toString() + " min left")
         startForeground(10001 , notif.build());
@@ -131,7 +132,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
             }
         }
         time = time /60000;
-        if(time > 1){
+        if(time > 60){
             var timeSaved = getSavedTime(applicationContext);
             Log.d("test", isAppInForeground.toString())
             if(checkIfAppRunning(applicationContext)){ // vervang later

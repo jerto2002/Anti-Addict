@@ -23,7 +23,7 @@
         android:id="@+id/btnrestricktedApp"
         android:layout_width="150dp"
         android:layout_height="48dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/roundedlayoutbutton"
         android:text="Block"
         android:textAllCaps="false"
@@ -32,7 +32,7 @@
         android:textStyle="bold"
         app:backgroundTint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +40,7 @@
         android:id="@+id/iconapp"
         android:layout_width="64dp"
         android:layout_height="53dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_foreground" />
@@ -50,7 +50,7 @@
         android:layout_width="80dp"
         android:layout_height="49dp"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:gravity="center_vertical"
         android:text="TextView"
         android:textColor="#8DFFFFFF"

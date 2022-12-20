@@ -4,6 +4,7 @@ import AddAllAppsonScreenPoging2.Companion.addViews
 import AddAllAppsonScreenPoging2.Companion.calculateUsedTime
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -29,6 +30,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         binding.progressBar.visibility = View.VISIBLE;
+        nav();
         doWorkAsync(MainScope())//https://stackoverflow.com/questions/57770131/create-async-function-in-kotlin
     }
     fun doWorkAsync(scope: CoroutineScope): Deferred<Unit> = scope.async { // voeg alle apps toe en stop het laden + bepaal totale tijd.
@@ -49,6 +51,22 @@ class RestricktedAppsActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         CheckUseBlockedAppsService.isAppInForeground = false;
+    }
+    fun nav(){
+        binding.bottomNavigationView.selectedItemId = R.id.blocked
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.home -> OpenHome();
+                else -> {}
+            }
+            true;
+        }
+    }
+    public fun OpenHome() { // open andere pagina
+        val intent = Intent(this, MainActivity::class.java);
+        startActivity(intent);
+        overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,
+            com.google.android.material.R.anim.abc_fade_out);
     }
 }
 

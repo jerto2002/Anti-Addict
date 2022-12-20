@@ -64,9 +64,7 @@ class MainActivity : AppCompatActivity() { //order code straks
             }
         }
         checkOverlayPermission(); // vraagt de gebruiker toegang zodat we over andere apps kunnen tekenen
-        binding.btnRestricked.setOnClickListener {
-            OpenRestrickedActivity();
-        }
+        nav();
         //binding.txtFace
         if ( checkUsageStatsPermission() ) { // als we de toestemming hebben voor usage stats vind gebruik tijd voor alle apps
             findAppsDurationTimes()
@@ -78,6 +76,15 @@ class MainActivity : AppCompatActivity() { //order code straks
             }
         }
 
+    }
+    fun nav(){
+        binding.bottomNavigationView.setOnItemSelectedListener {
+           when(it.itemId){
+               R.id.blocked -> OpenRestrickedActivity();
+               else -> {}
+           }
+            true;
+        }
     }
 
     override fun onStart() {
@@ -195,6 +202,9 @@ class MainActivity : AppCompatActivity() { //order code straks
     public fun OpenRestrickedActivity() { // open andere pagina
         val intent = Intent(this, RestricktedAppsActivity::class.java);
         startActivity(intent);
+
+        overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,
+            com.google.android.material.R.anim.abc_fade_out);
     }
 
     private fun fillInChart(result: HashMap<String, Double>){ // vul de chart in //https://www.youtube.com/watch?v=S3zqxVoIUig

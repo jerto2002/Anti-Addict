@@ -7,402 +7,415 @@
     android:background="#343434"
     android:textColor="#FFFFFF"
     tools:context=".MainActivity">
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp"
+        android:paddingTop="40dp"
+        android:layout_marginBottom="60dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="410dp"
+                android:layout_height="324dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/chart"
+                    android:layout_width="364dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="23dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="23dp"
+                    android:layout_marginBottom="0dp"
+
+                    >
+
+                </com.github.mikephil.charting.charts.PieChart>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/title1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-25dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:text="Time over week"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <RelativeLayout
+                android:id="@+id/BarFrame"
+                android:layout_width="330dp"
+                android:layout_height="176dp"
+                android:background="@drawable/roundedlayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.596">
+
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barchart"
+                    android:layout_width="316dp"
+                    android:layout_height="172dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="1dp"
+
+                    >
+
+                </com.github.mikephil.charting.charts.BarChart>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/title2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="Most used apps"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <RelativeLayout
+                android:id="@+id/MosedusedApps"
+                android:layout_width="330dp"
+                android:layout_height="176dp"
+                android:background="@drawable/roundedlayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.596">
+
+                <!--https://www.youtube.com/watch?v=nRPoW0X16QU-->
+
+                <TextView
+                    android:id="@+id/txtapp4"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/circletext"
+                    android:gravity="center"
+                    android:text="10 h"
+                    android:textColor="#8A8A8A"
+                    android:textSize="14sp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iconimage2"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="84dp"
+                    android:layout_marginBottom="101dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iconimage1"
+                    android:layout_width="62dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginEnd="250dp"
+                    android:layout_marginBottom="101dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iconimage3"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="250dp"
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iconimage4"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="83dp"
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <TextView
+                    android:id="@+id/txtapp1"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="28dp"
+                    android:layout_marginBottom="105dp"
+                    android:layout_toStartOf="@id/iconimage2"
+                    android:background="@drawable/circletext"
+                    android:gravity="center"
+                    android:text="10 h"
+                    android:textColor="#8A8A8A"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/txtapp2"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="105dp"
+                    android:background="@drawable/circletext"
+                    android:gravity="center"
+                    android:text="10 h"
+                    android:textColor="#8A8A8A"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/txtapp3"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="28dp"
+                    android:layout_marginBottom="17dp"
+                    android:layout_toStartOf="@+id/iconimage4"
+                    android:background="@drawable/circletext"
+                    android:gravity="center"
+                    android:text="10 h"
+                    android:textColor="#8A8A8A"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="163dp"
+                    android:layout_marginEnd="163dp"
+                    android:background="#424242" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="84dp"
+                    android:layout_marginBottom="88dp"
+                    android:background="#424242" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/title3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="Most used social media"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <RelativeLayout
+                android:id="@+id/MosedusedSocialApps"
+                android:layout_width="330dp"
+                android:layout_height="176dp"
+                android:background="@drawable/roundedlayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.974">
+
+                <!--https://www.youtube.com/watch?v=nRPoW0X16QU-->
+
+                <TextView
+                    android:id="@+id/txtappSocial4"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/circletext"
+                    android:gravity="center"
+                    android:text="10 h"
+                    android:textColor="#8A8A8A"
+                    android:textSize="14sp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iconimageSocial2"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="84dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iconimageSocial3"
+                    android:layout_width="62dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="26dp"
+                    android:layout_marginEnd="244dp"
+                    android:layout_marginBottom="9dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iconimageSocial1"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="26dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="244dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iconimageSocial4"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="83dp"
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <TextView
+                    android:id="@+id/txtappSocial1"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="28dp"
+                    android:layout_toStartOf="@id/iconimageSocial2"
+                    android:background="@drawable/circletext"
+                    android:gravity="center"
+                    android:text="10 h"
+                    android:textColor="#8A8A8A"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/txtappSocial2"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/circletext"
+                    android:gravity="center"
+                    android:text="10 h"
+                    android:textColor="#8A8A8A"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/txtappSocial3"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="28dp"
+                    android:layout_marginBottom="17dp"
+                    android:layout_toStartOf="@+id/iconimageSocial4"
+                    android:background="@drawable/circletext"
+                    android:gravity="center"
+                    android:text="10 h"
+                    android:textColor="#8A8A8A"
+                    android:textSize="14sp" />
+
+                <View
+                    android:id="@+id/socailsVertical"
+                    android:layout_width="4dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="163dp"
+                    android:layout_marginEnd="163dp"
+                    android:background="#424242" />
+
+                <View
+                    android:id="@+id/middlesocials"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="84dp"
+                    android:layout_marginBottom="88dp"
+                    android:background="#424242" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#343434"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center">
-        <RelativeLayout
-            android:id="@+id/relativeLayout"
-            android:layout_width="410dp"
-            android:layout_height="324dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            >
+        app:menu="@menu/bottom_nav" />
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/chart"
-                android:layout_width="364dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="23dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="23dp"
-                android:layout_marginBottom="0dp"
-
-                >
-
-            </com.github.mikephil.charting.charts.PieChart>
-        </RelativeLayout>
-        <TextView
-            android:id="@+id/title1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Time over week"
-            android:layout_marginBottom="30dp"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
-        <RelativeLayout
-            android:id="@+id/BarFrame"
-            android:layout_width="330dp"
-            android:layout_height="176dp"
-            android:background="@drawable/roundedlayout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.493"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.596"
-            >
-
-
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/barchart"
-                android:layout_width="316dp"
-                android:layout_height="172dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="1dp"
-
-                >
-
-            </com.github.mikephil.charting.charts.BarChart>
-        </RelativeLayout>
-        <TextView
-            android:id="@+id/title2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Time over week"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
-
-        <RelativeLayout
-            android:id="@+id/MosedusedApps"
-            android:layout_width="330dp"
-            android:layout_height="176dp"
-            android:background="@drawable/roundedlayout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.493"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.596">
-
-            <!--https://www.youtube.com/watch?v=nRPoW0X16QU-->
-
-            <TextView
-                android:id="@+id/txtapp4"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="12dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/circletext"
-                android:gravity="center"
-                android:text="10 h"
-                android:textColor="#8A8A8A"
-                android:textSize="14sp" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iconimage2"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="84dp"
-                android:layout_marginBottom="101dp"
-                android:src="@drawable/ic_launcher_foreground"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iconimage1"
-                android:layout_width="62dp"
-                android:layout_height="64dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginEnd="250dp"
-                android:layout_marginBottom="101dp"
-                android:src="@drawable/ic_launcher_foreground"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iconimage3"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="250dp"
-                android:layout_marginBottom="12dp"
-                android:src="@drawable/ic_launcher_foreground"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iconimage4"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="83dp"
-                android:layout_marginBottom="12dp"
-                android:src="@drawable/ic_launcher_foreground"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
-
-            <TextView
-                android:id="@+id/txtapp1"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="28dp"
-                android:layout_marginBottom="105dp"
-                android:layout_toStartOf="@id/iconimage2"
-                android:background="@drawable/circletext"
-                android:gravity="center"
-                android:text="10 h"
-                android:textColor="#8A8A8A"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/txtapp2"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="12dp"
-                android:layout_marginBottom="105dp"
-                android:background="@drawable/circletext"
-                android:gravity="center"
-                android:text="10 h"
-                android:textColor="#8A8A8A"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/txtapp3"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="28dp"
-                android:layout_marginBottom="17dp"
-                android:layout_toStartOf="@+id/iconimage4"
-                android:background="@drawable/circletext"
-                android:gravity="center"
-                android:text="10 h"
-                android:textColor="#8A8A8A"
-                android:textSize="14sp" />
-
-            <View
-                android:layout_width="4dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="163dp"
-                android:layout_marginEnd="163dp"
-                android:background="#424242" />
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="84dp"
-                android:layout_marginBottom="88dp"
-                android:background="#424242" />
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/title3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Time over week"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
-
-        <RelativeLayout
-            android:id="@+id/MosedusedSocialApps"
-            android:layout_width="330dp"
-            android:layout_height="176dp"
-            android:background="@drawable/roundedlayout"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.493"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.974">
-
-            <!--https://www.youtube.com/watch?v=nRPoW0X16QU-->
-
-            <TextView
-                android:id="@+id/txtappSocial4"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="12dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/circletext"
-                android:gravity="center"
-                android:text="10 h"
-                android:textColor="#8A8A8A"
-                android:textSize="14sp" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iconimageSocial2"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="84dp"
-                android:src="@drawable/ic_launcher_foreground"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iconimageSocial3"
-                android:layout_width="62dp"
-                android:layout_height="64dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="26dp"
-                android:layout_marginEnd="244dp"
-                android:layout_marginBottom="9dp"
-                android:src="@drawable/ic_launcher_foreground"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iconimageSocial1"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="26dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="244dp"
-                android:src="@drawable/ic_launcher_foreground"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iconimageSocial4"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="83dp"
-                android:layout_marginBottom="12dp"
-                android:src="@drawable/ic_launcher_foreground"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
-
-            <TextView
-                android:id="@+id/txtappSocial1"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="28dp"
-                android:layout_toStartOf="@id/iconimageSocial2"
-                android:background="@drawable/circletext"
-                android:gravity="center"
-                android:text="10 h"
-                android:textColor="#8A8A8A"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/txtappSocial2"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/circletext"
-                android:gravity="center"
-                android:text="10 h"
-                android:textColor="#8A8A8A"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/txtappSocial3"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="28dp"
-                android:layout_marginBottom="17dp"
-                android:layout_toStartOf="@+id/iconimageSocial4"
-                android:background="@drawable/circletext"
-                android:gravity="center"
-                android:text="10 h"
-                android:textColor="#8A8A8A"
-                android:textSize="14sp" />
-
-            <View
-                android:id="@+id/socailsVertical"
-                android:layout_width="4dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="163dp"
-                android:layout_marginEnd="163dp"
-                android:background="#424242" />
-
-            <View
-                android:id="@+id/middlesocials"
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="84dp"
-                android:layout_marginBottom="88dp"
-                android:background="#424242" />
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/btnRestricked"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
-
-
-
-
-    </LinearLayout>
-    </ScrollView>
-<!-- Card view for displaying the -->
+    <!-- Card view for displaying the -->
         <!-- Pie chart and details of pie chart -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
