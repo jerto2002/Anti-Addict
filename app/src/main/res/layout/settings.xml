@@ -40,7 +40,7 @@
             android:textStyle="bold" />
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/BatterySwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -64,17 +64,15 @@
         app:menu="@menu/bottom_nav" />
 
     <RelativeLayout
-        android:id="@+id/MosedusedApps"
+        android:id="@+id/Batterysliderlayout"
         android:layout_width="330dp"
         android:layout_height="184dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/roundedlayout"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.409">
+        app:layout_constraintTop_toBottomOf="@+id/Settinginfo">
 
         <TextView
             android:id="@+id/txtTimeRemaining"
@@ -92,9 +90,9 @@
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold" />
-<!--https://medium.com/analytics-vidhya/sliders-material-component-for-android-5be61bbe6726-->
+        <!--https://medium.com/analytics-vidhya/sliders-material-component-for-android-5be61bbe6726-->
         <com.google.android.material.slider.Slider
-            android:id="@+id/seekBar2"
+            android:id="@+id/batterySaveModePercet"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -105,12 +103,10 @@
             android:layout_marginTop="117dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="19dp"
+            android:stepSize="1"
             android:valueFrom="0"
-            android:valueTo="100"
-            android:stepSize="1"/>
+            android:valueTo="100" />
     </RelativeLayout>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

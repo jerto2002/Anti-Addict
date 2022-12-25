@@ -53,9 +53,10 @@ class RestricktedAppsActivity : AppCompatActivity() {
         CheckUseBlockedAppsService.isAppInForeground = false;
     }
     fun nav(){
+        binding.bottomNavigationView.setSelectedItemId(R.id.blocked);
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.blocked -> OpenHome();
+                R.id.home -> OpenHome();
                 R.id.settings -> OpenSettingsActivity();
                 else -> {}
             }

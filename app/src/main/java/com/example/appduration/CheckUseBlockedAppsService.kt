@@ -67,9 +67,12 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
                         builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
                         startForeground(10001, builder.build()); // update text notification
                     }
-                    var refreshTime = getbatteryper();
+                    var refreshTime = 100;
+                    if(batterySaveMode){
+                        refreshTime = getbatteryper();
+                    }
                     mainHandler.postDelayed(this, refreshTime.toLong()) // zet hoger bij lagere battery en fix main activity
-                    Log.d("MainActivity",  i.toString());
+                    //Log.d("MainActivity",  i.toString());
                     i++;
                 }
             })
@@ -89,9 +92,9 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
             val scale: Int = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
             level * 100 / scale.toFloat()
         }
-        //Log.d("battery",  isCharging.toString());
+        Log.d("battery", batterySaveModePercent.toString());
         if (batteryPct != null) {
-            if(!isCharging && batteryPct < 50.0){
+            if(!isCharging && batteryPct < batterySaveModePercent){
                 refreshTime = 10000;
             }
         }
@@ -101,6 +104,8 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
         // this can be used to check if the app is running or not
         @JvmField  var isAppInForeground: Boolean = false // see if resticked app activity is running , moet wss veranderen als ik dit in aparte activity zet.
         @JvmField  var testheropstart: Boolean = false
+        @JvmField  var batterySaveMode: Boolean = false
+        @JvmField  var batterySaveModePercent: Int = 50
     }
 
 

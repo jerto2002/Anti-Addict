@@ -3,9 +3,12 @@ package com.example.appduration
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appduration.databinding.SettingsBinding
+import com.google.android.material.slider.Slider
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -17,9 +20,32 @@ class SettingsActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         nav();
+        settings();
     }
 
-
+    fun settings(){
+        Log.d("testbattery", CheckUseBlockedAppsService.batterySaveMode.toString());
+        if(CheckUseBlockedAppsService.batterySaveMode){
+            binding.BatterySwitch.isChecked = true
+        }else{
+            binding.Batterysliderlayout.visibility = View.INVISIBLE;
+        }
+        binding.batterySaveModePercet.value =
+            CheckUseBlockedAppsService.batterySaveModePercent.toFloat();
+        binding.BatterySwitch.setOnCheckedChangeListener { _, isChecked ->
+            CheckUseBlockedAppsService.batterySaveMode = isChecked;
+            binding.Batterysliderlayout.visibility = View.INVISIBLE;
+            if(isChecked == true){
+                binding.Batterysliderlayout.visibility = View.VISIBLE;
+            }
+        }
+        binding.batterySaveModePercet.addOnChangeListener(object: Slider.OnChangeListener{
+            override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+                CheckUseBlockedAppsService.batterySaveModePercent =
+                    binding.batterySaveModePercet.value.toInt();
+            }
+        })
+    }
     override fun onStart() {
         super.onStart()
         CheckUseBlockedAppsService.isAppInForeground = true;
@@ -30,17 +56,18 @@ class SettingsActivity : AppCompatActivity() {
         CheckUseBlockedAppsService.isAppInForeground = false;
     }
     fun nav(){
+        binding.bottomNavigationView.setSelectedItemId(R.id.settings);
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.blocked -> OpenHome();
-                R.id.settings -> OpenMainActivity();
+                R.id.blocked -> OpenBlocked();
+                R.id.home -> OpenMainActivity();
                 else -> {}
             }
             true;
         }
     }
-    public fun OpenHome() { // open andere pagina
-        val intent = Intent(this, MainActivity::class.java);
+    public fun OpenBlocked() { // open andere pagina
+        val intent = Intent(this, RestricktedAppsActivity::class.java);
         startActivity(intent);
         overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,
             com.google.android.material.R.anim.abc_fade_out);

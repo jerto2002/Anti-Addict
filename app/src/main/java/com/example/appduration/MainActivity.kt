@@ -74,6 +74,8 @@ class MainActivity : AppCompatActivity() { //order code straks
             Intent( Settings.ACTION_USAGE_ACCESS_SETTINGS ).apply {
                 startActivity( this )
             }
+            while(!checkUsageStatsPermission()){}
+            findAppsDurationTimes()
         }
 
     }
