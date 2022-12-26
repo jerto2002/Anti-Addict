@@ -150,7 +150,11 @@ class MainActivity : AppCompatActivity() { //order code straks
     private fun putinfoonscreen(result: HashMap<String, Double>){
         var textboxes = listOf(binding.txtapp1, binding.txtapp2, binding.txtapp3, binding.txtapp4);
         var icons = listOf(binding.iconimage1, binding.iconimage2, binding.iconimage3, binding.iconimage4)
-        for (i in 0 until 4 step 1) { //plaats tijd meest gebruikte apps in correcte textboxes
+        if(result.size < 3){
+            binding.MosedusedApps.visibility = View.GONE;
+            binding.title2.visibility =View.GONE;
+        }
+        for (i in 0 until result.size step 1) { //plaats tijd meest gebruikte apps in correcte textboxes
             try {
                 var d = packageManager.getApplicationIcon(result.keys.toList().get(i))
                 icons.get(i).setImageDrawable(d)
@@ -179,14 +183,15 @@ class MainActivity : AppCompatActivity() { //order code straks
             resultMediaApps = resultMediaApps.toList().sortedBy { (_, value) -> value}.reversed().toMap() as HashMap<String, Double>
         }
         else{
-            binding.MosedusedSocialApps.visibility = View.INVISIBLE;
+            binding.title3.visibility= View.GONE;
+            binding.MosedusedSocialApps.visibility = View.GONE;
         }
         if(resultMediaApps.size < 4){ // pas ui op basis van aaantal social media
             for(i in 2 until icons.size){
-                icons.get(i).visibility = View.INVISIBLE;
-                textboxes.get(i).visibility = View.INVISIBLE;
+                icons.get(i).visibility = View.GONE;
+                textboxes.get(i).visibility = View.GONE;
             }
-            binding.middlesocials.visibility = View.INVISIBLE;
+            binding.middlesocials.visibility = View.GONE;
             binding.socailsVertical.layoutParams.height = binding.MosedusedSocialApps.layoutParams.height / 2;
             binding.MosedusedSocialApps.layoutParams.height = binding.MosedusedSocialApps.layoutParams.height / 2;
         }
@@ -220,7 +225,11 @@ class MainActivity : AppCompatActivity() { //order code straks
     private fun fillInChart(result: HashMap<String, Double>){ // vul de chart in //https://www.youtube.com/watch?v=S3zqxVoIUig
         val entries = ArrayList<PieEntry>();
         var other = 100F;
-        for(i in 0..3){
+        var amount = 3;
+        if(amount > result.size){
+            amount = result.size;
+        }
+        for(i in 0 until amount){
             var name = TestcommonFunctions.getAppname(result.keys.toList().get(i), packageManager );
             name = showPartOfstringWithDots(5,name);
             entries.add(PieEntry(((result.values.toList().get(i) / result.values.sum()) *100).toFloat(), name));
