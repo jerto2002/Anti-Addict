@@ -17,7 +17,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.async
 
-class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {//https://www.geeksforgeeks.org/android-recyclerview-in-kotlin/
+class CustomAdapter(private val mList: List<ItemsViewModel>, val ReaminingTime: Float) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {//https://www.geeksforgeeks.org/android-recyclerview-in-kotlin/
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -69,7 +69,8 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adap
             ItemsViewModel.recyclerview,
             ItemsViewModel.progressBar,
             ItemsViewModel.UsageStatsManager,
-            ItemsViewModel.binding
+            ItemsViewModel.binding,
+            ReaminingTime,
         );
         return@async
     }

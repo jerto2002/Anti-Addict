@@ -22,6 +22,7 @@ import kotlinx.coroutines.async
 
 
 class RestricktedAppsActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityRestricktedBinding
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +37,13 @@ class RestricktedAppsActivity : AppCompatActivity() {
     fun doWorkAsync(scope: CoroutineScope): Deferred<Unit> = scope.async { // voeg alle apps toe en stop het laden + bepaal totale tijd.
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
         var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
-        addViews(packageManager, applicationContext, recyclerview, binding.progressBar, UsageStatsManager, binding)
+        val mPrefstime = getSharedPreferences("time", 0)
+        val ReaminingTime = mPrefstime.getFloat("savedtime", 100F)
+        addViews(packageManager, applicationContext, recyclerview, binding.progressBar, UsageStatsManager, binding, ReaminingTime)
         binding.progressBar.visibility = View.INVISIBLE;
 
-        calculateUsedTime(UsageStatsManager, binding);
+
+        calculateUsedTime(UsageStatsManager, binding, ReaminingTime);
         return@async
     }
 

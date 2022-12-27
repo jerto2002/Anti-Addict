@@ -24,8 +24,10 @@ import java.time.ZoneId
 
 class AddAllAppsonScreenPoging2 : AppCompatActivity() {
 
+
     companion object {//https://stackoverflow.com/questions/53802632/reuse-methods-in-kotlin-android
-    var Applist: ArrayList<App> = ArrayList()
+
+        var Applist: ArrayList<App> = ArrayList()
         var ApplicationNames: ArrayList<String> = ArrayList()
     @SuppressLint("SuspiciousIndentation")
     public suspend fun addViews(
@@ -34,7 +36,8 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
         recyclerview: RecyclerView,
         progressBar: ProgressBar,
         UsageStatsManager: UsageStatsManager,
-        binding: ActivityRestricktedBinding
+        binding: ActivityRestricktedBinding,
+        ReaminingTime: Float
     ) {
         var packageManager = packageManager
         val intent = Intent(Intent.ACTION_MAIN, null)
@@ -70,7 +73,7 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
 
         }*/
         //var mp = Applist;
-        InsertContentToViews(packageManager, applicationContext, recyclerview, progressBar, UsageStatsManager, binding);
+        InsertContentToViews(packageManager, applicationContext, recyclerview, progressBar, UsageStatsManager, binding, ReaminingTime);
     }
         suspend fun InsertContentToViews(
             packageManager: PackageManager,
@@ -78,7 +81,8 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
             recyclerview: RecyclerView,
             progressBar: ProgressBar,
             UsageStatsManager: UsageStatsManager,
-            binding: ActivityRestricktedBinding
+            binding: ActivityRestricktedBinding,
+            ReaminingTime: Float
         ) {
             progressBar.visibility = View.VISIBLE;
             // getting the recyclerview by its id
@@ -100,20 +104,24 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
                 data.get(i).d = packageManager.getApplicationIcon(Applist.get(i).packageName)
             }
             // This will pass the ArrayList to our Adapter
-            val adapter = CustomAdapter(data)
+            val adapter = CustomAdapter(data, ReaminingTime  )
             // Setting the Adapter with the recyclerview
             recyclerview.adapter = adapter;
             var number = 25;
             while(number < Applist.size){
-                LoadmoreApps(data , recyclerview, number, packageManager)
+                LoadmoreApps(data , recyclerview, number, packageManager, ReaminingTime)
                 number += 20;
             }
-            LoadmoreApps(data , recyclerview, Applist.size, packageManager)
+            LoadmoreApps(data , recyclerview, Applist.size, packageManager, ReaminingTime)
             progressBar.visibility = View.INVISIBLE;
-            calculateUsedTime(UsageStatsManager, binding);
+            calculateUsedTime(UsageStatsManager, binding, ReaminingTime);
             //binding.progressBar.visibility = View.INVISIBLE;
         }
-        fun calculateUsedTime(UsageStatsManager: UsageStatsManager, binding: ActivityRestricktedBinding){ // fix dubbel func in ForegroundTestService
+        fun calculateUsedTime(
+            UsageStatsManager: UsageStatsManager,
+            binding: ActivityRestricktedBinding,
+            ReaminingTime: Float
+        ){ // fix dubbel func in ForegroundTestService
             val currentTime = System.currentTimeMillis()
             val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
             var Appnames = ArrayList<String>();
@@ -133,9 +141,29 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
                 }
             }
             time = time /60000
-            binding.txtTimeRemaining.text = "Time remaining: " + (60 - time).toInt().toString() +"min";
+            binding.txtTimeRemaining.text = "Time remaining: " + (ReaminingTime - time).toInt().toString() +"min";
         }
-       /* fun calculateUsedTime(UsageStatsManager: UsageStatsManager, applicationContext: Context){
+
+        suspend fun LoadmoreApps(
+            data: ArrayList<ItemsViewModel>,
+            recyclerview: RecyclerView,
+            number: Int,
+            packageManager: PackageManager,
+            ReaminingTime: Float
+        ) = coroutineScope{
+            launch {
+                for (i in number -20 until  number) {
+                    data.get(i).d = packageManager.getApplicationIcon(Applist.get(i).packageName)
+                }
+                val adapter = CustomAdapter(data, ReaminingTime)
+                // Setting the Adapter with the recyclerview
+                recyclerview.adapter = adapter
+            }
+        }
+    }
+}
+
+/* fun calculateUsedTime(UsageStatsManager: UsageStatsManager, applicationContext: Context){
             val currentTime = System.currentTimeMillis()
             val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
             Applist = getContentOutOfFile(applicationContext);
@@ -158,15 +186,3 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
             time = time /60000
             var t = "";
         }*/
-        suspend fun LoadmoreApps(data: ArrayList<ItemsViewModel>, recyclerview: RecyclerView, number: Int, packageManager: PackageManager) = coroutineScope{
-            launch {
-                for (i in number -20 until  number) {
-                    data.get(i).d = packageManager.getApplicationIcon(Applist.get(i).packageName)
-                }
-                val adapter = CustomAdapter(data)
-                // Setting the Adapter with the recyclerview
-                recyclerview.adapter = adapter
-            }
-        }
-    }
-}

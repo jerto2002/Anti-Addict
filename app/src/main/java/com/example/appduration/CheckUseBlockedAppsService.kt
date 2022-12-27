@@ -27,6 +27,8 @@ import java.time.ZoneId
 
 
 class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=bA7v1Ubjlzw
+
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startTestForegroundService(); // start de fourground service meer uitleg op https://developer.android.com/guide/components/foreground-services
         return super.onStartCommand(intent, flags, startId)
@@ -59,15 +61,21 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
     val mainHandler = Handler(Looper.getMainLooper())
     private fun startTimer(builder: NotificationCompat.Builder) {
 
+        val mPrefstime = getSharedPreferences("time", 0)
+
         CoroutineScope(Dispatchers.Main).launch {
             var i = 0
             mainHandler.post(object : Runnable {
                 override fun run() {
+                    val ReaminingTime = mPrefstime.getFloat("savedtime", 100F)
+                    Log.d("fourground", isAppInForeground.toString());
                     if(!isAppInForeground){
-                        builder.setContentText((60 - calculateUsedTime() ).toString() + " min left");
+                        builder.setContentText((ReaminingTime - calculateUsedTime() ).toString() + " min left");
                         startForeground(10001, builder.build()); // update text notification
                     }
                     var refreshTime = 100;
+                    val mPrefsbattery = getSharedPreferences("battery", 0)
+                    val batterySaveMode = mPrefsbattery.getBoolean("savemode", false)
                     if(batterySaveMode){
                         refreshTime = getbatteryper();
                     }
@@ -92,8 +100,11 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
             val scale: Int = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
             level * 100 / scale.toFloat()
         }
-        Log.d("battery", batterySaveModePercent.toString());
+
+        //Log.d("battery", batterySaveModePercent.toString());
         if (batteryPct != null) {
+            val mPrefsbattery = getSharedPreferences("battery", 0)
+            val batterySaveModePercent = mPrefsbattery.getFloat("percent", 50F)
             if(!isCharging && batteryPct < batterySaveModePercent){
                 refreshTime = 10000;
             }
@@ -104,8 +115,6 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
         // this can be used to check if the app is running or not
         @JvmField  var isAppInForeground: Boolean = false // see if resticked app activity is running , moet wss veranderen als ik dit in aparte activity zet.
         @JvmField  var testheropstart: Boolean = false
-        @JvmField  var batterySaveMode: Boolean = false
-        @JvmField  var batterySaveModePercent: Int = 50
     }
 
 
@@ -137,7 +146,9 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
             }
         }
         time = time /60000;
-        if(time > 60){
+        val mPrefstime = getSharedPreferences("time", 0)
+        val ReaminingTime = mPrefstime.getFloat("savedtime", 100F)
+        if(time > ReaminingTime){
             var timeSaved = getSavedTime(applicationContext);
             Log.d("test", isAppInForeground.toString())
             if(checkIfAppRunning(applicationContext)){ // vervang later

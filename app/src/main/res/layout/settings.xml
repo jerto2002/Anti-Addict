@@ -8,19 +8,79 @@
     android:textColor="#FFFFFF"
     tools:context=".MainActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp"
+        android:paddingTop="40dp"
+        android:layout_marginBottom="60dp">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    <RelativeLayout
+        android:id="@+id/Timeleftsliderlayout"
+        android:layout_width="330dp"
+        android:layout_height="184dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/roundedlayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtTimeRemaining"
+            android:layout_width="300dp"
+            android:layout_height="95dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="74dp"
+            android:gravity="center"
+            android:text="Select how long you can use your blocked apps in minutes"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+        <!--https://medium.com/analytics-vidhya/sliders-material-component-for-android-5be61bbe6726-->
+        <com.google.android.material.slider.Slider
+            android:id="@+id/batteryRemainingTime"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="117dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="19dp"
+            android:stepSize="1"
+            android:valueFrom="10"
+            android:valueTo="180" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/Settinginfo"
         android:layout_width="331dp"
         android:layout_height="146dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/roundedlayout"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.029">
+        app:layout_constraintTop_toBottomOf="@+id/Timeleftsliderlayout">
 
         <TextView
             android:id="@+id/SettingText"
@@ -53,15 +113,7 @@
 
     </RelativeLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#343434"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav" />
+
 
     <RelativeLayout
         android:id="@+id/Batterysliderlayout"
@@ -75,7 +127,7 @@
         app:layout_constraintTop_toBottomOf="@+id/Settinginfo">
 
         <TextView
-            android:id="@+id/txtTimeRemaining"
+            android:id="@+id/txtPercentRemaining"
             android:layout_width="300dp"
             android:layout_height="79dp"
             android:layout_alignParentStart="true"
@@ -107,6 +159,16 @@
             android:valueFrom="0"
             android:valueTo="100" />
     </RelativeLayout>
-
+    </LinearLayout>
+    </ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#343434"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

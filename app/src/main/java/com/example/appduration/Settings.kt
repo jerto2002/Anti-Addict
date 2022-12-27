@@ -3,7 +3,6 @@ package com.example.appduration
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -20,20 +19,36 @@ class SettingsActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         nav();
-        settings();
+        settingsBattery();
+        settingsTime();
     }
 
-    fun settings(){
-        Log.d("testbattery", CheckUseBlockedAppsService.batterySaveMode.toString());
-        if(CheckUseBlockedAppsService.batterySaveMode){
+    fun settingsTime(){
+        val mPrefs = getSharedPreferences("time", 0)
+        val timeLeft = mPrefs.getFloat("savedtime", 100F)
+        binding.batteryRemainingTime.value = timeLeft;
+        binding.batteryRemainingTime.addOnChangeListener(object: Slider.OnChangeListener{
+            override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
+                val mEditor = mPrefs.edit()
+                mEditor.putFloat("savedtime",  binding.batteryRemainingTime.value).commit()
+            }
+        })
+    }
+    fun settingsBattery(){
+        val mPrefs = getSharedPreferences("battery", 0)
+        val batterySaveMode = mPrefs.getBoolean("savemode", false)
+        val batterySaveModePercent = mPrefs.getFloat("percent", 50F)
+
+        if(batterySaveMode){
             binding.BatterySwitch.isChecked = true
         }else{
             binding.Batterysliderlayout.visibility = View.INVISIBLE;
         }
-        binding.batterySaveModePercet.value =
-            CheckUseBlockedAppsService.batterySaveModePercent.toFloat();
+        binding.batterySaveModePercet.value = batterySaveModePercent;
+
         binding.BatterySwitch.setOnCheckedChangeListener { _, isChecked ->
-            CheckUseBlockedAppsService.batterySaveMode = isChecked;
+            val mEditor = mPrefs.edit()
+            mEditor.putBoolean("savemode", isChecked).commit()
             binding.Batterysliderlayout.visibility = View.INVISIBLE;
             if(isChecked == true){
                 binding.Batterysliderlayout.visibility = View.VISIBLE;
@@ -41,20 +56,12 @@ class SettingsActivity : AppCompatActivity() {
         }
         binding.batterySaveModePercet.addOnChangeListener(object: Slider.OnChangeListener{
             override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
-                CheckUseBlockedAppsService.batterySaveModePercent =
-                    binding.batterySaveModePercet.value.toInt();
+                val mEditor = mPrefs.edit()
+                mEditor.putFloat("percent",  binding.batterySaveModePercet.value).commit()
             }
         })
     }
-    override fun onStart() {
-        super.onStart()
-        CheckUseBlockedAppsService.isAppInForeground = true;
-    }
 
-    override fun onStop() {
-        super.onStop()
-        CheckUseBlockedAppsService.isAppInForeground = false;
-    }
     fun nav(){
         binding.bottomNavigationView.setSelectedItemId(R.id.settings);
         binding.bottomNavigationView.setOnItemSelectedListener {

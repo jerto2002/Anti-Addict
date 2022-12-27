@@ -154,7 +154,11 @@ class MainActivity : AppCompatActivity() { //order code straks
             binding.MosedusedApps.visibility = View.GONE;
             binding.title2.visibility =View.GONE;
         }
-        for (i in 0 until result.size step 1) { //plaats tijd meest gebruikte apps in correcte textboxes
+        var amount = 3;
+        if(result.size < amount){
+            amount = result.size;
+        }
+        for (i in 0 until amount step 1) { //plaats tijd meest gebruikte apps in correcte textboxes
             try {
                 var d = packageManager.getApplicationIcon(result.keys.toList().get(i))
                 icons.get(i).setImageDrawable(d)
