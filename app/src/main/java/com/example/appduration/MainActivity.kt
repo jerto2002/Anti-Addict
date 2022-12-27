@@ -79,11 +79,8 @@ class MainActivity : AppCompatActivity() { //order code straks
             while(!checkUsageStatsPermission()){}
             findAppsDurationTimes()
         }
-        testfirebase();
     }
-    fun testfirebase(){
-        val firebase : DatabaseReference = FirebaseDatabase.getInstance().getReference();
-    }
+
     fun nav(){
         binding.bottomNavigationView.setOnItemSelectedListener {
            when(it.itemId){
