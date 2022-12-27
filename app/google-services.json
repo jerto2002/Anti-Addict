@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "876962446457",
+    "project_id": "appduration",
+    "storage_bucket": "appduration.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876962446457:android:c32c8272dfa8ca2fc4e8a8",
+        "android_client_info": {
+          "package_name": "com.example.appduration"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876962446457-ppu8dq3cs9tmpu4cn7sl552tirrinb98.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoEhxCWQ7yvf0hMX9HbpOfgDGDMs1u2u0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876962446457-ppu8dq3cs9tmpu4cn7sl552tirrinb98.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

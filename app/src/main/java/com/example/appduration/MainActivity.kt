@@ -36,6 +36,8 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.Transformer
 import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -77,7 +79,10 @@ class MainActivity : AppCompatActivity() { //order code straks
             while(!checkUsageStatsPermission()){}
             findAppsDurationTimes()
         }
-
+        testfirebase();
+    }
+    fun testfirebase(){
+        val firebase : DatabaseReference = FirebaseDatabase.getInstance().getReference();
     }
     fun nav(){
         binding.bottomNavigationView.setOnItemSelectedListener {
