@@ -177,7 +177,6 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
             }
         }
         return false;
- s
     }
 
     fun SaveTime(applicationContext: Context, Time: Double, ){ // sla de overgebleven tijd op zodat we kunnen controleren wanneer een geblokeerde app gebruikt word.
