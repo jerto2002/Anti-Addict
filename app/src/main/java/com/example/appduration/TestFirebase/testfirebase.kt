@@ -32,6 +32,12 @@ class FirebaseActivity : AppCompatActivity() {
         binding.btninsert.setOnClickListener(){
             sendData();
         }
+        binding.btnUpdate.setOnClickListener(){
+            updatdata();
+        }
+        binding.btnDelete.setOnClickListener(){
+            deletedata();
+        }
     }
 
     fun sendData(){
@@ -70,5 +76,17 @@ class FirebaseActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    fun updatdata(){
+        var id = "-NKJNCgBcvpnQ-hs08-B";
+        val dbUp = FirebaseDatabase.getInstance("https://appduration-default-rtdb.europe-west1.firebasedatabase.app").getReference("Testusers").child(id.toString());
+        val userTest = UserTest(id, "Jerre");
+        dbUp.setValue(userTest);
+    }
+    fun deletedata(){
+        var id = "-NKJXuYbHqmeFUF2Vmtd";
+        val dbUp = FirebaseDatabase.getInstance("https://appduration-default-rtdb.europe-west1.firebasedatabase.app").getReference("Testusers").child(id.toString());
+        dbUp.removeValue()
     }
 }
