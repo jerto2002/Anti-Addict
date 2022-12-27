@@ -7,8 +7,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appduration.TestFirebase.UserTest
 import com.example.appduration.databinding.TestfirebaseBinding
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlin.random.Random
 //https://www.youtube.com/watch?v=miJooBq9iwE&list=PLHQRWugvckFry9Q1OT6hLNfyUizT73PwX&index=4
 
@@ -25,12 +24,12 @@ class FirebaseActivity : AppCompatActivity() {
     private lateinit var dbRef: DatabaseReference;
     fun testfirebase(){
         //val firebase : DatabaseReference = FirebaseDatabase.getInstance().getReference();
-        binding.btnfetch.setOnClickListener(){
 
-        }
         dbRef = FirebaseDatabase.getInstance("https://appduration-default-rtdb.europe-west1.firebasedatabase.app").getReference("Testusers");
+        binding.btnfetch.setOnClickListener(){
+            getData();
+        }
         binding.btninsert.setOnClickListener(){
-
             sendData();
         }
     }
@@ -46,6 +45,30 @@ class FirebaseActivity : AppCompatActivity() {
         }.addOnFailureListener{
             err -> Toast.makeText(this, "Error ${err.message}", Toast.LENGTH_LONG).show()
         }
+
+    }
+
+    fun getData(){
+        var empList = arrayListOf<UserTest>()
+        dbRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for (user in snapshot.children){
+                        val userdata = user.getValue(UserTest::class.java);
+                        empList.add(userdata!!);
+                        var text = "";
+                        for(user in empList){
+                            text += user.usName.toString() + "\n";
+                        }
+                        binding.txtreceives.text = text;
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
 
     }
 }
