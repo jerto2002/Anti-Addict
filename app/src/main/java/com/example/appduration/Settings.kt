@@ -22,7 +22,7 @@ class SettingsActivity : AppCompatActivity() {
         settingsBattery();
         settingsTime();
         binding.btntest.setOnClickListener(){
-            val intent = Intent(this, FirebaseActivity::class.java);
+            val intent = Intent(this, SignupActivity::class.java);
             startActivity(intent);
             overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,
                 com.google.android.material.R.anim.abc_fade_out);
