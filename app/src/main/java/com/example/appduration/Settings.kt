@@ -12,6 +12,8 @@ import com.google.android.material.slider.Slider
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var binding: SettingsBinding
+
+
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = SettingsBinding.inflate(layoutInflater)
@@ -59,7 +61,9 @@ class SettingsActivity : AppCompatActivity() {
         binding.batterySaveModePercet.value = batterySaveModePercent;
 
         binding.BatterySwitch.setOnCheckedChangeListener { _, isChecked ->
-
+            val backup = getSharedPreferences("backup", 0)
+            val mBackup = backup.edit()
+            mBackup.putBoolean("backup", true).commit() //backup
             val mEditor = mPrefs.edit()
             mEditor.putBoolean("savemode", isChecked).commit()
             binding.Batterysliderlayout.visibility = View.INVISIBLE;
@@ -74,6 +78,8 @@ class SettingsActivity : AppCompatActivity() {
             }
         })
     }
+
+
 
     fun nav(){
         binding.bottomNavigationView.setSelectedItemId(R.id.settings);

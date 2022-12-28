@@ -15,7 +15,12 @@ import android.content.IntentFilter
 import android.os.*
 import android.provider.Settings
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import com.example.appduration.TestFirebase.Backup
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +33,8 @@ import java.time.ZoneId
 
 class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=bA7v1Ubjlzw
 
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var dbRef: DatabaseReference;
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startTestForegroundService(); // start de fourground service meer uitleg op https://developer.android.com/guide/components/foreground-services
@@ -68,7 +75,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
             mainHandler.post(object : Runnable {
                 override fun run() {
                     val ReaminingTime = mPrefstime.getFloat("savedtime", 100F)
-                    Log.d("fourground", isAppInForeground.toString());
+                   // Log.d("fourground", isAppInForeground.toString());
                     if(!isAppInForeground){
                         builder.setContentText((ReaminingTime - calculateUsedTime() ).toString() + " min left");
                         startForeground(10001, builder.build()); // update text notification
@@ -79,11 +86,51 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
                     if(batterySaveMode){
                         refreshTime = getbatteryper();
                     }
+                    checkbackup();
+
                     mainHandler.postDelayed(this, refreshTime.toLong()) // zet hoger bij lagere battery en fix main activity
                     //Log.d("MainActivity",  i.toString());
                     i++;
                 }
             })
+        }
+    }
+
+    fun checkbackup(){
+        val mPrefsbattery = getSharedPreferences("battery", 0)
+        val batterySaveModePercent = mPrefsbattery.getFloat("percent", 50F)
+        val batterySaveMode = mPrefsbattery.getBoolean("savemode", false)
+
+        val mPrefstime = getSharedPreferences("time", 0)
+        val ReaminingTime = mPrefstime.getFloat("savedtime", 100F)
+
+        val mBackup = getSharedPreferences("backup", 0)
+        val makeBackup = mBackup.getBoolean("backup", false)
+        if(makeBackup){
+            Log.d("testbackup", "yes");
+            Backupbatterymode(batterySaveMode, ReaminingTime, batterySaveModePercent)
+            val mEditor = mBackup.edit()
+            mEditor.putBoolean("backup",  false).commit()
+        }
+    }
+
+    /*straks*/
+    private fun Backupbatterymode(
+        isChecked: Boolean,
+        RemaningTime: Float,
+        batterySaveModePercent: Float
+    ) {
+        dbRef =
+            FirebaseDatabase.getInstance("https://appduration-default-rtdb.europe-west1.firebasedatabase.app")
+                .getReference("Backup");
+        firebaseAuth = FirebaseAuth.getInstance();
+        val userId = firebaseAuth.uid;
+        val backup = Backup(userId, isChecked, batterySaveModePercent,RemaningTime);
+        if (userId != null) {
+            dbRef.child(userId).setValue(backup).addOnCompleteListener{
+                Toast.makeText(this, "Data has been send", Toast.LENGTH_LONG).show()
+            }.addOnFailureListener{ err -> Toast.makeText(this, "Error ${err.message}", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -243,6 +290,8 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
             startService(Intent(this, WindowService::class.java))
         }
     }
+
+
 
     override fun onBind(p0: Intent?): IBinder? {
         TODO("Not yet implemented")
