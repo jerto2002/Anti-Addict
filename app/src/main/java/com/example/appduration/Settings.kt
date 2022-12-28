@@ -21,8 +21,14 @@ class SettingsActivity : AppCompatActivity() {
         nav();
         settingsBattery();
         settingsTime();
-        binding.btntest.setOnClickListener(){
-            val intent = Intent(this, SignupActivity::class.java);
+        binding.btntest2.setOnClickListener(){
+            val intent = Intent(this, FirebaseActivity::class.java);
+            startActivity(intent);
+            overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,
+                com.google.android.material.R.anim.abc_fade_out);
+        }
+        binding.btntest3.setOnClickListener(){
+            val intent = Intent(this, SigninActivity::class.java);
             startActivity(intent);
             overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,
                 com.google.android.material.R.anim.abc_fade_out);
@@ -53,6 +59,7 @@ class SettingsActivity : AppCompatActivity() {
         binding.batterySaveModePercet.value = batterySaveModePercent;
 
         binding.BatterySwitch.setOnCheckedChangeListener { _, isChecked ->
+
             val mEditor = mPrefs.edit()
             mEditor.putBoolean("savemode", isChecked).commit()
             binding.Batterysliderlayout.visibility = View.INVISIBLE;
