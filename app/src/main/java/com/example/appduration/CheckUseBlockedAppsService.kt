@@ -79,6 +79,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
                     if(!isAppInForeground){
                         builder.setContentText((ReaminingTime - calculateUsedTime() ).toString() + " min left");
                         startForeground(10001, builder.build()); // update text notification
+                        checkbackup();
                     }
                     var refreshTime = 100;
                     val mPrefsbattery = getSharedPreferences("battery", 0)
@@ -86,7 +87,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
                     if(batterySaveMode){
                         refreshTime = getbatteryper();
                     }
-                    checkbackup();
+
 
                     mainHandler.postDelayed(this, refreshTime.toLong()) // zet hoger bij lagere battery en fix main activity
                     //Log.d("MainActivity",  i.toString());
@@ -106,9 +107,11 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
 
         val mBackup = getSharedPreferences("backup", 0)
         val makeBackup = mBackup.getBoolean("backup", false)
+        Applist = getContentOutOfFile(applicationContext);
+
         if(makeBackup){
             Log.d("testbackup", "yes");
-            Backupbatterymode(batterySaveMode, ReaminingTime, batterySaveModePercent)
+            Backupbatterymode(batterySaveMode, ReaminingTime, batterySaveModePercent, Applist)
             val mEditor = mBackup.edit()
             mEditor.putBoolean("backup",  false).commit()
         }
@@ -118,14 +121,15 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
     private fun Backupbatterymode(
         isChecked: Boolean,
         RemaningTime: Float,
-        batterySaveModePercent: Float
+        batterySaveModePercent: Float,
+        Applist: ArrayList<App>
     ) {
         dbRef =
             FirebaseDatabase.getInstance("https://appduration-default-rtdb.europe-west1.firebasedatabase.app")
                 .getReference("Backup");
         firebaseAuth = FirebaseAuth.getInstance();
         val userId = firebaseAuth.uid;
-        val backup = Backup(userId, isChecked, batterySaveModePercent,RemaningTime);
+        val backup = Backup(userId, isChecked, batterySaveModePercent,RemaningTime, Applist);
         if (userId != null) {
             dbRef.child(userId).setValue(backup).addOnCompleteListener{
                 Toast.makeText(this, "Data has been send", Toast.LENGTH_LONG).show()

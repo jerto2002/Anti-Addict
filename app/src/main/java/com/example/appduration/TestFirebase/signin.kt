@@ -1,5 +1,7 @@
 package com.example.appduration
 
+
+import SaveAndloadApplistFile.Companion.writeToFile
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -70,6 +72,7 @@ class SigninActivity : AppCompatActivity() {
                         mEditor = mPrefs.edit()
                         mEditor.putFloat("percent",  userdata?.BatterySaveModePercent!!).commit()
                         mEditor.putBoolean("savemode", userdata?.BatterySaveMode!!).commit()
+                        writeToFile(applicationContext, userdata?.Applist!!, packageManager);
                     }
                 }
 

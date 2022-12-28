@@ -82,8 +82,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
     }
 }
 
-class App(val packageName : String, var Blocked : Boolean = false, var AppName : String = "")
-
+class App(val packageName : String = "", var Blocked : Boolean = false, var AppName : String = "")
 data class ItemsViewModel(
     var text: String,
     var d: Drawable?,
