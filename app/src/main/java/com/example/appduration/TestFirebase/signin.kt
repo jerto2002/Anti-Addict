@@ -32,6 +32,7 @@ class SigninActivity : AppCompatActivity() {
             startActivity(intent);
         }
 
+        //https://www.youtube.com/watch?v=idbxxkF1l6k&t=2s
         binding.button.setOnClickListener {
             val email = binding.emailEt.text.toString();
             val pass = binding.passET.text.toString();

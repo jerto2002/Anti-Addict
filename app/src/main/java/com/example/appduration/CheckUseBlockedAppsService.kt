@@ -117,25 +117,28 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
         }
     }
 
-    /*straks*/
-    private fun Backupbatterymode(
-        isChecked: Boolean,
-        RemaningTime: Float,
-        batterySaveModePercent: Float,
-        Applist: ArrayList<App>
-    ) {
-        dbRef =
-            FirebaseDatabase.getInstance("https://appduration-default-rtdb.europe-west1.firebasedatabase.app")
-                .getReference("Backup");
+    //https://www.youtube.com/watch?v=miJooBq9iwE&list=PLHQRWugvckFry9Q1OT6hLNfyUizT73PwX&index=3
+    private fun Backupbatterymode(isChecked: Boolean, RemaningTime: Float, batterySaveModePercent: Float, Applist: ArrayList<App>) {
         firebaseAuth = FirebaseAuth.getInstance();
-        val userId = firebaseAuth.uid;
-        val backup = Backup(userId, isChecked, batterySaveModePercent,RemaningTime, Applist);
-        if (userId != null) {
-            dbRef.child(userId).setValue(backup).addOnCompleteListener{
-                Toast.makeText(this, "Data has been send", Toast.LENGTH_LONG).show()
-            }.addOnFailureListener{ err -> Toast.makeText(this, "Error ${err.message}", Toast.LENGTH_LONG).show()
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.reload()?.addOnCompleteListener{
+            if (firebaseAuth.currentUser?.isEmailVerified == true) {
+                dbRef =
+                    FirebaseDatabase.getInstance("https://appduration-default-rtdb.europe-west1.firebasedatabase.app")
+                        .getReference("Backup");
+                firebaseAuth = FirebaseAuth.getInstance();
+                val userId = firebaseAuth.uid;
+                val backup = Backup(userId, isChecked, batterySaveModePercent,RemaningTime, Applist);
+                if (userId != null) {
+                    dbRef.child(userId).setValue(backup).addOnCompleteListener{
+                        Toast.makeText(this, "Data has been send", Toast.LENGTH_LONG).show()
+                    }.addOnFailureListener{ err -> Toast.makeText(this, "Error ${err.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
+            } else {
+                Toast.makeText(this, "User isn't verified...", Toast.LENGTH_SHORT).show();
             }
-        }
+        };
     }
 
     fun getbatteryper(): Int {
@@ -230,7 +233,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
         return false;
     }
 
-    fun SaveTime(applicationContext: Context, Time: Double, ){ // sla de overgebleven tijd op zodat we kunnen controleren wanneer een geblokeerde app gebruikt word.
+    fun SaveTime(applicationContext: Context, Time: Double){ // sla de overgebleven tijd op zodat we kunnen controleren wanneer een geblokeerde app gebruikt word.
         val path = applicationContext.filesDir
         try {
             val writer = FileOutputStream(File(path, "time.txt"))

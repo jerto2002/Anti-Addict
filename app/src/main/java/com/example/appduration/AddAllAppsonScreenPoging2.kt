@@ -55,20 +55,20 @@ class AddAllAppsonScreenPoging2 : AppCompatActivity() {
             writeToFile(applicationContext, Applist, packageManager);
         }
 
-        var indexes = -1;
+        var indexes: ArrayList<Int> = ArrayList();
         for (app in Applist){
             if(!resolveInfoList.map { it.activityInfo.packageName }.contains(app.packageName)){
                 //Applist.remove(app); geeft oneindige lus
-                indexes = Applist.indexOf(app);
+                val test = Applist.indexOf(app) - indexes.size;
+                indexes.add(Applist.indexOf(app) - indexes.size);
             }
             if(app.AppName == ""){
                 getAllAppNames(ApplicationNames, Applist, packageManager, applicationContext)
             }
         }
-        if( indexes >= 0){ // fix als je app verwijdert brijdt uit
-            Applist.removeAt(indexes);
+        for(index in indexes){
+            Applist.removeAt(index)
         }
-
         /*if(ApplicationNames.size != resolveInfoList.size){
 
         }*/

@@ -71,6 +71,50 @@
 
     </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/Accountinfo"
+            android:layout_width="331dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/roundedlayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Timeleftsliderlayout">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="96dp"
+                android:layout_height="45dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="29dp"
+                android:layout_marginVertical="20dp"
+                android:layout_marginEnd="206dp"
+
+                android:text="Log in"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold
+" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="92dp"
+                android:layout_height="57dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginVertical="5dp"
+                android:layout_marginTop="4dp"
+
+                android:layout_marginEnd="19dp"
+                android:layout_marginBottom="6dp"
+                app:srcCompat="@drawable/ic_baseline_manage_accounts_24" />
+
+        </RelativeLayout>
     <RelativeLayout
         android:id="@+id/Settinginfo"
         android:layout_width="331dp"
@@ -171,27 +215,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav" />
-
-    <Button
-        android:id="@+id/btntest2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:text="goTotest"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.885"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btntest3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:text="goTotest"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.11"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

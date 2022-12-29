@@ -33,15 +33,19 @@ class SignupActivity : AppCompatActivity() {
 
             if (email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()){
                 if (pass.equals(confirmPass)){
-                    firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener{
-                        if(it.isSuccessful){
+
+                    firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            sendEmailVerification();
                             val intent = Intent(this, SigninActivity::class.java);
                             startActivity(intent);
                             Toast.makeText(this, "account created", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT)
+                                .show();
                         }
                     }
+
                 }else{
                     Toast.makeText(this, "passwords not matching", Toast.LENGTH_SHORT).show();
                 }
@@ -49,5 +53,20 @@ class SignupActivity : AppCompatActivity() {
                 Toast.makeText(this, "not all parameters are filled", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private fun sendEmailVerification() {
+        //get current user
+        val firebaseUser = firebaseAuth.currentUser
+
+        //send email verification
+        firebaseUser!!.sendEmailVerification()
+            .addOnSuccessListener {
+                Toast.makeText(applicationContext, "Instructions Sent...", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(applicationContext, "Failed to send due to " + e.message, Toast.LENGTH_SHORT).show()
+            }
+
     }
 }

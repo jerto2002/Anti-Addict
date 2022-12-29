@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">App duration</string>
+    <string name="not_having_a_account">Not Registered Yet? <font color='Red'>Sign Up</font></string>
+    <string name="having_a_account">Already Registered? <font color='Red'>Sign In</font></string>
 </resources>
