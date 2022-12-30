@@ -120,13 +120,12 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
     //https://www.youtube.com/watch?v=miJooBq9iwE&list=PLHQRWugvckFry9Q1OT6hLNfyUizT73PwX&index=3
     private fun Backupbatterymode(isChecked: Boolean, RemaningTime: Float, batterySaveModePercent: Float, Applist: ArrayList<App>) {
         firebaseAuth = FirebaseAuth.getInstance();
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.reload()?.addOnCompleteListener{
+        FirebaseAuth.getInstance().currentUser?.reload()?.addOnCompleteListener{
             if (firebaseAuth.currentUser?.isEmailVerified == true) {
                 dbRef =
                     FirebaseDatabase.getInstance("https://appduration-default-rtdb.europe-west1.firebasedatabase.app")
                         .getReference("Backup");
-                firebaseAuth = FirebaseAuth.getInstance();
+
                 val userId = firebaseAuth.uid;
                 val backup = Backup(userId, isChecked, batterySaveModePercent,RemaningTime, Applist);
                 if (userId != null) {

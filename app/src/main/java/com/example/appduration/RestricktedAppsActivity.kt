@@ -39,6 +39,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
         var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
         val mPrefstime = getSharedPreferences("time", 0)
         val ReaminingTime = mPrefstime.getFloat("savedtime", 100F)
+
         addViews(packageManager, applicationContext, recyclerview, binding.progressBar, UsageStatsManager, binding, ReaminingTime)
         binding.progressBar.visibility = View.INVISIBLE;
 
@@ -55,7 +56,14 @@ class RestricktedAppsActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         CheckUseBlockedAppsService.isAppInForeground = false;
+        makeBackup();
     }
+    fun makeBackup(){ // probeer in commom te krijgen
+        val backup = getSharedPreferences("backup", 0)
+        val mBackup = backup.edit()
+        mBackup.putBoolean("backup", true).commit() //backup
+    }
+
     fun nav(){
         binding.bottomNavigationView.setSelectedItemId(R.id.blocked);
         binding.bottomNavigationView.setOnItemSelectedListener {

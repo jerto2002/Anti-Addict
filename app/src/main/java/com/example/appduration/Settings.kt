@@ -8,11 +8,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appduration.databinding.SettingsBinding
 import com.google.android.material.slider.Slider
+import com.google.firebase.auth.FirebaseAuth
 
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var binding: SettingsBinding
-
+    private lateinit var firebaseAuth: FirebaseAuth
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,13 +29,28 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intent);
             overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,
                 com.google.android.material.R.anim.abc_fade_out);
-        }
-        binding.btntest3.setOnClickListener(){
-            val intent = Intent(this, SigninActivity::class.java);
-            startActivity(intent);
-            overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,
-                com.google.android.material.R.anim.abc_fade_out);
         }*/
+        firebaseAuth = FirebaseAuth.getInstance();
+
+            if(firebaseAuth.currentUser != null) {
+                binding.TextLogedIn.text = "Log out to account";
+            }else{
+                binding.TextLogedIn.text = "Log in to account";
+            }
+            binding.Accountinfo.setOnClickListener(){
+                if(firebaseAuth.currentUser != null) {
+                    firebaseAuth.signOut();
+                }else{
+
+                    binding.Accountinfo.setOnClickListener(){
+                        val intent = Intent(this, SigninActivity::class.java);
+                        startActivity(intent);
+                        overridePendingTransition(androidx.appcompat.R.anim.abc_fade_in,
+                            com.google.android.material.R.anim.abc_fade_out);
+                    }
+                }
+            }
+
     }
 
     fun settingsTime(){
@@ -45,6 +61,7 @@ class SettingsActivity : AppCompatActivity() {
             override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
                 val mEditor = mPrefs.edit()
                 mEditor.putFloat("savedtime",  binding.batteryRemainingTime.value).commit()
+                makeBackup();
             }
         })
     }
@@ -61,9 +78,7 @@ class SettingsActivity : AppCompatActivity() {
         binding.batterySaveModePercet.value = batterySaveModePercent;
 
         binding.BatterySwitch.setOnCheckedChangeListener { _, isChecked ->
-            val backup = getSharedPreferences("backup", 0)
-            val mBackup = backup.edit()
-            mBackup.putBoolean("backup", true).commit() //backup
+            makeBackup();
             val mEditor = mPrefs.edit()
             mEditor.putBoolean("savemode", isChecked).commit()
             binding.Batterysliderlayout.visibility = View.INVISIBLE;
@@ -75,10 +90,16 @@ class SettingsActivity : AppCompatActivity() {
             override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
                 val mEditor = mPrefs.edit()
                 mEditor.putFloat("percent",  binding.batterySaveModePercet.value).commit()
+                makeBackup();
             }
         })
     }
 
+    fun makeBackup(){ // probeer in commom te krijgen
+        val backup = getSharedPreferences("backup", 0)
+        val mBackup = backup.edit()
+        mBackup.putBoolean("backup", true).commit() //backup
+    }
 
 
     fun nav(){

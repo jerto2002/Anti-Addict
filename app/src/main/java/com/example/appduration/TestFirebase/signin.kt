@@ -78,7 +78,7 @@ class SigninActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(applicationContext, "logged out", Toast.LENGTH_SHORT).show()
                 }
             })
         };

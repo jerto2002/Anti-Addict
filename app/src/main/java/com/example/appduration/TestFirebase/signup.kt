@@ -37,6 +37,7 @@ class SignupActivity : AppCompatActivity() {
                     firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
                             sendEmailVerification();
+                            firebaseAuth.signOut();
                             val intent = Intent(this, SigninActivity::class.java);
                             startActivity(intent);
                             Toast.makeText(this, "account created", Toast.LENGTH_SHORT).show();

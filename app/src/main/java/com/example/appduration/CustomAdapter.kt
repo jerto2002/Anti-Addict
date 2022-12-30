@@ -75,6 +75,8 @@ class CustomAdapter(private val mList: List<ItemsViewModel>, val ReaminingTime: 
         return@async
     }
 
+
+
     // return the number of the items in the list
     override fun getItemCount(): Int {
         return mList.size

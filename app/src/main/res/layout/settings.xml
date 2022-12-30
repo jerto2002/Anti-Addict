@@ -83,36 +83,37 @@
             app:layout_constraintTop_toBottomOf="@+id/Timeleftsliderlayout">
 
             <TextView
-                android:id="@+id/textView2"
-                android:layout_width="96dp"
-                android:layout_height="45dp"
+                android:id="@+id/TextLogedIn"
+                android:layout_width="209dp"
+                android:layout_height="31dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="29dp"
                 android:layout_marginVertical="20dp"
-                android:layout_marginEnd="206dp"
+                android:layout_marginStart="29dp"
+                android:layout_marginEnd="93dp"
 
-                android:text="Log in"
+                android:layout_marginBottom="23dp"
+                android:text="Log in to account"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 android:textStyle="bold
 " />
 
             <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="92dp"
-                android:layout_height="57dp"
+                android:id="@+id/imageView4"
+                android:layout_width="61dp"
+                android:layout_height="55dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginVertical="5dp"
-                android:layout_marginTop="4dp"
 
+                android:layout_marginVertical="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="19dp"
-                android:layout_marginBottom="6dp"
-                app:srcCompat="@drawable/ic_baseline_manage_accounts_24" />
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_baseline_manage_accounts_24" />
 
         </RelativeLayout>
     <RelativeLayout
