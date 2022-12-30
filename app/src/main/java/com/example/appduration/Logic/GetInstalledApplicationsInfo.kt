@@ -1,3 +1,4 @@
+package com.example.appduration.Logic
 
 import android.annotation.SuppressLint
 import android.app.usage.UsageEvents
@@ -5,26 +6,25 @@ import android.app.usage.UsageStatsManager
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
-class TestcommonFunctions : AppCompatActivity() {
+class GetInstalledApplicationsInfo {
     companion object {//https://stackoverflow.com/questions/53802632/reuse-methods-in-kotlin-android
     @SuppressLint("SuspiciousIndentation")
     fun getAppname(packagenaam: String, packageManager : PackageManager): String{ // https://stackoverflow.com/questions/11229219/android-how-to-get-application-name-not-package-name
         var applicationInfo: ApplicationInfo? = null
-            try {
-                applicationInfo = packageManager.getApplicationInfo(
-                    packagenaam, 0
-                )
-            } catch (e: PackageManager.NameNotFoundException) {
-                Log.d("TAG", "The package with the given name cannot be found on the system.")
-            }
-            if (applicationInfo != null) {
-                return packageManager.getApplicationLabel(applicationInfo).toString()
-            }
-            return "";
+        try {
+            applicationInfo = packageManager.getApplicationInfo(
+                packagenaam, 0
+            )
+        } catch (e: PackageManager.NameNotFoundException) {
+            Log.d("TAG", "The package with the given name cannot be found on the system.")
         }
+        if (applicationInfo != null) {
+            return packageManager.getApplicationLabel(applicationInfo).toString()
+        }
+        return "";
+    }
 
         //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
         fun getAllAppsAndTimeStamps(start: Long, currentTime: Long, usageStatsManager: UsageStatsManager) : HashMap<String, ArrayList<UsageEvents.Event>> {
