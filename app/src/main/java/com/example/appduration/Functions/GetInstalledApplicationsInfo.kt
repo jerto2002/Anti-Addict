@@ -1,11 +1,13 @@
-package com.example.testmvc.Model
+package com.example.appduration.Functions
 
 import android.annotation.SuppressLint
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
+import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.util.Log
+import com.example.appduration.View.App
 import java.util.*
 
 class GetInstalledApplicationsInfo {
@@ -26,7 +28,7 @@ class GetInstalledApplicationsInfo {
         return "";
     }
 
-        //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
+        /* https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour */
         fun getAllAppsAndTimeStamps(start: Long, currentTime: Long, usageStatsManager: UsageStatsManager) : HashMap<String, ArrayList<UsageEvents.Event>> {
             //test niet als app in klein schermje zit (youtube of maps als voorbeeld) andere apps hebben dit ook
             val stats = usageStatsManager.queryEvents(start, currentTime)
@@ -62,6 +64,11 @@ class GetInstalledApplicationsInfo {
                 result.put(k,   time);
             }
             return result;
+        }
+        fun getAllAppNames(ApplicationNames: ArrayList<String>, Applist: ArrayList<App>, packageManager: PackageManager, applicationContext: Context) {
+            for(App in Applist){
+                App.AppName = getAppname(App.packageName, packageManager);
+            }
         }
     }
 }

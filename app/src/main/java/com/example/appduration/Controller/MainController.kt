@@ -8,7 +8,7 @@ import android.graphics.Path
 import android.graphics.RectF
 import android.view.View
 import com.example.appduration.View.MainActivity
-import com.example.testmvc.Model.GetInstalledApplicationsInfo
+import com.example.appduration.Functions.GetInstalledApplicationsInfo
 import com.example.testmvc.Model.HomeScreenModel
 import com.github.mikephil.charting.animation.ChartAnimator
 import com.github.mikephil.charting.components.AxisBase

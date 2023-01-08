@@ -9,7 +9,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-class HomeScreenModel {
+class RestrictedAppsModel {
     var controller: MainController;
 
     constructor(controller: MainController){
@@ -39,10 +39,7 @@ class HomeScreenModel {
             //bepaal tijd per app
             var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
             var result = getTotalTimeApps(datatime);
-            var to = (result.values.sum() / 60000).toFloat()
-            if(to >60){
-                to = 60F;
-            }
+            val to = (result.values.sum() / 60000).toFloat()
             results.add(to);
         }
         controller.OnFillBarchart(results);
