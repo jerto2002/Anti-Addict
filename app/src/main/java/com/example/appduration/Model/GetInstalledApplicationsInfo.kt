@@ -1,4 +1,4 @@
-package com.example.appduration.Logic
+package com.example.testmvc.Model
 
 import android.annotation.SuppressLint
 import android.app.usage.UsageEvents
