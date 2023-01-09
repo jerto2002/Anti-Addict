@@ -10,7 +10,13 @@ import android.util.Log
 import com.example.appduration.View.App
 import java.util.*
 
-class GetInstalledApplicationsInfo {
+
+
+
+
+
+
+class GetInstalledApplicationsInfo(mockUsageEvents: UsageEvents.Event) {
     companion object {//https://stackoverflow.com/questions/53802632/reuse-methods-in-kotlin-android
     @SuppressLint("SuspiciousIndentation")
     fun getAppname(packagenaam: String, packageManager : PackageManager): String{ // https://stackoverflow.com/questions/11229219/android-how-to-get-application-name-not-package-name
@@ -40,27 +46,43 @@ class GetInstalledApplicationsInfo {
                 stats.getNextEvent(event)
                 if(event.eventType == UsageEvents.Event.ACTIVITY_RESUMED||
                     event.eventType == UsageEvents.Event.ACTIVITY_PAUSED){
+                    if(event.packageName.contains("maps")){
+                        var test ="";
+                    }
                     if(data.get(event.packageName) == null){
                         data.put(event.packageName, ArrayList<UsageEvents.Event>(Arrays.asList(event)));
                     }else{
+
                         data.get(event.packageName)?.add(event);
                     }
                 }
             }
             return data;
         }
-        fun getTotalTimeApps(data: HashMap<String, ArrayList<UsageEvents.Event>>) : HashMap<String, Double> {
+        fun getTotalTimeApps(
+            data: HashMap<String, ArrayList<UsageEvents.Event>>,
+            start: Long
+        ) : HashMap<String, Double> {
             var result = HashMap<String, Double>();
+            val currentTime = System.currentTimeMillis()
             for((k, v) in data){
                 var time = 0.0;
                 for (i in 0 until v.size -1 step 1) {
+                    if(v.get(i).timeStamp == 1673243951267 && k.contains("maps")){
+                        var time2 = time;
+                    }
                     if(v.get(i).eventType == 1 && v.get(i + 1).eventType == 2){
                         time += (v.get(i + 1).timeStamp - v.get(i).timeStamp);
                     }
                 }
-                if(v.get(v.size -1).eventType == 1){
-                    time += System.currentTimeMillis() - v.get(v.size -1).timeStamp;
+                if(v.get(0).eventType == 2){
+                    time += v.get(v.size -1).timeStamp - start;
                 }
+                if(v.get(v.size -1).eventType == 1){
+                    var test = v.get(v.size -1).timeStamp;
+                    time += currentTime - v.get(v.size -1).timeStamp;
+                }
+
                 result.put(k,   time);
             }
             return result;

@@ -1,5 +1,6 @@
 package com.example.testmvc.Model
 
+import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 import android.content.pm.PackageManager
 import com.example.appduration.Functions.GetInstalledApplicationsInfo.Companion.getAllAppsAndTimeStamps
@@ -25,7 +26,7 @@ class HomeScreenModel {
         //bepaal tijd per app
         //var UsageStatsManager = getSystemService(AppCompatActivity.USAGE_STATS_SERVICE) as UsageStatsManager
         var data = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager); // kijk common functions
-        var result = getTotalTimeApps(data); // kijk common functions
+        var result = getTotalTimeApps(data, start); // kijk common functions
         controller.onFillPieChart(result.toList().sortedBy { (_, value) -> value}.reversed().toMap() as HashMap<String, Double>, packageManager)
         controller.putinfoonscreen(result.toList().sortedBy { (_, value) -> value}.reversed().toMap() as HashMap<String, Double>, packageManager)
     }
@@ -38,14 +39,47 @@ class HomeScreenModel {
             //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
             //bepaal tijd per app
             var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
-            var result = getTotalTimeApps(datatime);
+            //datatime= removeWhenUnevenTimeStamps(datatime);
+            var result = getTotalTimeApps(datatime, start);
             var to = (result.values.sum() / 60000).toFloat()
             if(to >60){
                 to = 60F;
             }
+            for((k, v) in datatime){
+                var time = 0.0;
+                for (i in 0 until v.size -1 step 1) {
+                    if(v.get(i).eventType == 1 && v.get(i + 1).eventType == 2){
+                        time += (v.get(i + 1).timeStamp - v.get(i).timeStamp);
+                    }
+                }
+                if(v.get(v.size -1).timeStamp < start){
+                    var vr = v.get(v.size -1);
+                    var test ="";
+                }
+                if(v.get(v.size -1).eventType == 1){
+                    time += System.currentTimeMillis() - v.get(v.size -1).timeStamp;
+                }
+                if(time / 60000 > 60){
+                    var test  ="";
+                }
+                result.put(k,   time);
+            }
             results.add(to);
         }
         controller.OnFillBarchart(results);
+    }
+
+    fun removeWhenUnevenTimeStamps(datatime: java.util.HashMap<String, java.util.ArrayList<UsageEvents.Event>>): java.util.HashMap<String, java.util.ArrayList<UsageEvents.Event>> {
+        var indexes: ArrayList<String> = ArrayList();
+        for (data in datatime){
+            if(data.value.size % 2 != 0){
+                indexes.add(data.key);
+            }
+        }
+        for(index in indexes){
+            datatime.remove(index)
+        }
+        return datatime;
     }
 
 }

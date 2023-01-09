@@ -134,7 +134,7 @@ class AddAllToRestrictedPage : AppCompatActivity() {
                 }
             }
             var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
-            var results = getTotalTimeApps(datatime);
+            var results = getTotalTimeApps(datatime, currentTime, start);
             var time = 0.0;
             for(result in results) {
                 if (Appnames.contains(result.key)){

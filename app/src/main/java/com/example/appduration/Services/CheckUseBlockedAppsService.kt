@@ -192,7 +192,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
             }
         }
         var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
-        var results = getTotalTimeApps(datatime);
+        var results = getTotalTimeApps(datatime, start);
         var time = 0.0;
         for(result in results) {
             if (Appnames.contains(result.key)){
