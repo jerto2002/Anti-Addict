@@ -11,11 +11,6 @@ import com.example.appduration.View.App
 import java.util.*
 
 
-
-
-
-
-
 class GetInstalledApplicationsInfo(mockUsageEvents: UsageEvents.Event) {
     companion object {//https://stackoverflow.com/questions/53802632/reuse-methods-in-kotlin-android
     @SuppressLint("SuspiciousIndentation")
@@ -61,13 +56,15 @@ class GetInstalledApplicationsInfo(mockUsageEvents: UsageEvents.Event) {
         }
         fun getTotalTimeApps(
             data: HashMap<String, ArrayList<UsageEvents.Event>>,
-            start: Long
+            start: Long,
+            currentTime: Long
         ) : HashMap<String, Double> {
             var result = HashMap<String, Double>();
-            val currentTime = System.currentTimeMillis()
             for((k, v) in data){
                 var time = 0.0;
+                checkTimeStamp(v,k,0, start, currentTime);
                 for (i in 0 until v.size -1 step 1) {
+                    checkTimeStamp(v,k,i, start, currentTime);
                     if(v.get(i).timeStamp == 1673243951267 && k.contains("maps")){
                         var time2 = time;
                     }
@@ -76,21 +73,36 @@ class GetInstalledApplicationsInfo(mockUsageEvents: UsageEvents.Event) {
                     }
                 }
                 if(v.get(0).eventType == 2){
-                    time += v.get(v.size -1).timeStamp - start;
+                    time += v.get(0).timeStamp - start;
                 }
-                if(v.get(v.size -1).eventType == 1){
-                    var test = v.get(v.size -1).timeStamp;
-                    time += currentTime - v.get(v.size -1).timeStamp;
+                if(v.get(v.size -1).eventType == 1) {
+                    time += (currentTime - v.get(v.size -1).timeStamp)
                 }
-
+                if(k.contains("launcher") || k.contains("sdk")){
+                    time = 0.0;
+                }
                 result.put(k,   time);
             }
             return result;
+        }
+
+        fun checkTimeStamp(
+            v: ArrayList<UsageEvents.Event>,
+            k: String,
+            i: Int,
+            start: Long,
+            currentTime: Long
+        ) {
+            if(v.get(i).timeStamp < start || v.get(i).timeStamp > currentTime){
+                throw Exception("Invalid Timestamp")
+            }
         }
         fun getAllAppNames(ApplicationNames: ArrayList<String>, Applist: ArrayList<App>, packageManager: PackageManager, applicationContext: Context) {
             for(App in Applist){
                 App.AppName = getAppname(App.packageName, packageManager);
             }
         }
+
+
     }
 }

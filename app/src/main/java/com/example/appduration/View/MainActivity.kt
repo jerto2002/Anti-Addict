@@ -23,6 +23,7 @@ import com.github.mikephil.charting.charts.PieChart
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 
+
 class MainActivity : AppCompatActivity() { //view
     private var mainController =  MainController(this);
     private lateinit var binding: ActivityMainBinding
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity() { //view
             mainController.FillBarChart(UsageStatsManager);
         }
         nav();
+
     }
     override fun onStart() {
         super.onStart();
