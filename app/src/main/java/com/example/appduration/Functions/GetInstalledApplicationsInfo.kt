@@ -65,9 +65,6 @@ class GetInstalledApplicationsInfo(mockUsageEvents: UsageEvents.Event) {
                 checkTimeStamp(v,k,0, start, currentTime);
                 for (i in 0 until v.size -1 step 1) {
                     checkTimeStamp(v,k,i, start, currentTime);
-                    if(v.get(i).timeStamp == 1673243951267 && k.contains("maps")){
-                        var time2 = time;
-                    }
                     if(v.get(i).eventType == 1 && v.get(i + 1).eventType == 2){
                         time += (v.get(i + 1).timeStamp - v.get(i).timeStamp);
                     }

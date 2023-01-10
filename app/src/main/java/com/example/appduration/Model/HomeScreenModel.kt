@@ -36,20 +36,43 @@ class HomeScreenModel {
         for (i in 0 until 6 step 1) { // kijk tijd per uur
             val currentTime = System.currentTimeMillis() - (3600000 * i+ (LocalDateTime.now().second * 1000) + (LocalDateTime.now().minute * 60000));
             val start = System.currentTimeMillis() - (3600000 *(i+1) + (LocalDateTime.now().second * 1000) + (LocalDateTime.now().minute * 60000));//trek 1 h van de tijd af en zet de seconden en minuten op 0
-            /*val currentTime =  LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli() - (86400000 * i);
-            val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli() - (86400000 * (i+1));*/
             //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
             //bepaal tijd per app
             var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
-            //datatime= removeWhenUnevenTimeStamps(datatime);
+            AddtimeForWhenOverHour(datatime, i)
             var result = getTotalTimeApps(datatime, start, currentTime);
             var to = (result.values.sum() / 60000).toFloat()
+            for(y in 0 until fullTimeslots.size){
+                if((i-1) < fullTimeslots[y] && (i-1) >= 0 && (i - 1) < results.size){
+                    if(endTimeslots.size < (y+1) && results[i -1] == 0F){
+                        results[i -1] = 60F;
+                    }else if(y < endTimeslots.size){
+                        if((i-1) < endTimeslots[y] && results[i -1] == 0F) {
+                            results[i - 1] = 60F;
+                        }
+                    }
+                }
+            }
             results.add(to);
         }
         controller.OnFillBarchart(results);
     }
+    var fullTimeslots = ArrayList<Int>();
+    var endTimeslots =  ArrayList<Int>();
+    fun AddtimeForWhenOverHour(
+        data: java.util.HashMap<String, java.util.ArrayList<UsageEvents.Event>>,
+        i: Int, ) {
+        for((k, v) in data){
+            if(v.get(0).eventType == 2 && !k.contains("launcher") && !k.contains("sdk") && !k.contains("appduration")){
+                endTimeslots.add(i);
+            }
+            if(v.get(v.size -1).eventType == 1 && !k.contains("launcher") && !k.contains("sdk")  && !k.contains("appduration")) {
+                fullTimeslots.add(i);
+            }
+        }
+    }
 
-    fun removeWhenUnevenTimeStamps(datatime: java.util.HashMap<String, java.util.ArrayList<UsageEvents.Event>>): java.util.HashMap<String, java.util.ArrayList<UsageEvents.Event>> {
+    /*fun removeWhenUnevenTimeStamps(datatime: java.util.HashMap<String, java.util.ArrayList<UsageEvents.Event>>): java.util.HashMap<String, java.util.ArrayList<UsageEvents.Event>> {
         var indexes: ArrayList<String> = ArrayList();
         for (data in datatime){
             if(data.value.size % 2 != 0){
@@ -60,6 +83,6 @@ class HomeScreenModel {
             datatime.remove(index)
         }
         return datatime;
-    }
+    }*/
 
 }
