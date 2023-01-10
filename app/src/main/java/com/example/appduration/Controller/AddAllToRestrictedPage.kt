@@ -116,14 +116,13 @@ class AddAllToRestrictedPage : AppCompatActivity() {
             }
             LoadmoreApps(data , recyclerview, Applist.size, packageManager, ReaminingTime)
             progressBar.visibility = View.INVISIBLE;
-            calculateUsedTime(UsageStatsManager, binding, ReaminingTime);
+            var time = calculateUsedTime(UsageStatsManager);
+            binding.txtTimeRemaining.text = "Time remaining: " + (ReaminingTime - time).toInt().toString() +"min";
             //binding.progressBar.visibility = View.INVISIBLE;
         }
         fun calculateUsedTime(
             UsageStatsManager: UsageStatsManager,
-            binding: ActivityRestricktedBinding,
-            ReaminingTime: Float
-        ){ // fix dubbel func in ForegroundTestService
+        ): Double { // fix dubbel func in ForegroundTestService
             val currentTime = System.currentTimeMillis()
             val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
             var Appnames = ArrayList<String>();
@@ -143,7 +142,8 @@ class AddAllToRestrictedPage : AppCompatActivity() {
                 }
             }
             time = time /60000
-            binding.txtTimeRemaining.text = "Time remaining: " + (ReaminingTime - time).toInt().toString() +"min";
+            return time;
+            //binding.txtTimeRemaining.text = "Time remaining: " + (ReaminingTime - time).toInt().toString() +"min";
         }
 
         suspend fun LoadmoreApps(

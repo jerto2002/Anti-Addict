@@ -14,8 +14,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.example.appduration.Controller.AddAllToRestrictedPage.Companion.Applist
-import com.example.appduration.Functions.GetInstalledApplicationsInfo.Companion.getAllAppsAndTimeStamps
-import com.example.appduration.Functions.GetInstalledApplicationsInfo.Companion.getTotalTimeApps
+import com.example.appduration.Controller.AddAllToRestrictedPage.Companion.calculateUsedTime
 import com.example.appduration.Functions.SaveAndloadApplistFile.Companion.getContentOutOfFile
 import com.example.appduration.R
 import com.example.appduration.TestFirebase.Backup
@@ -30,8 +29,6 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.time.LocalDate
-import java.time.ZoneId
 
 
 class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=bA7v1Ubjlzw
@@ -182,26 +179,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
 
     fun CheckIfOverTime(): Int{ // fix dubbel func in add apps on screen 2
         var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
-        val currentTime = System.currentTimeMillis()
-        val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
-        Applist = getContentOutOfFile(applicationContext);
-        var Appnames = ArrayList<String>();
-        for(app in Applist){
-            if(app.Blocked){
-                Appnames.add(app.packageName)
-            }
-        }
-        var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
-        var results = getTotalTimeApps(datatime, start, currentTime);
-        var time = 0.0;
-        for(result in results) {
-            if (Appnames.contains(result.key)){
-                var er = result.key;
-                time = result.value;
-                var l ="";
-            }
-        }
-        time = time /60000;
+        var time = calculateUsedTime(UsageStatsManager);
         val mPrefstime = getSharedPreferences("time", 0)
         val ReaminingTime = mPrefstime.getFloat("savedtime", 100F)
         if(time > ReaminingTime){

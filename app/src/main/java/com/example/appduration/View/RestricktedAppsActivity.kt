@@ -46,8 +46,8 @@ class RestricktedAppsActivity : AppCompatActivity() {
         //addViews(packageManager, applicationContext, recyclerview, binding.progressBar, UsageStatsManager, binding, ReaminingTime)
         binding.progressBar.visibility = View.INVISIBLE;
 
-
-        calculateUsedTime(UsageStatsManager, binding, ReaminingTime);
+        var time = calculateUsedTime(UsageStatsManager);
+        binding.txtTimeRemaining.text = "Time remaining: " + (ReaminingTime - time).toInt().toString() +"min";
         return@async
     }
 
