@@ -29,31 +29,11 @@ class GetTimeAppTest {
     private lateinit var mockUsageEvents2: UsageEvents.Event
 
     @Test
-    fun testTotalTime() {
+    fun testGiveCorrectTimeBetweenTwoEvents() {
         mockUsageEvents = mock<UsageEvents.Event>(){
             on{
                 eventType
             } doReturn ( UsageEvents.Event.ACTIVITY_RESUMED) // ACTIVITY_RESUMED = 1, ACTIVITY_PAUSED = 2
-
-            on{
-                timeStamp
-            } doReturn(1000)
-
-        }
-        val currentTime = 1000.0;
-        val start = 0.0;
-        data.put("app1", arrayListOf(mockUsageEvents, mockUsageEvents))
-        var result = getTotalTimeApps(data, start.toLong(), currentTime.toLong());
-        var to = (result.values.sum() / 60000).toFloat()
-    }
-
-    @Test
-    fun testTotalTime2() {
-        mockUsageEvents = mock<UsageEvents.Event>(){
-            on{
-                eventType
-            } doReturn ( UsageEvents.Event.ACTIVITY_RESUMED) // ACTIVITY_RESUMED = 1, ACTIVITY_PAUSED = 2
-
             on{
                 timeStamp
             } doReturn(0)
@@ -78,7 +58,7 @@ class GetTimeAppTest {
     }
 
     @Test
-    fun testTotalTime3() {
+    fun TestGiveCorrectTimeWheneventStartedInTimeframe() { // als je app start op 300 en u tijdspan is to 1000 dan is de gebruikte tijd 700
         mockUsageEvents = mock<UsageEvents.Event>(){
             on{
                 eventType
@@ -99,7 +79,7 @@ class GetTimeAppTest {
     }
 
     @Test
-    fun testTotalTime4() {
+    fun TestGiveCorrectTimeWhenEventStoppedFirstInTimeFrame() {
         mockUsageEvents = mock<UsageEvents.Event>(){
             on{
                 eventType
@@ -119,3 +99,22 @@ class GetTimeAppTest {
         //data.put("app1", )
     }
 }
+
+/*@Test
+ fun testTotalTime() {
+     mockUsageEvents = mock<UsageEvents.Event>(){
+         on{
+             eventType
+         } doReturn ( UsageEvents.Event.ACTIVITY_RESUMED) // ACTIVITY_RESUMED = 1, ACTIVITY_PAUSED = 2
+
+         on{
+             timeStamp
+         } doReturn(1000)
+
+     }
+     val currentTime = 1000.0;
+     val start = 0.0;
+     data.put("app1", arrayListOf(mockUsageEvents, mockUsageEvents))
+     var result = getTotalTimeApps(data, start.toLong(), currentTime.toLong());
+     var to = (result.values.sum() / 60000).toFloat()
+ }*/

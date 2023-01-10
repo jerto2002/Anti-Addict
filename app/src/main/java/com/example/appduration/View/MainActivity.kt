@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() { //view
             mainController.FillPieChart(UsageStatsManager, packageManager);
             mainController.FillBarChart(UsageStatsManager);
         }
+        checkOverlayPermission();
         nav();
 
     }
@@ -118,6 +119,16 @@ class MainActivity : AppCompatActivity() { //view
             )
         }
         return mode == AppOpsManager.MODE_ALLOWED
+    }
+    // method to ask user to grant the Overlay permission
+    fun checkOverlayPermission() { // kijk voor toegang  zodat we over andere apps kunnen tekenen
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+                // send user to the device settings
+                val myIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+                startActivity(myIntent)
+            }
+        }
     }
 
     private fun foregroundSerciceRunning(): Boolean { // kijk of CheckUseBlockedAppsService is gestart.

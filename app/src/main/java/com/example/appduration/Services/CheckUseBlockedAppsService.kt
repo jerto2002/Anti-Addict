@@ -80,7 +80,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
                     val ReaminingTime = mPrefstime.getFloat("savedtime", 100F)
                    // Log.d("fourground", isAppInForeground.toString());
                     if(!isAppInForeground){
-                        builder.setContentText((ReaminingTime - calculateUsedTime() ).toString() + " min left");
+                        builder.setContentText((ReaminingTime - CheckIfOverTime() ).toString() + " min left");
                         startForeground(10001, builder.build()); // update text notification
                         checkbackup();
                     }
@@ -180,7 +180,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
         super.onTaskRemoved(rootIntent)
     }
 
-    fun calculateUsedTime(): Int{ // fix dubbel func in add apps on screen 2
+    fun CheckIfOverTime(): Int{ // fix dubbel func in add apps on screen 2
         var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
         val currentTime = System.currentTimeMillis()
         val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()

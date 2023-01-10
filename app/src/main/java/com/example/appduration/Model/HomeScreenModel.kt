@@ -1,6 +1,7 @@
 package com.example.testmvc.Model
 
 import android.app.usage.UsageEvents
+import android.app.usage.UsageEvents.Event
 import android.app.usage.UsageStatsManager
 import android.content.pm.PackageManager
 import com.example.appduration.Functions.GetInstalledApplicationsInfo.Companion.getAllAppsAndTimeStamps
@@ -9,6 +10,7 @@ import com.example.testmvc.Controller.MainController
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.util.*
 
 class HomeScreenModel {
     var controller: MainController;
@@ -39,10 +41,11 @@ class HomeScreenModel {
             //https://stackoverflow.com/questions/59113756/android-get-usagestats-per-hour
             //bepaal tijd per app
             var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
-            AddtimeForWhenOverHour(datatime, i)
+            //AddtimeForWhenOverHour(datatime, i)
+            AddtimeForWhenOverLong(datatime, i);
             var result = getTotalTimeApps(datatime, start, currentTime);
             var to = (result.values.sum() / 60000).toFloat()
-            for(y in 0 until fullTimeslots.size){
+            /*for(y in 0 until fullTimeslots.size){
                 if((i-1) < fullTimeslots[y] && (i-1) >= 0 && (i - 1) < results.size){
                     if(endTimeslots.size < (y+1) && results[i -1] == 0F){
                         results[i -1] = 60F;
@@ -52,11 +55,45 @@ class HomeScreenModel {
                         }
                     }
                 }
+            }*/
+            for((k, v) in ListLong) {
+                for (i in 0 until v.size -1 step 1) {
+                    if(v.get(i).eventType == 1 && v.get(i + 1).eventType == 2 && (v.get(i + 1).timeStamp - v.get(i).timeStamp) > 60000){
+                        var time = (v.get(i + 1).timeStamp - v.get(i).timeStamp) / 60000;
+                        for(y in 0 until time step 1){
+                            if(y >=0 && results.size > y){
+                                results[((results.size - 1 - y).toInt())] = 60F;
+                            }
+                        }
+                    }
+                }
             }
             results.add(to);
         }
         controller.OnFillBarchart(results);
     }
+    var ListLong = java.util.HashMap<String, java.util.ArrayList<Event>> ();
+    fun AddtimeForWhenOverLong(
+        data: java.util.HashMap<String, java.util.ArrayList<UsageEvents.Event>>,
+        i: Int, ) {
+        for((k, v) in data){
+            if(v.get(0).eventType == 2 && !k.contains("launcher") && !k.contains("sdk") && !k.contains("appduration")){
+                if(ListLong.get(k) == null){
+                    ListLong.put(k, ArrayList<Event>(Arrays.asList(v.get(0))));
+                }else{
+                    data.get(k)?.add(v.get(0));
+                }
+            }
+            if(v.get(v.size -1).eventType == 1 && !k.contains("launcher") && !k.contains("sdk")  && !k.contains("appduration")) {
+                if(ListLong.get(k) == null){
+                    ListLong.put(k, ArrayList<Event>(Arrays.asList(v.get(v.size -1))));
+                }else{
+                    data.get(k)?.add(v.get(v.size -1));
+                }
+            }
+        }
+    }
+
     var fullTimeslots = ArrayList<Int>();
     var endTimeslots =  ArrayList<Int>();
     fun AddtimeForWhenOverHour(
@@ -64,6 +101,7 @@ class HomeScreenModel {
         i: Int, ) {
         for((k, v) in data){
             if(v.get(0).eventType == 2 && !k.contains("launcher") && !k.contains("sdk") && !k.contains("appduration")){
+
                 endTimeslots.add(i);
             }
             if(v.get(v.size -1).eventType == 1 && !k.contains("launcher") && !k.contains("sdk")  && !k.contains("appduration")) {

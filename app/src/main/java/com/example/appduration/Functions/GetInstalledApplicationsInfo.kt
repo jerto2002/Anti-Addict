@@ -47,7 +47,6 @@ class GetInstalledApplicationsInfo(mockUsageEvents: UsageEvents.Event) {
                     if(data.get(event.packageName) == null){
                         data.put(event.packageName, ArrayList<UsageEvents.Event>(Arrays.asList(event)));
                     }else{
-
                         data.get(event.packageName)?.add(event);
                     }
                 }

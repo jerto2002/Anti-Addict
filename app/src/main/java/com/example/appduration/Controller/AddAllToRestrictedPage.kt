@@ -1,7 +1,5 @@
 package com.example.appduration.Controller
 
-import com.example.appduration.Functions.SaveAndloadApplistFile.Companion.getContentOutOfFile
-
 import android.annotation.SuppressLint
 import android.app.usage.UsageStatsManager
 import android.content.Context
@@ -16,6 +14,7 @@ import com.example.appduration.Functions.CustomAdapter
 import com.example.appduration.Functions.GetInstalledApplicationsInfo.Companion.getAllAppNames
 import com.example.appduration.Functions.GetInstalledApplicationsInfo.Companion.getAllAppsAndTimeStamps
 import com.example.appduration.Functions.GetInstalledApplicationsInfo.Companion.getTotalTimeApps
+import com.example.appduration.Functions.SaveAndloadApplistFile.Companion.getContentOutOfFile
 import com.example.appduration.Functions.SaveAndloadApplistFile.Companion.writeToFile
 import com.example.appduration.View.App
 import com.example.appduration.View.ItemsViewModel
@@ -134,7 +133,7 @@ class AddAllToRestrictedPage : AppCompatActivity() {
                 }
             }
             var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
-            var results = getTotalTimeApps(datatime, currentTime, start);
+            var results = getTotalTimeApps(datatime, start, currentTime);
             var time = 0.0;
             for(result in results) {
                 if (Appnames.contains(result.key)){
@@ -165,27 +164,3 @@ class AddAllToRestrictedPage : AppCompatActivity() {
         }
     }
 }
-
-/* fun calculateUsedTime(UsageStatsManager: UsageStatsManager, applicationContext: Context){
-            val currentTime = System.currentTimeMillis()
-            val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
-            Applist = getContentOutOfFile(applicationContext);
-            var Appnames = ArrayList<String>();
-            for(app in Applist){
-                if(app.Blocked){
-                    Appnames.add(app.packageName)
-                }
-            }
-            var datatime = getAllAppsAndTimeStamps(start = start, currentTime = currentTime, UsageStatsManager);
-            var results = getTotalTimeApps(datatime);
-            var time = 0.0;
-            for(result in results) {
-                if (Appnames.contains(result.key)){
-                    var er = result.key;
-                    time = result.value;
-                    var l ="";
-                }
-            }
-            time = time /60000
-            var t = "";
-        }*/
