@@ -29,9 +29,9 @@ class SettingsActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance();
 
             if(firebaseAuth.currentUser != null) {
-                binding.TextLogedIn.text = "Log out to account";
+                binding.Accountinfo.text = "Log out to account";
             }else{
-                binding.TextLogedIn.text = "Log in to account";
+                binding.Accountinfo.text = "Log in to account";
             }
             binding.Accountinfo.setOnClickListener(){
                 if(firebaseAuth.currentUser != null) {

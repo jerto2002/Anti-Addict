@@ -20,7 +20,7 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <Button
-        android:id="@+id/btnrestricktedApp"
+        android:id="@+id/Accountinfo"
         android:layout_width="150dp"
         android:layout_height="48dp"
         android:layout_marginTop="10dp"

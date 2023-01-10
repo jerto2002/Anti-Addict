@@ -85,7 +85,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
                     val mPrefsbattery = getSharedPreferences("battery", 0)
                     val batterySaveMode = mPrefsbattery.getBoolean("savemode", false)
                     if(batterySaveMode){
-                        refreshTime = getbatteryper();
+                        refreshTime = getRefreshTimeBasedOnBattery();
                     }
 
 
@@ -111,14 +111,14 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
 
         if(makeBackup){
             Log.d("testbackup", "yes");
-            Backupbatterymode(batterySaveMode, ReaminingTime, batterySaveModePercent, Applist)
+            BackupSettingsAndData(batterySaveMode, ReaminingTime, batterySaveModePercent, Applist)
             val mEditor = mBackup.edit()
             mEditor.putBoolean("backup",  false).commit()
         }
     }
 
     //https://www.youtube.com/watch?v=miJooBq9iwE&list=PLHQRWugvckFry9Q1OT6hLNfyUizT73PwX&index=3
-    private fun Backupbatterymode(isChecked: Boolean, RemaningTime: Float, batterySaveModePercent: Float, Applist: ArrayList<App>) {
+    private fun BackupSettingsAndData(isChecked: Boolean, RemaningTime: Float, batterySaveModePercent: Float, Applist: ArrayList<App>) {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseAuth.getInstance().currentUser?.reload()?.addOnCompleteListener{
             if (firebaseAuth.currentUser?.isEmailVerified == true) {
@@ -140,7 +140,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
         };
     }
 
-    fun getbatteryper(): Int {
+    fun getRefreshTimeBasedOnBattery(): Int {
         var refreshTime =100;
         val batteryStatus: Intent? = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
             applicationContext.registerReceiver(null, ifilter)

@@ -57,9 +57,9 @@ class HomeScreenModel {
                 }
             }*/
             for((k, v) in ListLong) {
-                for (i in 0 until v.size -1 step 1) {
-                    if(v.get(i).eventType == 1 && v.get(i + 1).eventType == 2 && (v.get(i + 1).timeStamp - v.get(i).timeStamp) > 60000){
-                        var time = (v.get(i + 1).timeStamp - v.get(i).timeStamp) / 60000;
+                for (y in 0 until v.size -1 step 1) {
+                    if(v.get(y).eventType == 1 && v.get(y + 1).eventType == 2 && (v.get(y+  1).timeStamp - v.get(y).timeStamp) > 60000){
+                        var time = (v.get(y + 1).timeStamp - v.get(y).timeStamp) / 60000;
                         for(y in 0 until time step 1){
                             if(y >=0 && results.size > y){
                                 results[((results.size - 1 - y).toInt())] = 60F;
@@ -67,7 +67,11 @@ class HomeScreenModel {
                         }
                     }
                 }
+                if(v.get(v.size-1).eventType == 1){
+                    results[i-1] = 60F;
+                }
             }
+            ListLong.clear();
             results.add(to);
         }
         controller.OnFillBarchart(results);

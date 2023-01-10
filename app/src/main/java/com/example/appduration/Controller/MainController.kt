@@ -7,8 +7,8 @@ import android.graphics.Color
 import android.graphics.Path
 import android.graphics.RectF
 import android.view.View
-import com.example.appduration.View.MainActivity
 import com.example.appduration.Functions.GetInstalledApplicationsInfo
+import com.example.appduration.View.MainActivity
 import com.example.testmvc.Model.HomeScreenModel
 import com.github.mikephil.charting.animation.ChartAnimator
 import com.github.mikephil.charting.components.AxisBase
@@ -226,7 +226,7 @@ class MainController {
         //zie doc https://github.com/PhilJay/MPAndroidChart/blob/master/MPChartExample/src/main/java/com/xxmassdeveloper/mpchartexample/HorizontalBarChartActivity.java
     }
 
-    private fun showPartOfstringWithDots(maxlenght: Int, name: String): String { // toon puntjes achter string na bepaalde lengte
+    public fun showPartOfstringWithDots(maxlenght: Int, name: String): String { // toon puntjes achter string na bepaalde lengte
         if(name.length > maxlenght){
             return name.substring(0, maxlenght) + "..";
         }

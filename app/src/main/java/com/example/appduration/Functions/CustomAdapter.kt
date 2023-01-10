@@ -86,6 +86,6 @@ class CustomAdapter(private val mList: List<ItemsViewModel>, val ReaminingTime: 
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val imageView: ImageView = itemView.findViewById(R.id.iconapp)
         val textView: TextView = itemView.findViewById(R.id.txtappnameRestrickted)
-        val Button: Button = itemView.findViewById(R.id.btnrestricktedApp)
+        val Button: Button = itemView.findViewById(R.id.Accountinfo)
     }
 }

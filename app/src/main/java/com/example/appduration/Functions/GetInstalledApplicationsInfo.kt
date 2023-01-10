@@ -11,7 +11,7 @@ import com.example.appduration.View.App
 import java.util.*
 
 
-class GetInstalledApplicationsInfo(mockUsageEvents: UsageEvents.Event) {
+class GetInstalledApplicationsInfo() {
     companion object {//https://stackoverflow.com/questions/53802632/reuse-methods-in-kotlin-android
     @SuppressLint("SuspiciousIndentation")
     fun getAppname(packagenaam: String, packageManager : PackageManager): String{ // https://stackoverflow.com/questions/11229219/android-how-to-get-application-name-not-package-name
