@@ -67,7 +67,7 @@ class RestricktedAppsActivity : AppCompatActivity() {
         mBackup.putBoolean("backup", true).commit() //backup
     }
 
-    fun nav(){
+    fun nav(){ //https://www.youtube.com/watch?v=YlIHxIAoHzU&t=619s
         binding.bottomNavigationView.setSelectedItemId(R.id.blocked);
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){

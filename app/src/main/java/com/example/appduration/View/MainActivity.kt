@@ -45,6 +45,27 @@ class MainActivity : AppCompatActivity() { //view
         val view = binding.root
         setContentView(view)
         startFourgroundService();
+        updateChartsinfo();
+        nav();
+        setSupportActionBar(findViewById(R.id.my_toolbar))
+        getSupportActionBar()?.setDisplayShowTitleEnabled(false);
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+    override fun onStart() {
+        super.onStart();
+        CheckUseBlockedAppsService.testheropstart = true;
+        var serviceIntent = Intent(this, WindowService::class.java);
+        stopService(serviceIntent);
+        updateChartsinfo();
+       /* getSupportActionBar()?.setDisplayOptions(androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar()?.setDisplayOptions(androidx.appcompat.app.ActionBar);
+        getSupportActionBar()?.setCustomView(R.layout.abs);*/
+    }
+
+    fun updateChartsinfo(){
         bindMoseyedAppsLayout();
         var UsageStatsManager = getSystemService(USAGE_STATS_SERVICE) as UsageStatsManager
         if ( checkUsageStatsPermission() ) { // als we de toestemming hebben voor usage stats vind gebruik tijd voor alle apps
@@ -61,14 +82,6 @@ class MainActivity : AppCompatActivity() { //view
             mainController.FillBarChart(UsageStatsManager);
         }
         checkOverlayPermission();
-        nav();
-
-    }
-    override fun onStart() {
-        super.onStart();
-        CheckUseBlockedAppsService.testheropstart = true;
-        var serviceIntent = Intent(this, WindowService::class.java);
-        stopService(serviceIntent);
     }
 
     private fun startFourgroundService(){
@@ -143,7 +156,7 @@ class MainActivity : AppCompatActivity() { //view
     }
 
 
-    fun nav(){
+    fun nav(){ //https://www.youtube.com/watch?v=YlIHxIAoHzU&t=619s
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.blocked -> OpenRestrickedActivity();

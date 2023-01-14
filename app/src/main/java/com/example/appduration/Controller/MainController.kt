@@ -45,7 +45,7 @@ class MainController {
         model.findDurationTimeOverHours(UsageStatsManager);
     }
 
-    fun onFillPieChart(result: HashMap<String, Double>, packageManager: PackageManager){
+    fun onFillPieChart(result: HashMap<String, Double>, packageManager: PackageManager){ // alles van de charts: https://github.com/PhilJay/MPAndroidChart
         //this.mainActivity.piechart = drinkname;
         val entries = ArrayList<PieEntry>();
       var other = 100F;
@@ -123,7 +123,7 @@ class MainController {
             }
         }
 
-        val socialMediaapps =listOf("youtube", "facebook", "twitch", "twitter", "reddit", "facebook", "instagram", "wattsapp", "titok", "9gag", "discord", "pinterest", "bereal", "vimeo");
+        val socialMediaapps =listOf("camera", "maps", "youtube", "facebook", "twitch", "twitter", "reddit", "facebook", "instagram", "wattsapp", "titok", "9gag", "discord", "pinterest", "bereal", "vimeo");
         var resultMediaApps = HashMap<String, Double>();
         var y = 0;
         while(resultMediaApps.size < 4 && y < result.size){ //plaats tijd meest gebruikte social media apps in correcte textboxes

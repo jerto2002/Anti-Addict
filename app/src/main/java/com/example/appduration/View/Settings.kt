@@ -98,7 +98,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 
-    fun nav(){
+    fun nav(){ //https://www.youtube.com/watch?v=YlIHxIAoHzU&t=619s
         binding.bottomNavigationView.setSelectedItemId(R.id.settings);
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){

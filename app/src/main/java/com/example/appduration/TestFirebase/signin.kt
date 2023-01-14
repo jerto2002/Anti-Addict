@@ -55,6 +55,14 @@ class SigninActivity : AppCompatActivity() {
                 Toast.makeText(this, "not all parameters are filled", Toast.LENGTH_SHORT).show();
             }
         }
+        setSupportActionBar(findViewById(R.id.my_toolbar))
+        getSupportActionBar()?.setDisplayShowTitleEnabled(false);
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     fun showpopup(){//https://stackoverflow.com/questions/5944987/how-to-create-a-popup-window-popupwindow-in-android

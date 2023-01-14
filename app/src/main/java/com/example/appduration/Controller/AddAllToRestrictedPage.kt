@@ -122,7 +122,7 @@ class AddAllToRestrictedPage : AppCompatActivity() {
         }
         fun calculateUsedTime(
             UsageStatsManager: UsageStatsManager,
-        ): Double { // fix dubbel func in ForegroundTestService
+        ): Double {
             val currentTime = System.currentTimeMillis()
             val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
             var Appnames = ArrayList<String>();
@@ -137,7 +137,7 @@ class AddAllToRestrictedPage : AppCompatActivity() {
             for(result in results) {
                 if (Appnames.contains(result.key)){
                     var er = result.key;
-                    time = result.value;
+                    time += result.value;
                     var l ="";
                 }
             }

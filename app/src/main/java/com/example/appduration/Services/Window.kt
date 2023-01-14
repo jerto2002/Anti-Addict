@@ -7,7 +7,9 @@ import android.os.Build
 import android.util.Log
 import android.view.*
 import com.example.appduration.R
+import com.example.appduration.Services.CheckUseBlockedAppsService
 import com.example.appduration.View.MainActivity
+import com.example.appduration.WindowService
 
 //https://www.geeksforgeeks.org/how-to-draw-over-other-apps-in-android/
 class Window(  // declaring required variables
@@ -37,10 +39,12 @@ class Window(  // declaring required variables
         // set onClickListener on the remove button, which removes
         // the view from the window
         mView.findViewById<View>(R.id.window_close).setOnClickListener {
+            CheckUseBlockedAppsService.testheropstart = true;
+            var serviceIntent = Intent(context, WindowService::class.java);
+            context.stopService(serviceIntent);
             val myIntent = Intent(context, MainActivity::class.java)
             myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(myIntent);
-
             close();
 
         }

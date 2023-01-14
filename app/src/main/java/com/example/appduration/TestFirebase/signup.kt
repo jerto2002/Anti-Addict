@@ -54,6 +54,15 @@ class SignupActivity : AppCompatActivity() {
                 Toast.makeText(this, "not all parameters are filled", Toast.LENGTH_SHORT).show();
             }
         }
+        setSupportActionBar(findViewById(R.id.my_toolbar))
+        getSupportActionBar()?.setDisplayShowTitleEnabled(false);
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun sendEmailVerification() {

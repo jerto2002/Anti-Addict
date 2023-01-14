@@ -67,11 +67,15 @@ class HomeScreenModel {
                         }
                     }
                 }
-                if(v.get(v.size-1).eventType == 1){
-                    results[i-1] = 60F;
+                if(v.get(v.size-1).eventType == 2){
+                    for(z in i downTo  1){
+                        if(results[z-1] == 0F){
+                            results[z-1] = 60F;
+                        }
+                    }
                 }
             }
-            ListLong.clear();
+            //ListLong.clear();
             results.add(to);
         }
         controller.OnFillBarchart(results);
@@ -81,14 +85,14 @@ class HomeScreenModel {
         data: java.util.HashMap<String, java.util.ArrayList<UsageEvents.Event>>,
         i: Int, ) {
         for((k, v) in data){
-            if(v.get(0).eventType == 2 && !k.contains("launcher") && !k.contains("sdk") && !k.contains("appduration")){
+            if(v.get(0).eventType == 2 && !k.contains("launcher") && !k.contains("sdk")){
                 if(ListLong.get(k) == null){
                     ListLong.put(k, ArrayList<Event>(Arrays.asList(v.get(0))));
                 }else{
                     data.get(k)?.add(v.get(0));
                 }
             }
-            if(v.get(v.size -1).eventType == 1 && !k.contains("launcher") && !k.contains("sdk")  && !k.contains("appduration")) {
+            if(v.get(v.size -1).eventType == 1 && !k.contains("launcher") && !k.contains("sdk")) {
                 if(ListLong.get(k) == null){
                     ListLong.put(k, ArrayList<Event>(Arrays.asList(v.get(v.size -1))));
                 }else{
@@ -104,11 +108,11 @@ class HomeScreenModel {
         data: java.util.HashMap<String, java.util.ArrayList<UsageEvents.Event>>,
         i: Int, ) {
         for((k, v) in data){
-            if(v.get(0).eventType == 2 && !k.contains("launcher") && !k.contains("sdk") && !k.contains("appduration")){
+            if(v.get(0).eventType == 2 && !k.contains("launcher") && !k.contains("sdk") ){//&& !k.contains("appduration")
 
                 endTimeslots.add(i);
             }
-            if(v.get(v.size -1).eventType == 1 && !k.contains("launcher") && !k.contains("sdk")  && !k.contains("appduration")) {
+            if(v.get(v.size -1).eventType == 1 && !k.contains("launcher") && !k.contains("sdk")) {
                 fullTimeslots.add(i);
             }
         }

@@ -6,26 +6,44 @@
     android:layout_height="match_parent"
     android:background="#343434"
     android:textColor="#FFFFFF"
-    tools:context="com.example.testmvvm.View.MainActivity">
+    tools:context=".View.MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:gravity="center"
+        android:backgroundTint="#343434">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="AntiAddict"
+            android:textColor="#999999"
+            android:layout_gravity="center"
+            android:id="@+id/toolbar_title" />
+    </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp"
         android:paddingTop="40dp"
-        android:layout_marginBottom="60dp">
+        android:paddingBottom="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintTop_toBottomOf="@id/my_toolbar"
+        tools:layout_editor_absoluteX="16dp">
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/relativeLayout"
@@ -62,7 +80,7 @@
                 android:layout_marginTop="-25dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:text="Time over week"
+                android:text="Time over day"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp" />
 
