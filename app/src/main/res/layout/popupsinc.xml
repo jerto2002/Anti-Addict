@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="210dp"
     android:minHeight="210dp"
@@ -21,7 +22,7 @@
         android:layout_marginEnd="0dp"
         android:gravity="center"
         android:paddingBottom="20dp"
-        android:text="Do you want to restore old data your current changes will be deleted"
+        android:text="@string/do_you_want_to_restore_old_data_your_current_changes_will_be_deleted"
         android:textColor="#6E6E6E"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -37,14 +38,15 @@
         android:layout_marginTop="140dp"
         android:layout_weight="1"
         android:background="@drawable/roundedlayoutbutton"
-        android:text="Yes"
+        android:text="@string/yes"
         android:textAllCaps="true"
         android:textColor="#E9FFFFFF"
         android:textStyle="bold"
         app:backgroundTint="#001AFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnNosync"
@@ -59,13 +61,14 @@
         android:layout_marginEnd="10dp"
         android:layout_weight="1"
         android:background="@drawable/roundedlayoutbutton"
-        android:text="No"
+        android:text="@string/no"
         android:textAllCaps="true"
         android:textColor="#E9FFFFFF"
         android:textStyle="bold"
         app:backgroundTint="#001AFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
 
 </RelativeLayout>

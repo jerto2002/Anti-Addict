@@ -18,13 +18,16 @@
         android:gravity="center"
         android:backgroundTint="#343434"
         >
+
         <TextView
+            android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:text="AntiAddict"
             android:layout_gravity="center"
-            android:id="@+id/toolbar_title" />
+            android:text="@string/antiaddict"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="164dp"
+            tools:layout_editor_absoluteY="16dp" />
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
@@ -37,7 +40,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="88dp"
         android:gravity="center"
-        android:text="Login"
+        android:text="@string/login"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="34sp"
@@ -56,12 +59,12 @@
         android:layout_marginTop="24dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/roundedlayouttextbox"
-        android:hint="Type Your Email"
+        android:hint="@string/type_your_email"
         android:inputType="textEmailAddress"
         android:paddingLeft="15dp"
         android:textColor="#E9FFFFFF"
         android:textColorHint="#70FFFFFF"
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,11 +93,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/roundedlayouttextbox"
-            android:hint="Type Your Password"
+            android:hint="@string/type_your_password"
             android:inputType="textPassword"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textColorHint="#70FFFFFF"
             android:textColor="#E9FFFFFF"
 
@@ -108,7 +111,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/roundedlayoutbutton"
-        android:text="Sign In"
+        android:text="@string/sign_in"
         android:textAllCaps="true"
         android:textColor="#E9FFFFFF"
         android:textStyle="bold"

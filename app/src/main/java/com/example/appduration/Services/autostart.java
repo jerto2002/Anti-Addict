@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
-public class autostart extends BroadcastReceiver
+public class autostart extends BroadcastReceiver //dit is normaal standaart maar heb het van: https://stackoverflow.com/questions/7690350/android-start-service-on-boot
 {
     public void onReceive(Context context, Intent arg1)
     {

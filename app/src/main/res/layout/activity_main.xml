@@ -22,8 +22,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:text="AntiAddict"
+            android:textSize="18sp"
+            android:text="@string/antiaddict"
             android:textColor="#999999"
             android:layout_gravity="center"
             android:id="@+id/toolbar_title" />
@@ -64,9 +64,9 @@
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginStart="23dp"
-                    android:layout_marginTop="0dp"
+                    android:layout_marginTop="-1dp"
                     android:layout_marginEnd="23dp"
-                    android:layout_marginBottom="0dp"
+                    android:layout_marginBottom="1dp"
 
                     >
 
@@ -80,7 +80,7 @@
                 android:layout_marginTop="-25dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:text="Time over day"
+                android:text="@string/time_over_day"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp" />
 
@@ -123,7 +123,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="Most used apps"
+                android:text="@string/most_used_apps"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp" />
 
@@ -151,7 +151,7 @@
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/circletext"
                     android:gravity="center"
-                    android:text="10 h"
+                    android:text="@string/_10_h"
                     android:textColor="#8A8A8A"
                     android:textSize="14sp" />
 
@@ -214,7 +214,7 @@
                     android:layout_toStartOf="@id/iconimage2"
                     android:background="@drawable/circletext"
                     android:gravity="center"
-                    android:text="10 h"
+                    android:text="@string/_10_h"
                     android:textColor="#8A8A8A"
                     android:textSize="14sp" />
 
@@ -228,7 +228,7 @@
                     android:layout_marginBottom="105dp"
                     android:background="@drawable/circletext"
                     android:gravity="center"
-                    android:text="10 h"
+                    android:text="@string/_10_h"
                     android:textColor="#8A8A8A"
                     android:textSize="14sp" />
 
@@ -242,7 +242,7 @@
                     android:layout_toStartOf="@+id/iconimage4"
                     android:background="@drawable/circletext"
                     android:gravity="center"
-                    android:text="10 h"
+                    android:text="@string/_10_h"
                     android:textColor="#8A8A8A"
                     android:textSize="14sp" />
 
@@ -275,7 +275,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="Most used social media"
+                android:text="@string/most_used_social_media"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp" />
 
@@ -303,7 +303,7 @@
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/circletext"
                     android:gravity="center"
-                    android:text="10 h"
+                    android:text="@string/_10_h"
                     android:textColor="#8A8A8A"
                     android:textSize="14sp" />
 
@@ -365,7 +365,7 @@
                     android:layout_toStartOf="@id/iconimageSocial2"
                     android:background="@drawable/circletext"
                     android:gravity="center"
-                    android:text="10 h"
+                    android:text="@string/_10_h"
                     android:textColor="#8A8A8A"
                     android:textSize="14sp" />
 
@@ -379,7 +379,7 @@
                     android:layout_marginEnd="12dp"
                     android:background="@drawable/circletext"
                     android:gravity="center"
-                    android:text="10 h"
+                    android:text="@string/_10_h"
                     android:textColor="#8A8A8A"
                     android:textSize="14sp" />
 
@@ -393,7 +393,7 @@
                     android:layout_toStartOf="@+id/iconimageSocial4"
                     android:background="@drawable/circletext"
                     android:gravity="center"
-                    android:text="10 h"
+                    android:text="@string/_10_h"
                     android:textColor="#8A8A8A"
                     android:textSize="14sp" />
 

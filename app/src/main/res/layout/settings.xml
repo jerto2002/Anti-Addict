@@ -22,8 +22,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:text="AntiAddict"
+            android:textSize="18sp"
+            android:text="@string/antiaddict"
             android:layout_gravity="center"
             android:id="@+id/toolbar_title" />
     </androidx.appcompat.widget.Toolbar>
@@ -65,7 +65,7 @@
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="74dp"
             android:gravity="center"
-            android:text="Select how long you can use your blocked apps in minutes"
+            android:text="@string/select_how_long_you_can_use_your_blocked_apps_in_minutes"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
@@ -85,7 +85,8 @@
             android:layout_marginBottom="19dp"
             android:stepSize="1"
             android:valueFrom="10"
-            android:valueTo="180" />
+            android:valueTo="180"
+            tools:ignore="SpeakableTextPresentCheck" />
 
     </RelativeLayout>
 
@@ -100,7 +101,7 @@
             android:letterSpacing="0.02"
             android:paddingLeft="29dp"
             android:paddingEnd="22dp"
-            android:text="Log in to account"
+            android:text="@string/log_in_to_account"
             android:textAlignment="viewStart"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
@@ -135,7 +136,7 @@
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="81dp"
                 android:gravity="center|left"
-                android:text="Battery save mode"
+                android:text="@string/battery_save_mode"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
@@ -151,7 +152,8 @@
                 android:layout_alignParentBottom="true"
 
                 android:layout_marginStart="264dp"
-                android:layout_marginEnd="20dp" />
+                android:layout_marginEnd="20dp"
+                tools:ignore="TouchTargetSizeCheck" />
 
         </RelativeLayout>
 
@@ -179,7 +181,7 @@
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="84dp"
             android:gravity="center"
-            android:text="Select when app should go in battery save mode"
+            android:text="@string/select_when_app_should_go_in_battery_save_mode"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
@@ -199,7 +201,8 @@
             android:layout_marginBottom="19dp"
             android:stepSize="1"
             android:valueFrom="0"
-            android:valueTo="100" />
+            android:valueTo="100"
+            tools:ignore="SpeakableTextPresentCheck" />
     </RelativeLayout>
     </LinearLayout>
     </ScrollView>

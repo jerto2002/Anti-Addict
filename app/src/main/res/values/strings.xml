@@ -1,5 +1,28 @@
 <resources>
-    <string name="app_name">App duration</string>
+    <string name="app_name">Anti Addict</string>
     <string name="not_having_a_account">Not Registered Yet? <font color='Red'>Sign Up</font></string>
     <string name="having_a_account">Already Registered? <font color='Red'>Sign In</font></string>
+    <string name="antiaddict">AntiAddict</string>
+    <string name="time_over_day">Time over day</string>
+    <string name="most_used_apps">Most used apps</string>
+    <string name="_10_h">10 h</string>
+    <string name="most_used_social_media">Most used social media</string>
+    <string name="yes">Yes</string>
+    <string name="do_you_want_to_restore_old_data_your_current_changes_will_be_deleted">Do you want to restore old data your current changes will be deleted</string>
+    <string name="no">No</string>
+    <string name="time_remaining">Time remaining:</string>
+    <string name="login">Login</string>
+    <string name="type_your_password">Type Your Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="type_your_email">Type Your Email</string>
+    <string name="sign_up">Sign up</string>
+    <string name="retype_your_password">Retype Your Password</string>
+    <string name="type_your_email2">Type Your Email</string>
+    <string name="sign_up2">Sign Up</string>
+    <string name="de_tijdslimiet_voor_deze_app_is_verlopen_u_kunt_deze_app_pas_vanaf_morgen_weer_gebruiken">De tijdslimiet voor deze app is verlopen u kunt deze app pas vanaf morgen weer gebruiken</string>
+    <string name="return_to_app">Return to app</string>
+    <string name="select_how_long_you_can_use_your_blocked_apps_in_minutes">Select how long you can use your blocked apps in minutes</string>
+    <string name="log_in_to_account">Log in to account</string>
+    <string name="battery_save_mode">Battery save mode</string>
+    <string name="select_when_app_should_go_in_battery_save_mode">Select when app should go in battery save mode</string>
 </resources>

@@ -96,11 +96,11 @@ class AddAllToRestrictedPage : AppCompatActivity() {
 
             var appdurationindex = -1;
             for(i in 0 until  Applist.size){
-                if(Applist.get(i).AppName == "App duration"){
+                if(Applist.get(i).AppName == "Anti Addict"){
                     appdurationindex = i;
                 }
             }
-            if(appdurationindex > 0){
+            if(appdurationindex >= 0){
                 Applist.removeAt(appdurationindex);
             }
             for (i in 0 until  Applist.size) {

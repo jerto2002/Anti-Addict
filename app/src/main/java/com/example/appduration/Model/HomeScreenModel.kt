@@ -118,17 +118,4 @@ class HomeScreenModel {
         }
     }
 
-    /*fun removeWhenUnevenTimeStamps(datatime: java.util.HashMap<String, java.util.ArrayList<UsageEvents.Event>>): java.util.HashMap<String, java.util.ArrayList<UsageEvents.Event>> {
-        var indexes: ArrayList<String> = ArrayList();
-        for (data in datatime){
-            if(data.value.size % 2 != 0){
-                indexes.add(data.key);
-            }
-        }
-        for(index in indexes){
-            datatime.remove(index)
-        }
-        return datatime;
-    }*/
-
 }

@@ -27,7 +27,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:paddingBottom="20dp"
-                android:text="De tijdslimiet voor deze app is verlopen u kunt deze app pas vanaf morgen weer gebruiken"
+                android:text="@string/de_tijdslimiet_voor_deze_app_is_verlopen_u_kunt_deze_app_pas_vanaf_morgen_weer_gebruiken"
                 android:textColor="#6E6E6E"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
                 android:padding="20dp"
-                android:text="Return to app"
+                android:text="@string/return_to_app"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>

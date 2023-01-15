@@ -23,7 +23,7 @@ import com.github.mikephil.charting.charts.PieChart
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 
-
+//mvc info:https://www.youtube.com/watch?v=q0GdNlG4kA4
 class MainActivity : AppCompatActivity() { //view
     private var mainController =  MainController(this);
     private lateinit var binding: ActivityMainBinding
@@ -60,9 +60,14 @@ class MainActivity : AppCompatActivity() { //view
         var serviceIntent = Intent(this, WindowService::class.java);
         stopService(serviceIntent);
         updateChartsinfo();
-       /* getSupportActionBar()?.setDisplayOptions(androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar()?.setDisplayOptions(androidx.appcompat.app.ActionBar);
-        getSupportActionBar()?.setCustomView(R.layout.abs);*/
+        //https://stackoverflow.com/questions/33114063/how-do-i-properly-fire-action-request-ignore-battery-optimizations-intent
+        //https://stackoverflow.com/questions/39256501/check-if-battery-optimization-is-enabled-or-not-for-an-app
+        val pm = getSystemService(POWER_SERVICE) as PowerManager
+        if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+            val myIntent = Intent()
+            myIntent.action = Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS
+            startActivity(myIntent)
+        }
     }
 
     fun updateChartsinfo(){
@@ -89,14 +94,7 @@ class MainActivity : AppCompatActivity() { //view
             var serviceIntent = Intent(this, CheckUseBlockedAppsService::class.java);// service for check time
 
             startForegroundService(serviceIntent);
-            //https://stackoverflow.com/questions/33114063/how-do-i-properly-fire-action-request-ignore-battery-optimizations-intent
-            //https://stackoverflow.com/questions/39256501/check-if-battery-optimization-is-enabled-or-not-for-an-app
-            val pm = getSystemService(POWER_SERVICE) as PowerManager
-            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                val myIntent = Intent()
-                myIntent.action = Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS
-                startActivity(myIntent)
-            }
+
         }
     }
     private fun bindMoseyedAppsLayout(){
