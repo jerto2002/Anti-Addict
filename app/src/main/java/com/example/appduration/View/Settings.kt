@@ -36,6 +36,7 @@ class SettingsActivity : AppCompatActivity() {
             binding.Accountinfo.setOnClickListener(){
                 if(firebaseAuth.currentUser != null) {
                     firebaseAuth.signOut();
+                    binding.Accountinfo.text = "Log in to account"
                 }else{
 
                     binding.Accountinfo.setOnClickListener(){

@@ -130,7 +130,7 @@ class CheckUseBlockedAppsService: Service() {//https://www.youtube.com/watch?v=b
                 val backup = Backup(userId, isChecked, batterySaveModePercent,RemaningTime, Applist);
                 if (userId != null) {
                     dbRef.child(userId).setValue(backup).addOnCompleteListener{
-                        Toast.makeText(this, "Data has been send", Toast.LENGTH_LONG).show()
+                        //Toast.makeText(this, "Data has been send", Toast.LENGTH_LONG).show()
                     }.addOnFailureListener{ err -> Toast.makeText(this, "Error ${err.message}", Toast.LENGTH_LONG).show()
                     }
                 }

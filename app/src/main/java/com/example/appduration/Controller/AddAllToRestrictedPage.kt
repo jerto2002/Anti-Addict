@@ -94,13 +94,15 @@ class AddAllToRestrictedPage : AppCompatActivity() {
             // ArrayList of class ItemsViewModel
             val data = ArrayList<ItemsViewModel>()
 
-            var appdurationindex = 0;
+            var appdurationindex = -1;
             for(i in 0 until  Applist.size){
                 if(Applist.get(i).AppName == "App duration"){
                     appdurationindex = i;
                 }
             }
-            Applist.removeAt(appdurationindex);
+            if(appdurationindex > 0){
+                Applist.removeAt(appdurationindex);
+            }
             for (i in 0 until  Applist.size) {
                 var t = Applist.get(i).AppName ;
                 data.add(ItemsViewModel(Applist.get(i).AppName, null, Applist, packageManager, applicationContext, i, recyclerview, progressBar, UsageStatsManager, binding))//names
