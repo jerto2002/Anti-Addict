@@ -151,10 +151,8 @@ class MainController {
                 textboxes.get(i).visibility = View.GONE;
             }
             this.mainActivity.Middlesocials?.visibility = View.GONE;
-            this.mainActivity.SocailsVertical?.layoutParams?.height =
-                this.mainActivity.MosedusedSocialApps?.layoutParams?.height?.div(2);
-            this.mainActivity.MosedusedSocialApps?.layoutParams?.height =
-                this.mainActivity.MosedusedSocialApps?.layoutParams?.height?.div(2);
+            this.mainActivity.SocailsVertical?.layoutParams?.height = 176;
+            this.mainActivity.MosedusedSocialApps?.layoutParams?.height =176;
         }
         for (i in 0 until resultMediaApps.size step 1) {
             try {

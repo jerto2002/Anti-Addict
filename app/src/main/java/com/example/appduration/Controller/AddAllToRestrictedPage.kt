@@ -85,7 +85,7 @@ class AddAllToRestrictedPage : AppCompatActivity() {
             UsageStatsManager: UsageStatsManager,
             binding: ActivityRestricktedBinding,
             ReaminingTime: Float
-        ) {
+        ) { //https://www.geeksforgeeks.org/android-recyclerview-in-kotlin/
             progressBar.visibility = View.VISIBLE;
             // getting the recyclerview by its id
 
@@ -93,28 +93,34 @@ class AddAllToRestrictedPage : AppCompatActivity() {
             recyclerview.layoutManager = LinearLayoutManager(applicationContext)
             // ArrayList of class ItemsViewModel
             val data = ArrayList<ItemsViewModel>()
-            // This loop will create 20 Views containing
-            // the image with the count of view
+
+            var appdurationindex = 0;
+            for(i in 0 until  Applist.size){
+                if(Applist.get(i).AppName == "App duration"){
+                    appdurationindex = i;
+                }
+            }
+            Applist.removeAt(appdurationindex);
             for (i in 0 until  Applist.size) {
-                //var d = null;
-                //var d = packageManager.getApplicationIcon("com.google.android.youtube")
-                var t = Applist;
+                var t = Applist.get(i).AppName ;
                 data.add(ItemsViewModel(Applist.get(i).AppName, null, Applist, packageManager, applicationContext, i, recyclerview, progressBar, UsageStatsManager, binding))//names
+
             }
             for (i in 0 until  5) {
                 var t = System.currentTimeMillis();
                 data.get(i).d = packageManager.getApplicationIcon(Applist.get(i).packageName)
+
             }
             // This will pass the ArrayList to our Adapter
             val adapter = CustomAdapter(data, ReaminingTime  )
             // Setting the Adapter with the recyclerview
             recyclerview.adapter = adapter;
             var number = 25;
-            while(number < Applist.size){
+            while(number < data.size){
                 LoadmoreApps(data , recyclerview, number, packageManager, ReaminingTime)
                 number += 20;
             }
-            LoadmoreApps(data , recyclerview, Applist.size, packageManager, ReaminingTime)
+            LoadmoreApps(data , recyclerview, data.size, packageManager, ReaminingTime)
             progressBar.visibility = View.INVISIBLE;
             var time = calculateUsedTime(UsageStatsManager);
             binding.txtTimeRemaining.text = "Time remaining: " + (ReaminingTime - time).toInt().toString() +"min";
@@ -155,7 +161,12 @@ class AddAllToRestrictedPage : AppCompatActivity() {
         ) = coroutineScope{
             launch {
                 for (i in number -20 until  number) {
-                    data.get(i).d = packageManager.getApplicationIcon(Applist.get(i).packageName)
+                    if(i > 0){
+                        if(Applist.get(i).AppName != "App duration") {
+                            data.get(i).d =
+                                packageManager.getApplicationIcon(Applist.get(i).packageName)
+                        }
+                    }
                 }
                 val adapter = CustomAdapter(data, ReaminingTime)
                 // Setting the Adapter with the recyclerview
