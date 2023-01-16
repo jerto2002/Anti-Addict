@@ -49,8 +49,8 @@ class GetTimeAppTest {
         }
         data.put("app1", arrayListOf(mockUsageEvents, mockUsageEvents2))
         val currentTime = System.currentTimeMillis()
-        val start = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        var result = getTotalTimeApps(data, start, currentTime);
+        val currentTime = 80000L
+        val start = 0L;
         var to = (result.values.sum() / 60000).toFloat()
         assertEquals(to, 1F)
         //var event = UsageEvents.Event();
